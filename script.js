@@ -1,21 +1,44 @@
 const year = document.querySelector("#year");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const motionToggle = document.querySelector("[data-motion-toggle]");
+const motionPreferenceKey = "portfolio-motion-preference";
+let savedMotionPreference = null;
+
+try {
+  savedMotionPreference = window.localStorage.getItem(motionPreferenceKey);
+} catch (error) {
+  console.warn("Motion preference could not be read; using the system setting.", error);
+}
 
 if (year) {
   year.textContent = String(new Date().getFullYear());
 }
 
 if (motionToggle) {
-  const setMotionEnabled = (enabled) => {
+  const setMotionEnabled = (enabled, savePreference = false) => {
     document.documentElement.classList.toggle("motion-enabled", enabled);
+    document.documentElement.classList.toggle(
+      "motion-preference-set",
+      savePreference || savedMotionPreference !== null,
+    );
     motionToggle.setAttribute("aria-pressed", String(enabled));
     motionToggle.textContent = enabled ? "Motion on · turn off" : "Enable motion";
+
+    if (savePreference) {
+      savedMotionPreference = enabled ? "enabled" : "disabled";
+      try {
+        window.localStorage.setItem(motionPreferenceKey, savedMotionPreference);
+      } catch (error) {
+        console.warn("Motion preference could not be saved for future visits.", error);
+      }
+    }
   };
 
-  setMotionEnabled(!reducedMotion.matches);
+  const motionEnabled = savedMotionPreference === "enabled"
+    || (savedMotionPreference !== "disabled" && !reducedMotion.matches);
+  setMotionEnabled(motionEnabled);
   motionToggle.addEventListener("click", () => {
-    setMotionEnabled(motionToggle.getAttribute("aria-pressed") !== "true");
+    setMotionEnabled(motionToggle.getAttribute("aria-pressed") !== "true", true);
   });
 } else if (!reducedMotion.matches) {
   document.documentElement.classList.add("motion-enabled");

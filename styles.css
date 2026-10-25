@@ -310,6 +310,10 @@ p {
   outline-offset: 3px;
 }
 
+html.motion-preference-set .motion-toggle {
+  display: inline-flex;
+}
+
 .hero-footnote {
   margin: 23px 0 0;
   color: var(--ink-soft);
@@ -2894,6 +2898,12 @@ p {
     gap: 7px;
   }
 
+  .main-nav .motion-toggle {
+    min-height: 32px;
+    padding-inline: 6px;
+    font-size: 8px;
+  }
+
   .main-nav a {
     font-size: 9px;
     white-space: nowrap;
@@ -3454,34 +3464,34 @@ p {
   }
 }
 
+html:not(.motion-enabled),
+html:not(.motion-enabled) *,
+html:not(.motion-enabled) *::before,
+html:not(.motion-enabled) *::after {
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+html:not(.motion-enabled) .motion-ready .reveal-item {
+  opacity: 1;
+  transform: none;
+}
+
+html:not(.motion-enabled) .motion-ready .chart-line {
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+  animation: none;
+}
+
+html:not(.motion-enabled) .motion-ready .project-card,
+html:not(.motion-enabled) .motion-ready .expertise-card,
+html:not(.motion-enabled) .motion-ready .process-list li {
+  transition-delay: 0ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  html:not(.motion-enabled),
-  html:not(.motion-enabled) *,
-  html:not(.motion-enabled) *::before,
-  html:not(.motion-enabled) *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-
-  html:not(.motion-enabled) .motion-ready .reveal-item {
-    opacity: 1;
-    transform: none;
-  }
-
-  html:not(.motion-enabled) .motion-ready .chart-line {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-    animation: none;
-  }
-
-  html:not(.motion-enabled) .motion-ready .project-card,
-  html:not(.motion-enabled) .motion-ready .expertise-card,
-  html:not(.motion-enabled) .motion-ready .process-list li {
-    transition-delay: 0ms;
-  }
-
   .motion-toggle {
     display: inline-flex;
   }
