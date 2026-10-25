@@ -22,7 +22,8 @@ if (motionToggle) {
       savePreference || savedMotionPreference !== null,
     );
     motionToggle.setAttribute("aria-pressed", String(enabled));
-    motionToggle.textContent = enabled ? "Motion on · turn off" : "Enable motion";
+    motionToggle.textContent = enabled ? "Motion on" : "Motion off";
+    motionToggle.setAttribute("aria-label", enabled ? "Turn motion off" : "Turn motion on");
 
     if (savePreference) {
       savedMotionPreference = enabled ? "enabled" : "disabled";
@@ -44,13 +45,13 @@ if (motionToggle) {
   document.documentElement.classList.add("motion-enabled");
 }
 
-const workFilters = document.querySelectorAll(".work-filter");
-const projectCards = document.querySelectorAll(".project-card[data-categories]");
-const workCount = document.querySelector("#work-count");
 const projectChapterCards = Array.from(document.querySelectorAll(".project-card[id^='project-']"));
 const projectChapterLinks = Array.from(document.querySelectorAll("[data-project-chapter-link]"));
 const projectProgressCount = document.querySelector("[data-project-progress-count]");
 const projectProgressFill = document.querySelector("[data-project-progress-fill]");
+const tourNumber = document.querySelector("[data-tour-number]");
+const tourTitle = document.querySelector("[data-tour-title]");
+const tourCaption = document.querySelector("[data-tour-caption]");
 let activeProjectChapter = null;
 
 const setActiveProjectChapter = (card) => {
@@ -72,6 +73,15 @@ const setActiveProjectChapter = (card) => {
 
   if (projectProgressCount) {
     projectProgressCount.textContent = String(chapterIndex + 1).padStart(2, "0");
+  }
+  if (tourNumber) {
+    tourNumber.textContent = String(chapterIndex + 1).padStart(2, "0");
+  }
+  if (tourTitle) {
+    tourTitle.textContent = card.dataset.guideTitle ?? card.querySelector("h3")?.textContent ?? "Selected work";
+  }
+  if (tourCaption) {
+    tourCaption.textContent = card.dataset.guideCopy ?? card.querySelector(".project-summary")?.textContent.trim() ?? "A closer look at the work.";
   }
   if (projectProgressFill) {
     projectProgressFill.style.width = `${((chapterIndex + 1) / projectChapterCards.length) * 100}%`;
@@ -116,39 +126,6 @@ if (projectChapterCards.length) {
   window.addEventListener("scroll", updateProjectChapterFromScroll, { passive: true });
   window.addEventListener("resize", updateProjectChapterFromScroll);
   updateProjectChapterFromScroll();
-}
-
-if (workFilters.length > 0 && projectCards.length > 0 && workCount) {
-  workFilters.forEach((filter) => {
-    filter.addEventListener("click", () => {
-      const selectedCategory = filter.dataset.filter;
-      let visibleCount = 0;
-
-      workFilters.forEach((button) => {
-        const isActive = button === filter;
-        button.classList.toggle("is-active", isActive);
-        button.setAttribute("aria-pressed", String(isActive));
-      });
-
-      projectCards.forEach((card) => {
-        const categories = card.dataset.categories?.split(/\s+/) ?? [];
-        const shouldShow = selectedCategory === "all" || categories.includes(selectedCategory ?? "");
-        card.hidden = !shouldShow;
-        if (shouldShow) {
-          visibleCount += 1;
-        }
-      });
-
-      workCount.textContent = selectedCategory === "all"
-        ? `Showing all ${visibleCount} work highlights`
-        : `Showing ${visibleCount} ${visibleCount === 1 ? "work highlight" : "work highlights"}`;
-
-      const firstVisibleCard = Array.from(projectCards).find((card) => !card.hidden);
-      if (firstVisibleCard) {
-        setActiveProjectChapter(firstVisibleCard);
-      }
-    });
-  });
 }
 
 const mobileNavMenu = document.querySelector(".mobile-nav-more");
@@ -228,37 +205,6 @@ window.addEventListener("scroll", updatePageProgress, { passive: true });
 window.addEventListener("resize", updatePageProgress);
 updatePageProgress();
 
-const systemMap = document.querySelector(".system-map");
-const systemNodes = systemMap?.querySelectorAll(".map-node[data-explorer-title][data-explorer-detail]");
-const systemCard = systemMap?.closest(".system-card");
-const outcomeTitle = systemMap?.querySelector(".outcome-title");
-const outcomeDetail = systemMap?.querySelector(".outcome-detail");
-
-if (systemCard && systemMap && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-  const resetSystemCard = () => {
-    systemCard.style.setProperty("--pointer-x", "51%");
-    systemCard.style.setProperty("--pointer-y", "46%");
-    systemMap.style.setProperty("--map-tilt-x", "0deg");
-    systemMap.style.setProperty("--map-tilt-y", "0deg");
-  };
-
-  systemCard.addEventListener("pointermove", (event) => {
-    if (!document.documentElement.classList.contains("motion-enabled")) {
-      return;
-    }
-
-    const bounds = systemCard.getBoundingClientRect();
-    const x = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
-    const y = Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height));
-    systemCard.style.setProperty("--pointer-x", `${(x * 100).toFixed(1)}%`);
-    systemCard.style.setProperty("--pointer-y", `${(y * 100).toFixed(1)}%`);
-    systemMap.style.setProperty("--map-tilt-x", `${((0.5 - y) * 5).toFixed(2)}deg`);
-    systemMap.style.setProperty("--map-tilt-y", `${((x - 0.5) * 7).toFixed(2)}deg`);
-  });
-
-  systemCard.addEventListener("pointerleave", resetSystemCard);
-}
-
 const projectVisuals = document.querySelectorAll(".project-visual");
 if (projectVisuals.length && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
   projectVisuals.forEach((visual) => {
@@ -289,58 +235,68 @@ if (projectVisuals.length && window.matchMedia("(hover: hover) and (pointer: fin
   });
 }
 
-const heroSystemCard = document.querySelector(".hero .system-card");
-if (heroSystemCard) {
-  let scrollDepthFrame = 0;
-  const updateHeroScrollDepth = () => {
-    if (scrollDepthFrame || !document.documentElement.classList.contains("motion-enabled")) {
-      return;
-    }
-
-    scrollDepthFrame = window.requestAnimationFrame(() => {
-      const depth = Math.min(46, Math.max(0, window.scrollY * 0.12));
-      heroSystemCard.style.setProperty("--hero-scroll-shift", `${depth.toFixed(1)}px`);
-      scrollDepthFrame = 0;
+const projectViewers = document.querySelectorAll("[data-viewer]");
+projectViewers.forEach((viewer) => {
+  const tabs = Array.from(viewer.querySelectorAll('[role="tab"]'));
+  const activateViewerTab = (tab, focus = false) => {
+    tabs.forEach((item) => {
+      const selected = item === tab;
+      item.setAttribute("aria-selected", String(selected));
+      item.tabIndex = selected ? 0 : -1;
+      const panel = viewer.querySelector(`#${item.getAttribute("aria-controls")}`);
+      if (panel) {
+        panel.hidden = !selected;
+      }
     });
+    if (focus) tab.focus();
   };
 
-  window.addEventListener("scroll", updateHeroScrollDepth, { passive: true });
-  updateHeroScrollDepth();
-}
-
-if (systemMap && systemNodes?.length && outcomeTitle && outcomeDetail) {
-  const defaultTitle = outcomeTitle.textContent;
-  const defaultDetail = outcomeDetail.textContent;
-  let focusedNode = null;
-  let hoveredNode = null;
-
-  const updateNodeDetails = () => {
-    const activeNode = focusedNode ?? hoveredNode;
-    systemNodes.forEach((node) => node.classList.toggle("is-selected", node === activeNode));
-    outcomeTitle.textContent = activeNode?.dataset.explorerTitle ?? defaultTitle;
-    outcomeDetail.textContent = activeNode?.dataset.explorerDetail ?? defaultDetail;
-  };
-
-  systemNodes.forEach((node) => {
-    node.addEventListener("pointerenter", () => {
-      hoveredNode = node;
-      updateNodeDetails();
-    });
-    node.addEventListener("focus", () => {
-      focusedNode = node;
-      updateNodeDetails();
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateViewerTab(tab));
+    tab.addEventListener("keydown", (event) => {
+      let nextIndex = index;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        nextIndex = (index + 1) % tabs.length;
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        nextIndex = (index - 1 + tabs.length) % tabs.length;
+      } else if (event.key === "Home") {
+        nextIndex = 0;
+      } else if (event.key === "End") {
+        nextIndex = tabs.length - 1;
+      } else {
+        return;
+      }
+      event.preventDefault();
+      activateViewerTab(tabs[nextIndex], true);
     });
   });
+});
 
-  systemMap.addEventListener("pointerleave", () => {
-    hoveredNode = null;
-    updateNodeDetails();
-  });
-  systemMap.addEventListener("focusout", (event) => {
-    if (!systemMap.contains(event.relatedTarget)) {
-      focusedNode = null;
-      updateNodeDetails();
-    }
+const caseHeroArts = document.querySelectorAll(".case-hero-art");
+if (caseHeroArts.length && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  caseHeroArts.forEach((art) => {
+    const resetCaseArt = () => {
+      art.style.setProperty("--case-tilt-x", "0deg");
+      art.style.setProperty("--case-tilt-y", "0deg");
+      art.style.setProperty("--case-light-x", "50%");
+      art.style.setProperty("--case-light-y", "50%");
+    };
+
+    art.addEventListener("pointermove", (event) => {
+      if (!document.documentElement.classList.contains("motion-enabled")) {
+        return;
+      }
+
+      const bounds = art.getBoundingClientRect();
+      const x = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
+      const y = Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height));
+      art.style.setProperty("--case-tilt-x", `${((0.5 - y) * 2.4).toFixed(2)}deg`);
+      art.style.setProperty("--case-tilt-y", `${((x - 0.5) * 3.2).toFixed(2)}deg`);
+      art.style.setProperty("--case-light-x", `${(x * 100).toFixed(1)}%`);
+      art.style.setProperty("--case-light-y", `${(y * 100).toFixed(1)}%`);
+    });
+
+    art.addEventListener("pointerleave", resetCaseArt);
   });
 }
 
@@ -349,7 +305,6 @@ const traceLinks = Array.from(document.querySelectorAll("[data-trace-stage]"));
 const traceSequence = document.querySelector(".trace-sequence");
 const traceReadoutLabel = document.querySelector("#trace-readout-label");
 const traceReadoutCopy = document.querySelector("#trace-readout-copy");
-
 if (productSteps.length > 0 && traceLinks.length > 0 && traceSequence && traceReadoutLabel && traceReadoutCopy) {
   const activateProductStep = (step) => {
     const activeIndex = Number(step.dataset.productStep);
@@ -404,7 +359,7 @@ if (productSteps.length > 0 && traceLinks.length > 0 && traceSequence && traceRe
 
 if ("IntersectionObserver" in window) {
   const revealTargets = document.querySelectorAll(
-    ".hero-copy, .system-card, .proof-inner > p, .section-heading, .project-card, .expertise-card, .process-list li, .timeline-entry, .education-card, .recognition-items > p, .case-hero-art, .case-meta-grid, .case-flow .flow-step, .case-article section",
+    ".hero-copy, .hero-guide-stage, .intro-layout > *, .proof-inner > p, .section-heading, .work-tour-guide, .project-card, .expertise-card, .process-list li, .timeline-entry, .education-card, .recognition-items > p, .case-hero-art, .case-meta-grid, .case-flow .flow-step, .case-article section",
   );
 
   revealTargets.forEach((target) => target.classList.add("reveal-item"));
