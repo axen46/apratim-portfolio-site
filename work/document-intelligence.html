@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=portfolio-tour-2026-10-25">
-    <script src="../script.js?v=portfolio-tour-2026-10-25" defer></script>
+    <link rel="stylesheet" href="../styles.css?v=layer-story-2026-10-26c">
+    <script src="../script.js?v=layer-story-2026-10-26c" defer></script>
   </head>
   <body class="case-page">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -113,11 +113,52 @@
               <p class="eyebrow">03 / SYSTEM APPROACH</p>
               <h2>Think in a chain of evidence, not just a model call.</h2>
               <p>The diagram below is a portfolio-level explanation of the capabilities in scope. It is intentionally generic; it does not expose or claim to reproduce a client’s deployed architecture.</p>
-              <div class="architecture-list">
-                <div><span>01</span><div><strong>Document inputs</strong><p>Internal documents may include readable text alongside image-based or chart-based information.</p></div></div>
-                <div><span>02</span><div><strong>Extraction and retrieval</strong><p>Text retrieval and OCR/image-processing capabilities make relevant content available for downstream analysis.</p></div></div>
-                <div><span>03</span><div><strong>Query-aware analysis</strong><p>RAG, self-query, and text-to-query approaches support different ways of translating a question into relevant context.</p></div></div>
-                <div><span>04</span><div><strong>Response in workflow</strong><p>Language-model analysis is the user-facing step; a useful system also needs to preserve enough context for a person to assess the response.</p></div></div>
+              <div class="docs-stack" data-docs-stack>
+                <aside class="docs-stack-visual" aria-label="Scroll-linked illustrative document intelligence layers">
+                  <div class="docs-stack-toolbar"><span>DOCUMENT INTELLIGENCE / LAYERS</span><strong data-docs-layer-count>01 / 05</strong></div>
+                  <nav class="docs-stack-layers" aria-label="Document intelligence capability layers">
+                    <span class="docs-stack-rail" aria-hidden="true"><i data-docs-stack-progress></i></span>
+                    <a href="#docs-stack-input" data-docs-layer-link="0" aria-current="step" aria-label="Go to layer 1: document inputs">
+                      <span class="docs-layer-number">01</span><span class="docs-layer-copy"><small>INPUT</small><strong>Documents</strong><em>Text · scans · charts</em></span><b aria-hidden="true">↗</b>
+                    </a>
+                    <a href="#docs-stack-extract" data-docs-layer-link="1" aria-label="Go to layer 2: extraction and visual processing">
+                      <span class="docs-layer-number">02</span><span class="docs-layer-copy"><small>PREPARE</small><strong>OCR + vision</strong><em>Extract visual content</em></span><b aria-hidden="true">↗</b>
+                    </a>
+                    <a href="#docs-stack-retrieve" data-docs-layer-link="2" aria-label="Go to layer 3: query-aware retrieval">
+                      <span class="docs-layer-number">03</span><span class="docs-layer-copy"><small>RETRIEVE</small><strong>Relevant context</strong><em>RAG · query methods</em></span><b aria-hidden="true">↗</b>
+                    </a>
+                    <a href="#docs-stack-analyze" data-docs-layer-link="3" aria-label="Go to layer 4: language model analysis">
+                      <span class="docs-layer-number">04</span><span class="docs-layer-copy"><small>ANALYZE</small><strong>Language models</strong><em>Internally hosted</em></span><b aria-hidden="true">↗</b>
+                    </a>
+                    <a href="#docs-stack-review" data-docs-layer-link="4" aria-label="Go to layer 5: response and human review">
+                      <span class="docs-layer-number">05</span><span class="docs-layer-copy"><small>EXPERIENCE</small><strong>Reviewable result</strong><em>Context for a person</em></span><b aria-hidden="true">↗</b>
+                    </a>
+                  </nav>
+                  <p class="docs-stack-readout" data-docs-stack-readout>Documents may contain readable text as well as scanned pages, graphs, or charts.</p>
+                  <span class="docs-stack-disclaimer">EXPLANATORY CAPABILITY MODEL · NOT A CLIENT ARCHITECTURE</span>
+                </aside>
+                <div class="docs-stack-story">
+                  <article class="docs-stack-step is-active" id="docs-stack-input" data-docs-stack-step="0" data-docs-stack-summary="Documents may contain readable text as well as scanned pages, graphs, or charts.">
+                    <span>01 / INPUT</span><h3>Start with mixed evidence.</h3>
+                    <p>Enterprise documents can combine searchable text with scanned pages, images, graphs, and charts. This layer describes the kinds of information covered in the project.</p>
+                  </article>
+                  <article class="docs-stack-step" id="docs-stack-extract" data-docs-stack-step="1" data-docs-stack-summary="OCR and image processing bring visual document content into the analysis.">
+                    <span>02 / EXTRACT</span><h3>Bring visual content into view.</h3>
+                    <p>OCR and image processing supported analysis of document images and content such as charts. No client files or actual document images are displayed here.</p>
+                  </article>
+                  <article class="docs-stack-step" id="docs-stack-retrieve" data-docs-stack-step="2" data-docs-stack-summary="Retrieval methods shape how a question connects to useful document context.">
+                    <span>03 / RETRIEVE</span><h3>Connect the question to context.</h3>
+                    <p>Resume-listed approaches include GRAG, CRAG, self-query, and text-to-query RAG. Different retrieval methods support different ways of finding relevant information.</p>
+                  </article>
+                  <article class="docs-stack-step" id="docs-stack-analyze" data-docs-stack-step="3" data-docs-stack-summary="Internally hosted open-source language models were part of the described project scope.">
+                    <span>04 / ANALYZE</span><h3>Use models within the operating context.</h3>
+                    <p>The project description includes internally hosted open-source language models. Model selection and hosting constraints are part of the system story.</p>
+                  </article>
+                  <article class="docs-stack-step" id="docs-stack-review" data-docs-stack-step="4" data-docs-stack-summary="Preserve enough context for a person to assess a response; this is a design consideration, not a disclosed UI claim.">
+                    <span>05 / REVIEW</span><h3>Keep the result assessable.</h3>
+                    <p>A useful document workflow should give people enough context to judge a response. This is a product-design consideration, not a claim about a specific production interface.</p>
+                  </article>
+                </div>
               </div>
               <p class="diagram-note">Conceptual map based on the work described here; exact components, sequencing, and production architecture are not represented.</p>
             </section>

@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=portfolio-tour-2026-10-25">
-    <script src="../script.js?v=portfolio-tour-2026-10-25" defer></script>
+    <link rel="stylesheet" href="../styles.css?v=layer-story-2026-10-26c">
+    <script src="../script.js?v=layer-story-2026-10-26c" defer></script>
   </head>
   <body class="case-page">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -81,11 +81,42 @@
               <p class="eyebrow">03 / SYSTEM APPROACH</p>
               <h2>Separate the data path from the operational path.</h2>
               <p>This portfolio diagram describes the kinds of components in the work, not the exact client topology, data schema, or deployment design.</p>
-              <div class="architecture-list">
-                <div><span>01</span><div><strong>Ingest and prepare</strong><p>Bring together network utilization and log data, then clean and transform the data for analysis.</p></div></div>
-                <div><span>02</span><div><strong>Understand the signal</strong><p>Use statistical analysis of time-series utilization and log data to explore use-case-specific network behavior.</p></div></div>
-                <div><span>03</span><div><strong>Build for the use case</strong><p>Develop generalized ML models in response to the requirements of specific client use cases rather than claiming one model fits every network problem.</p></div></div>
-                <div><span>04</span><div><strong>Expose and operate</strong><p>Deploy model capabilities through FastAPI microservices and connect implementation to container and CI/CD tooling.</p></div></div>
+              <div class="network-path" data-network-path>
+                <aside class="network-path-map" aria-label="Scroll-linked network assurance path">
+                  <div class="network-path-map-head"><span>FOLLOW THE SIGNAL</span><strong data-network-path-count>01 / 05</strong></div>
+                  <nav class="network-path-nav" aria-label="Network assurance stages">
+                    <span class="network-path-track" aria-hidden="true"><i data-network-path-progress></i></span>
+                    <a href="#network-stage-input" data-network-path-link="0" aria-current="step"><span>01</span><strong>Signals</strong><small>SD-WAN + logs</small></a>
+                    <a href="#network-stage-prepare" data-network-path-link="1"><span>02</span><strong>Prepare</strong><small>Clean + structure</small></a>
+                    <a href="#network-stage-analyze" data-network-path-link="2"><span>03</span><strong>Analyze</strong><small>Time series</small></a>
+                    <a href="#network-stage-model" data-network-path-link="3"><span>04</span><strong>Model</strong><small>Use-case ML</small></a>
+                    <a href="#network-stage-deliver" data-network-path-link="4"><span>05</span><strong>Deliver</strong><small>API + operations</small></a>
+                  </nav>
+                  <p class="network-path-readout" data-network-path-readout>Network and log signals provide the starting point for the analysis.</p>
+                  <span class="network-path-note">CONCEPTUAL SEQUENCE · CLIENT TOPOLOGY OMITTED</span>
+                </aside>
+                <div class="network-path-stages">
+                  <article class="network-path-stage is-active" id="network-stage-input" data-network-path-stage="0" data-network-path-summary="Network and log signals provide the starting point for the analysis.">
+                    <span>01 / SIGNALS</span><h3>Start with operational data.</h3>
+                    <p>The described work included SD-WAN utilization time series alongside OT network data and Splunk syslogs. The source names are included at a high level; no client records or topology are shown.</p>
+                  </article>
+                  <article class="network-path-stage" id="network-stage-prepare" data-network-path-stage="1" data-network-path-summary="Cleaning and engineering large datasets prepares varied inputs for analysis.">
+                    <span>02 / PREPARE</span><h3>Make varied inputs usable.</h3>
+                    <p>Data cleaning and engineering support analysis across large datasets. The exact schemas, transformations, and source-to-source integration are not disclosed.</p>
+                  </article>
+                  <article class="network-path-stage" id="network-stage-analyze" data-network-path-stage="2" data-network-path-summary="Statistical time-series analysis helps explore network behavior against a use case.">
+                    <span>03 / ANALYZE</span><h3>Read behavior over time.</h3>
+                    <p>Statistical time-series analysis was used to explore utilization and network behavior in the context of specific operational questions.</p>
+                  </article>
+                  <article class="network-path-stage" id="network-stage-model" data-network-path-stage="3" data-network-path-summary="Generalized machine-learning models were developed in response to specific use cases.">
+                    <span>04 / MODEL</span><h3>Fit the model to the use case.</h3>
+                    <p>Generalized machine-learning models supported particular client use cases. This description does not claim one model fits every network problem or publish performance results.</p>
+                  </article>
+                  <article class="network-path-stage" id="network-stage-deliver" data-network-path-stage="4" data-network-path-summary="FastAPI services and delivery tooling carry model capabilities toward their operating environment.">
+                    <span>05 / DELIVER</span><h3>Carry the capability into services.</h3>
+                    <p>Backend work included FastAPI microservices. The profile also lists Docker, Kubernetes, Argo CD, Ansible, Jenkins, and JFrog across packaging and delivery.</p>
+                  </article>
+                </div>
               </div>
               <p class="diagram-note">Conceptual sequence only. Source systems, network topology, customer identifiers, and detailed operational procedures are omitted.</p>
             </section>

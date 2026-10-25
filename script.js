@@ -476,6 +476,189 @@ if (caseSections.length > 0 && caseLinks.length > 0 && "IntersectionObserver" in
   caseSections.forEach((section) => caseSectionObserver.observe(section));
 }
 
+const networkPath = document.querySelector("[data-network-path]");
+if (networkPath) {
+  const networkStages = Array.from(networkPath.querySelectorAll("[data-network-path-stage]"));
+  const networkLinks = Array.from(networkPath.querySelectorAll("[data-network-path-link]"));
+  const networkCount = networkPath.querySelector("[data-network-path-count]");
+  const networkReadout = networkPath.querySelector("[data-network-path-readout]");
+  let networkPathFrame = 0;
+
+  const activateNetworkStage = (stage) => {
+    const activeIndex = Number(stage.dataset.networkPathStage);
+    networkPath.style.setProperty(
+      "--network-path-progress",
+      `${(activeIndex / Math.max(networkStages.length - 1, 1)) * 100}%`,
+    );
+    networkStages.forEach((item) => item.classList.toggle("is-active", item === stage));
+    networkLinks.forEach((link) => {
+      if (Number(link.dataset.networkPathLink) === activeIndex) {
+        link.setAttribute("aria-current", "step");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+    if (networkCount) {
+      networkCount.textContent = `${String(activeIndex + 1).padStart(2, "0")} / ${String(networkStages.length).padStart(2, "0")}`;
+    }
+    if (networkReadout) {
+      networkReadout.textContent = stage.dataset.networkPathSummary ?? "Follow the work from source data to service delivery.";
+    }
+  };
+
+  networkLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const targetStage = networkStages.find(
+        (stage) => Number(stage.dataset.networkPathStage) === Number(link.dataset.networkPathLink),
+      );
+      if (targetStage) {
+        activateNetworkStage(targetStage);
+      }
+    });
+  });
+
+  if (networkStages[0]) {
+    activateNetworkStage(networkStages[0]);
+  }
+
+  const updateNetworkPath = () => {
+    networkPathFrame = 0;
+    const viewportCenter = window.innerHeight / 2;
+    const activeStage = networkStages.reduce((closest, stage) => {
+      const bounds = stage.getBoundingClientRect();
+      const closestBounds = closest.getBoundingClientRect();
+      const distance = Math.abs(bounds.top + bounds.height / 2 - viewportCenter);
+      const closestDistance = Math.abs(closestBounds.top + closestBounds.height / 2 - viewportCenter);
+      return distance < closestDistance ? stage : closest;
+    }, networkStages[0]);
+    if (activeStage) {
+      activateNetworkStage(activeStage);
+    }
+  };
+  const scheduleNetworkPathUpdate = () => {
+    if (!networkPathFrame) {
+      networkPathFrame = window.requestAnimationFrame(updateNetworkPath);
+    }
+  };
+
+  window.addEventListener("scroll", scheduleNetworkPathUpdate, { passive: true });
+  window.addEventListener("resize", scheduleNetworkPathUpdate);
+  scheduleNetworkPathUpdate();
+}
+
+const docsStack = document.querySelector("[data-docs-stack]");
+if (docsStack) {
+  const docsSteps = Array.from(docsStack.querySelectorAll("[data-docs-stack-step]"));
+  const docsLayerLinks = Array.from(docsStack.querySelectorAll("[data-docs-layer-link]"));
+  const docsLayerCount = docsStack.querySelector("[data-docs-layer-count]");
+  const docsStackReadout = docsStack.querySelector("[data-docs-stack-readout]");
+  let docsStackFrame = 0;
+
+  const activateDocsStep = (step) => {
+    const activeIndex = Number(step.dataset.docsStackStep);
+    docsStack.style.setProperty(
+      "--docs-stack-progress",
+      `${(activeIndex / Math.max(docsSteps.length - 1, 1)) * 100}%`,
+    );
+    docsSteps.forEach((item) => item.classList.toggle("is-active", item === step));
+    docsLayerLinks.forEach((link) => {
+      if (Number(link.dataset.docsLayerLink) === activeIndex) {
+        link.setAttribute("aria-current", "step");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+    if (docsLayerCount) {
+      docsLayerCount.textContent = `${String(activeIndex + 1).padStart(2, "0")} / ${String(docsSteps.length).padStart(2, "0")}`;
+    }
+    if (docsStackReadout) {
+      docsStackReadout.textContent = step.dataset.docsStackSummary ?? "Explore the capabilities behind document intelligence.";
+    }
+  };
+
+  docsLayerLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const targetStep = docsSteps.find(
+        (step) => Number(step.dataset.docsStackStep) === Number(link.dataset.docsLayerLink),
+      );
+      if (targetStep) {
+        activateDocsStep(targetStep);
+      }
+    });
+  });
+
+  const updateDocsStack = () => {
+    docsStackFrame = 0;
+    if (!docsSteps.length) {
+      return;
+    }
+    const viewportCenter = window.innerHeight / 2;
+    const activeStep = docsSteps.reduce((closest, step) => {
+      const bounds = step.getBoundingClientRect();
+      const closestBounds = closest.getBoundingClientRect();
+      const distance = Math.abs(bounds.top + bounds.height / 2 - viewportCenter);
+      const closestDistance = Math.abs(closestBounds.top + closestBounds.height / 2 - viewportCenter);
+      return distance < closestDistance ? step : closest;
+    }, docsSteps[0]);
+    activateDocsStep(activeStep);
+  };
+  const scheduleDocsStackUpdate = () => {
+    if (!docsStackFrame) {
+      docsStackFrame = window.requestAnimationFrame(updateDocsStack);
+    }
+  };
+
+  if (docsSteps[0]) {
+    activateDocsStep(docsSteps[0]);
+    window.addEventListener("scroll", scheduleDocsStackUpdate, { passive: true });
+    window.addEventListener("resize", scheduleDocsStackUpdate);
+    scheduleDocsStackUpdate();
+  }
+}
+
+const proofTabList = document.querySelector(".proof-explorer-tabs[role='tablist']");
+if (proofTabList) {
+  const proofTabs = Array.from(proofTabList.querySelectorAll("[role='tab']"));
+  const proofPanels = proofTabs
+    .map((tab) => document.getElementById(tab.getAttribute("aria-controls")))
+    .filter(Boolean);
+
+  const activateProofTab = (tab, moveFocus = false) => {
+    proofTabs.forEach((item) => {
+      const selected = item === tab;
+      item.setAttribute("aria-selected", String(selected));
+      item.tabIndex = selected ? 0 : -1;
+      if (selected && moveFocus) {
+        item.focus();
+      }
+    });
+    proofPanels.forEach((panel) => {
+      panel.hidden = panel.id !== tab.getAttribute("aria-controls");
+    });
+  };
+
+  proofTabs.forEach((tab) => {
+    tab.addEventListener("click", () => activateProofTab(tab));
+    tab.addEventListener("keydown", (event) => {
+      const activeIndex = proofTabs.indexOf(tab);
+      let nextIndex = activeIndex;
+      if (event.key === "ArrowRight") {
+        nextIndex = (activeIndex + 1) % proofTabs.length;
+      } else if (event.key === "ArrowLeft") {
+        nextIndex = (activeIndex - 1 + proofTabs.length) % proofTabs.length;
+      } else if (event.key === "Home") {
+        nextIndex = 0;
+      } else if (event.key === "End") {
+        nextIndex = proofTabs.length - 1;
+      } else {
+        return;
+      }
+      event.preventDefault();
+      activateProofTab(proofTabs[nextIndex], true);
+    });
+  });
+}
+
 const demoForm = document.querySelector("#demo-search");
 const demoQuery = document.querySelector("#demo-query");
 const demoResult = document.querySelector("#demo-result");
