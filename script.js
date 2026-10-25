@@ -47,6 +47,76 @@ if (motionToggle) {
 const workFilters = document.querySelectorAll(".work-filter");
 const projectCards = document.querySelectorAll(".project-card[data-categories]");
 const workCount = document.querySelector("#work-count");
+const projectChapterCards = Array.from(document.querySelectorAll(".project-card[id^='project-']"));
+const projectChapterLinks = Array.from(document.querySelectorAll("[data-project-chapter-link]"));
+const projectProgressCount = document.querySelector("[data-project-progress-count]");
+const projectProgressFill = document.querySelector("[data-project-progress-fill]");
+let activeProjectChapter = null;
+
+const setActiveProjectChapter = (card) => {
+  const chapterIndex = projectChapterCards.indexOf(card);
+  if (chapterIndex < 0 || activeProjectChapter === card) {
+    return;
+  }
+  activeProjectChapter = card;
+
+  projectChapterLinks.forEach((link) => {
+    const isActive = link.dataset.projectChapterLink === card.id;
+    link.classList.toggle("is-active", isActive);
+    if (isActive) {
+      link.setAttribute("aria-current", "location");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+
+  if (projectProgressCount) {
+    projectProgressCount.textContent = String(chapterIndex + 1).padStart(2, "0");
+  }
+  if (projectProgressFill) {
+    projectProgressFill.style.width = `${((chapterIndex + 1) / projectChapterCards.length) * 100}%`;
+  }
+};
+
+projectChapterLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    const targetCard = projectChapterCards.find((card) => card.id === link.dataset.projectChapterLink);
+    if (targetCard) {
+      setActiveProjectChapter(targetCard);
+    }
+  });
+});
+
+if (projectChapterCards.length) {
+  let projectChapterFrame = 0;
+  const updateProjectChapterFromScroll = () => {
+    if (projectChapterFrame) {
+      return;
+    }
+
+    projectChapterFrame = window.requestAnimationFrame(() => {
+      const activeLine = window.innerHeight * 0.44;
+      const activeCard = projectChapterCards
+        .filter((card) => !card.hidden)
+        .map((card) => ({ card, bounds: card.getBoundingClientRect() }))
+        .filter(({ bounds }) => bounds.bottom > window.innerHeight * 0.24 && bounds.top < window.innerHeight * 0.76)
+        .sort((first, second) => {
+          const firstCenter = first.bounds.top + first.bounds.height * 0.38;
+          const secondCenter = second.bounds.top + second.bounds.height * 0.38;
+          return Math.abs(firstCenter - activeLine) - Math.abs(secondCenter - activeLine);
+        })[0]?.card;
+
+    if (activeCard) {
+      setActiveProjectChapter(activeCard);
+    }
+      projectChapterFrame = 0;
+    });
+  };
+
+  window.addEventListener("scroll", updateProjectChapterFromScroll, { passive: true });
+  window.addEventListener("resize", updateProjectChapterFromScroll);
+  updateProjectChapterFromScroll();
+}
 
 if (workFilters.length > 0 && projectCards.length > 0 && workCount) {
   workFilters.forEach((filter) => {
@@ -72,6 +142,11 @@ if (workFilters.length > 0 && projectCards.length > 0 && workCount) {
       workCount.textContent = selectedCategory === "all"
         ? `Showing all ${visibleCount} work highlights`
         : `Showing ${visibleCount} ${visibleCount === 1 ? "work highlight" : "work highlights"}`;
+
+      const firstVisibleCard = Array.from(projectCards).find((card) => !card.hidden);
+      if (firstVisibleCard) {
+        setActiveProjectChapter(firstVisibleCard);
+      }
     });
   });
 }
@@ -155,8 +230,83 @@ updatePageProgress();
 
 const systemMap = document.querySelector(".system-map");
 const systemNodes = systemMap?.querySelectorAll(".map-node[data-explorer-title][data-explorer-detail]");
+const systemCard = systemMap?.closest(".system-card");
 const outcomeTitle = systemMap?.querySelector(".outcome-title");
 const outcomeDetail = systemMap?.querySelector(".outcome-detail");
+
+if (systemCard && systemMap && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  const resetSystemCard = () => {
+    systemCard.style.setProperty("--pointer-x", "51%");
+    systemCard.style.setProperty("--pointer-y", "46%");
+    systemMap.style.setProperty("--map-tilt-x", "0deg");
+    systemMap.style.setProperty("--map-tilt-y", "0deg");
+  };
+
+  systemCard.addEventListener("pointermove", (event) => {
+    if (!document.documentElement.classList.contains("motion-enabled")) {
+      return;
+    }
+
+    const bounds = systemCard.getBoundingClientRect();
+    const x = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
+    const y = Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height));
+    systemCard.style.setProperty("--pointer-x", `${(x * 100).toFixed(1)}%`);
+    systemCard.style.setProperty("--pointer-y", `${(y * 100).toFixed(1)}%`);
+    systemMap.style.setProperty("--map-tilt-x", `${((0.5 - y) * 5).toFixed(2)}deg`);
+    systemMap.style.setProperty("--map-tilt-y", `${((x - 0.5) * 7).toFixed(2)}deg`);
+  });
+
+  systemCard.addEventListener("pointerleave", resetSystemCard);
+}
+
+const projectVisuals = document.querySelectorAll(".project-visual");
+if (projectVisuals.length && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  projectVisuals.forEach((visual) => {
+    const resetVisual = () => {
+      visual.classList.remove("is-spotlit");
+      visual.style.setProperty("--visual-pointer-x", "50%");
+      visual.style.setProperty("--visual-pointer-y", "50%");
+      visual.style.setProperty("--visual-tilt-x", "0deg");
+      visual.style.setProperty("--visual-tilt-y", "0deg");
+    };
+
+    visual.addEventListener("pointermove", (event) => {
+      if (!document.documentElement.classList.contains("motion-enabled")) {
+        return;
+      }
+
+      const bounds = visual.getBoundingClientRect();
+      const x = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
+      const y = Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height));
+      visual.classList.add("is-spotlit");
+      visual.style.setProperty("--visual-pointer-x", `${(x * 100).toFixed(1)}%`);
+      visual.style.setProperty("--visual-pointer-y", `${(y * 100).toFixed(1)}%`);
+      visual.style.setProperty("--visual-tilt-x", `${((0.5 - y) * 4).toFixed(2)}deg`);
+      visual.style.setProperty("--visual-tilt-y", `${((x - 0.5) * 5).toFixed(2)}deg`);
+    });
+
+    visual.addEventListener("pointerleave", resetVisual);
+  });
+}
+
+const heroSystemCard = document.querySelector(".hero .system-card");
+if (heroSystemCard) {
+  let scrollDepthFrame = 0;
+  const updateHeroScrollDepth = () => {
+    if (scrollDepthFrame || !document.documentElement.classList.contains("motion-enabled")) {
+      return;
+    }
+
+    scrollDepthFrame = window.requestAnimationFrame(() => {
+      const depth = Math.min(46, Math.max(0, window.scrollY * 0.12));
+      heroSystemCard.style.setProperty("--hero-scroll-shift", `${depth.toFixed(1)}px`);
+      scrollDepthFrame = 0;
+    });
+  };
+
+  window.addEventListener("scroll", updateHeroScrollDepth, { passive: true });
+  updateHeroScrollDepth();
+}
 
 if (systemMap && systemNodes?.length && outcomeTitle && outcomeDetail) {
   const defaultTitle = outcomeTitle.textContent;
@@ -194,6 +344,64 @@ if (systemMap && systemNodes?.length && outcomeTitle && outcomeDetail) {
   });
 }
 
+const productSteps = Array.from(document.querySelectorAll(".process-step[data-product-step]"));
+const traceLinks = Array.from(document.querySelectorAll("[data-trace-stage]"));
+const traceSequence = document.querySelector(".trace-sequence");
+const traceReadoutLabel = document.querySelector("#trace-readout-label");
+const traceReadoutCopy = document.querySelector("#trace-readout-copy");
+
+if (productSteps.length > 0 && traceLinks.length > 0 && traceSequence && traceReadoutLabel && traceReadoutCopy) {
+  const activateProductStep = (step) => {
+    const activeIndex = Number(step.dataset.productStep);
+    productSteps.forEach((item) => item.classList.toggle("is-active", item === step));
+    traceLinks.forEach((link) => {
+      if (Number(link.dataset.traceStage) === activeIndex) {
+        link.setAttribute("aria-current", "step");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+    traceSequence.style.setProperty(
+      "--trace-ratio",
+      String(activeIndex / Math.max(productSteps.length - 1, 1)),
+    );
+    traceReadoutLabel.textContent = `ACTIVE PHASE · ${String(activeIndex + 1).padStart(2, "0")}`;
+    traceReadoutCopy.textContent = step.dataset.traceSummary ?? "Move through the steps to see the product path.";
+  };
+
+  const initialStep = productSteps.find((step) => step.id === window.location.hash.slice(1)) ?? productSteps[0];
+  activateProductStep(initialStep);
+
+  traceLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const targetId = link.getAttribute("href")?.slice(1);
+      const targetStep = productSteps.find((step) => step.id === targetId);
+      if (targetStep) {
+        activateProductStep(targetStep);
+      }
+    });
+  });
+
+  if ("IntersectionObserver" in window) {
+    const productStepObserver = new IntersectionObserver((entries) => {
+      const visibleSteps = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((first, second) => {
+          const viewportCenter = window.innerHeight / 2;
+          const firstCenter = first.boundingClientRect.top + first.boundingClientRect.height / 2;
+          const secondCenter = second.boundingClientRect.top + second.boundingClientRect.height / 2;
+          return Math.abs(firstCenter - viewportCenter) - Math.abs(secondCenter - viewportCenter);
+        });
+
+      if (visibleSteps[0]) {
+        activateProductStep(visibleSteps[0].target);
+      }
+    }, { rootMargin: "-35% 0px -35% 0px", threshold: 0 });
+
+    productSteps.forEach((step) => productStepObserver.observe(step));
+  }
+}
+
 if ("IntersectionObserver" in window) {
   const revealTargets = document.querySelectorAll(
     ".hero-copy, .system-card, .proof-inner > p, .section-heading, .project-card, .expertise-card, .process-list li, .timeline-entry, .education-card, .recognition-items > p, .case-hero-art, .case-meta-grid, .case-flow .flow-step, .case-article section",
@@ -216,6 +424,8 @@ if ("IntersectionObserver" in window) {
 
 const caseSections = document.querySelectorAll(".case-article section[id]");
 const caseLinks = document.querySelectorAll("[data-case-link]");
+const caseProgressCount = document.querySelector("[data-case-progress-count]");
+const caseProgressFill = document.querySelector("[data-case-progress-fill]");
 
 if (caseSections.length > 0 && caseLinks.length > 0 && "IntersectionObserver" in window) {
   const linkBySection = new Map(
@@ -245,6 +455,12 @@ if (caseSections.length > 0 && caseLinks.length > 0 && "IntersectionObserver" in
           link.removeAttribute("aria-current");
         }
       });
+
+      if (caseProgressCount && caseProgressFill) {
+        const activeIndex = Array.from(caseSections).indexOf(activeSection);
+        caseProgressCount.textContent = `${String(activeIndex + 1).padStart(2, "0")} / ${String(caseSections.length).padStart(2, "0")}`;
+        caseProgressFill.style.width = `${((activeIndex + 1) / caseSections.length) * 100}%`;
+      }
     }
   }, { rootMargin: "-18% 0px -68% 0px", threshold: 0 });
 
