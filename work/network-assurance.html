@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f5f0">
+    <meta name="description" content="Apratim Sarkar's case study on data engineering, time-series analysis, AIOps, and backend delivery for telecom network assurance.">
+    <meta property="og:title" content="Network assurance and AIOps — Apratim Sarkar">
+    <meta property="og:description" content="A case study in network data, time-series analysis, ML services, and delivery.">
+    <title>Network assurance and AIOps — Apratim Sarkar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../script.js" defer></script>
+  </head>
+  <body class="case-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="../index.html" aria-label="Apratim Sarkar, home"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="../index.html#work">Selected work</a>
+        <a href="../index.html#about">About</a>
+        <a class="nav-contact" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main id="main">
+      <article>
+        <header class="case-hero section-shell">
+          <a class="back-link" href="../index.html#work">← Back to selected work</a>
+          <p class="eyebrow">CASE STUDY 02 / DATA + SYSTEMS</p>
+          <h1>Turn network signals into <span>useful insight.</span></h1>
+          <p class="case-hero-summary">Data engineering, time-series analysis, machine-learning models, and backend delivery for telecom network-assurance use cases.</p>
+          <div class="case-hero-art network-hero-art" role="img" aria-label="Illustrative flow from network telemetry and logs through analysis and machine-learning services to an operational insight">
+            <div class="case-art-label mono-label">ILLUSTRATIVE SYSTEM MAP · NOT A CLIENT ARCHITECTURE</div>
+            <div class="case-flow">
+              <div class="flow-step"><span>01 / SIGNALS</span><strong>Network data</strong><small>SD-WAN · logs</small></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="flow-step"><span>02 / PREPARE</span><strong>Clean &<br>structure</strong><small>Data engineering</small></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="flow-step flow-step-accent"><span>03 / ANALYZE</span><strong>Time series<br>& models</strong><small>Stats · ML</small></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="flow-step"><span>04 / DELIVER</span><strong>Service &<br>operations</strong><small>API · CI/CD</small></div>
+            </div>
+          </div>
+          <div class="case-meta-grid">
+            <div><span>MY ROLE</span><strong>Data Engineer · Data Scientist · Backend Developer</strong></div>
+            <div><span>SETTING</span><strong>Telecom · network assurance</strong></div>
+            <div><span>STATUS</span><strong>Client work · details anonymized</strong></div>
+            <div><span>FOCUS</span><strong>Time series · AIOps · delivery</strong></div>
+          </div>
+        </header>
+        <div class="case-layout section-shell">
+          <aside class="case-aside">
+            <span class="mono-label">IN THIS STORY</span>
+            <a href="#problem" data-case-link aria-current="location">01 · The problem</a>
+            <a href="#contribution" data-case-link>02 · Contribution</a>
+            <a href="#system" data-case-link>03 · System approach</a>
+            <a href="#delivery" data-case-link>04 · Operational delivery</a>
+            <a href="#evidence" data-case-link>05 · Evidence & limits</a>
+          </aside>
+          <div class="case-article">
+            <section id="problem">
+              <p class="eyebrow">01 / THE PROBLEM</p>
+              <h2>Network behavior is visible in the data—if the data is usable.</h2>
+              <p>Network assurance teams work with telemetry, logs, and utilization histories that vary in format and quality. Analysis depends on getting those signals into a condition where a use case can be evaluated, then delivering useful model outputs where they can be consumed.</p>
+              <p>My work on a telecom network-assurance platform included SD-WAN utilization time series and OT network data such as SolarWinds data and Splunk syslogs. The client and exact operating context are intentionally not named here.</p>
+            </section>
+            <section id="contribution">
+              <p class="eyebrow">02 / MY CONTRIBUTION</p>
+              <h2>Worked across the path from raw signal to service.</h2>
+              <p>I contributed data cleaning and engineering for large datasets, statistical time-series analysis, use-case-specific generalized ML models, and backend microservices to deploy AI/ML solutions using FastAPI.</p>
+              <div class="contribution-callout"><strong>My role</strong><span>Data Engineer, Data Scientist, and Backend Developer across analysis and service delivery.</span></div>
+            </section>
+            <section id="system">
+              <p class="eyebrow">03 / SYSTEM APPROACH</p>
+              <h2>Separate the data path from the operational path.</h2>
+              <p>This portfolio diagram describes the kinds of components in the work, not the exact client topology, data schema, or deployment design.</p>
+              <div class="architecture-list">
+                <div><span>01</span><div><strong>Ingest and prepare</strong><p>Bring together network utilization and log data, then clean and transform the data for analysis.</p></div></div>
+                <div><span>02</span><div><strong>Understand the signal</strong><p>Use statistical analysis of time-series utilization and log data to explore use-case-specific network behavior.</p></div></div>
+                <div><span>03</span><div><strong>Build for the use case</strong><p>Develop generalized ML models in response to the requirements of specific client use cases rather than claiming one model fits every network problem.</p></div></div>
+                <div><span>04</span><div><strong>Expose and operate</strong><p>Deploy model capabilities through FastAPI microservices and connect implementation to container and CI/CD tooling.</p></div></div>
+              </div>
+              <p class="diagram-note">Conceptual sequence only. Source systems, network topology, customer identifiers, and detailed operational procedures are omitted.</p>
+            </section>
+            <section id="delivery">
+              <p class="eyebrow">04 / OPERATIONAL DELIVERY</p>
+              <h2>Models need a dependable route to the environment.</h2>
+              <p>The resume describes implementation work with Docker, Kubernetes, Argo CD, Ansible, Jenkins, and JFrog. The important story is not a list of tool names; it is that model-backed capabilities were paired with services and a delivery pipeline.</p>
+              <div class="decision-grid">
+                <div><span class="decision-index">A</span><h3>Data quality comes first</h3><p>Cleaning and engineering large, varied datasets is part of the modeling problem, not incidental setup.</p></div>
+                <div><span class="decision-index">B</span><h3>Use-case context matters</h3><p>Time-series analysis and generalized models were applied in response to specific network use cases.</p></div>
+                <div><span class="decision-index">C</span><h3>Service boundaries matter</h3><p>FastAPI microservices provide an application-facing layer around ML/AI capabilities.</p></div>
+                <div><span class="decision-index">D</span><h3>Deployment is part of engineering</h3><p>Container and CI/CD tooling connects implementation to repeatable delivery; exact runtime topology is not disclosed.</p></div>
+              </div>
+            </section>
+            <section id="evidence">
+              <p class="eyebrow">05 / EVIDENCE & LIMITS</p>
+              <h2>Respect the boundary around client work.</h2>
+              <p>This is an anonymized summary based on the experience described by Apratim. No client names, network data, proprietary diagrams, model-performance figures, or operational-impact metrics are published.</p>
+              <p>Before public release, the exact wording and any additional artifacts should be reviewed against employer and client confidentiality requirements. The contribution summary can be expanded with approved evidence; this page does not invent service-level or business outcomes.</p>
+              <div class="case-next"><span class="mono-label">NEXT CASE STUDY</span><a href="open-banking-apis.html">AI-assisted banking API workflows <span aria-hidden="true">→</span></a></div>
+            </section>
+          </div>
+        </div>
+      </article>
+      <section class="case-contact section-shell"><p class="eyebrow">LET’S TALK ABOUT THE WORK</p><h2>Building useful systems<br><span>under real constraints?</span></h2><a class="button button-primary" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a></section>
+    </main>
+    <footer class="site-footer"><div class="section-shell footer-inner"><a class="wordmark" href="../index.html"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a><p>Built with care. <span id="year">2026</span></p><a class="back-top" href="#main">Back to top ↑</a></div></footer>
+  </body>
+</html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f5f0">
+    <meta name="description" content="Apratim Sarkar's case study on enterprise document intelligence, retrieval, RAG, and visual document analysis.">
+    <meta property="og:title" content="Enterprise document intelligence — Apratim Sarkar">
+    <meta property="og:description" content="A case study in enterprise retrieval, OCR, and visual document analysis.">
+    <title>Enterprise document intelligence — Apratim Sarkar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../script.js" defer></script>
+  </head>
+  <body class="case-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="../index.html" aria-label="Apratim Sarkar, home"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="../index.html#work">Selected work</a>
+        <a href="../index.html#about">About</a>
+        <a class="nav-contact" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main id="main">
+      <article>
+        <header class="case-hero section-shell">
+          <a class="back-link" href="../index.html#work">← Back to selected work</a>
+          <p class="eyebrow">CASE STUDY 01 / ENTERPRISE AI</p>
+          <h1>Make enterprise knowledge <span>easier to use.</span></h1>
+          <p class="case-hero-summary">Document retrieval and analysis that brings text, OCR, and visual information into an AI-assisted workflow.</p>
+          <div class="case-hero-art" role="img" aria-label="Illustrative document intelligence flow from documents through retrieval and visual analysis to a grounded answer">
+            <div class="case-art-label mono-label">ILLUSTRATIVE SYSTEM MAP · NOT A CLIENT ARCHITECTURE</div>
+            <div class="case-flow">
+              <div class="flow-step"><span>01 / INPUT</span><strong>Enterprise<br>documents</strong><small>Text · pages · charts</small></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="flow-step"><span>02 / PREPARE</span><strong>Extract &<br>structure</strong><small>Retrieval · OCR</small></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="flow-step flow-step-accent"><span>03 / REASON</span><strong>Retrieve &<br>analyze</strong><small>RAG · visual context</small></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="flow-step"><span>04 / EXPERIENCE</span><strong>Useful<br>response</strong><small>With source context</small></div>
+            </div>
+          </div>
+          <div class="case-meta-grid">
+            <div><span>MY ROLE</span><strong>AI Engineer · Backend Developer</strong></div>
+            <div><span>SETTING</span><strong>Enterprise internal knowledge</strong></div>
+            <div><span>STATUS</span><strong>Internal project · details anonymized</strong></div>
+            <div><span>FOCUS</span><strong>Retrieval · OCR · multimodal analysis</strong></div>
+          </div>
+        </header>
+
+        <div class="case-layout section-shell">
+          <aside class="case-aside">
+            <span class="mono-label">IN THIS STORY</span>
+            <a href="#problem" data-case-link aria-current="location">01 · The problem</a>
+            <a href="#contribution" data-case-link>02 · Contribution</a>
+            <a href="#prototype" data-case-link>03 · Prototype</a>
+            <a href="#system" data-case-link>04 · System approach</a>
+            <a href="#decisions" data-case-link>05 · Design considerations</a>
+            <a href="#evidence" data-case-link>06 · Evidence & limits</a>
+          </aside>
+          <div class="case-article">
+            <section id="problem">
+              <p class="eyebrow">01 / THE PROBLEM</p>
+              <h2>Important context can hide inside a document.</h2>
+              <p>Enterprise information is not always a clean body of searchable text. People may need to find an answer across documents while useful evidence lives in page structure, scanned images, charts, or other visual elements.</p>
+              <p>The project focused on internal document retrieval and analysis using internally hosted open-source language models. The product challenge was to make the information easier to query while bringing text-based retrieval and visual document analysis into the same workflow.</p>
+            </section>
+
+            <section id="contribution">
+              <p class="eyebrow">02 / MY CONTRIBUTION</p>
+              <h2>Connected retrieval with document understanding.</h2>
+              <p>My work included developing retrieval and analysis capabilities using RAG approaches, including the resume-described GRAG and CRAG methods, as well as self-query and text-to-query patterns. I also worked on OCR and image processing for document content such as charts and images.</p>
+              <div class="contribution-callout"><strong>My role</strong><span>AI Engineer and Backend Developer, working on an enterprise document-intelligence platform.</span></div>
+            </section>
+            <section id="prototype">
+              <p class="eyebrow">A SMALL, SAFE DEMONSTRATION</p>
+              <h2>Try the idea with synthetic documents.</h2>
+              <p>This local prototype demonstrates a search interaction—not the internal platform, an LLM, or any confidential document. It uses simple keyword matching in your browser.</p>
+              <div class="retrieval-demo">
+                <form class="demo-search" id="demo-search">
+                  <label for="demo-query">Ask a sample question</label>
+                  <div class="demo-search-row">
+                    <input id="demo-query" name="query" type="search" placeholder="How do I report a service outage?" autocomplete="off">
+                    <button class="button button-primary" type="submit">Search <span aria-hidden="true">↗</span></button>
+                  </div>
+                  <div class="demo-prompts" aria-label="Try an example question">
+                    <button type="button" data-query="How do I report a service outage?">Report an outage</button>
+                    <button type="button" data-query="What is the document retention period?">Retention period</button>
+                    <button type="button" data-query="Who approves an access request?">Access approval</button>
+                  </div>
+                  <div class="demo-check-controls">
+                    <span class="mono-label">REPEATABLE SAMPLE CHECKS · KEYWORD BASELINE</span>
+                    <button class="demo-check-button" id="run-demo-checks" type="button">Run 3 checks <span aria-hidden="true">→</span></button>
+                  </div>
+                </form>
+                <div class="demo-result" id="demo-result" aria-live="polite" aria-atomic="true">
+                  <span class="mono-label">SYNTHETIC KNOWLEDGE BASE · LOCAL DEMO</span>
+                  <p>Choose a question or search the sample documents to see a source-linked result.</p>
+                </div>
+                <div class="demo-evaluation" id="demo-evaluation" aria-live="polite" aria-atomic="true" hidden></div>
+              </div>
+              <p class="diagram-note">Prototype limitation: deterministic keyword matching only. The checks validate three fixed examples against expected sample sources; they are not an LLM benchmark. No generative model, external service, personal data, or internal document is used.</p>
+            </section>
+            <section id="system">
+              <p class="eyebrow">03 / SYSTEM APPROACH</p>
+              <h2>Think in a chain of evidence, not just a model call.</h2>
+              <p>The diagram below is a portfolio-level explanation of the capabilities in scope. It is intentionally generic; it does not expose or claim to reproduce a client’s deployed architecture.</p>
+              <div class="architecture-list">
+                <div><span>01</span><div><strong>Document inputs</strong><p>Internal documents may include readable text alongside image-based or chart-based information.</p></div></div>
+                <div><span>02</span><div><strong>Extraction and retrieval</strong><p>Text retrieval and OCR/image-processing capabilities make relevant content available for downstream analysis.</p></div></div>
+                <div><span>03</span><div><strong>Query-aware analysis</strong><p>RAG, self-query, and text-to-query approaches support different ways of translating a question into relevant context.</p></div></div>
+                <div><span>04</span><div><strong>Response in workflow</strong><p>Language-model analysis is the user-facing step; a useful system also needs to preserve enough context for a person to assess the response.</p></div></div>
+              </div>
+              <p class="diagram-note">Conceptual map based on the work described here; exact components, sequencing, and production architecture are not represented.</p>
+            </section>
+
+            <section id="decisions">
+              <p class="eyebrow">04 / DESIGN CONSIDERATIONS</p>
+              <h2>Make the result inspectable.</h2>
+              <div class="decision-grid">
+                <div><span class="decision-index">A</span><h3>Retrieval is part of the product</h3><p>Different query patterns can change what context is retrieved. The experience should make it possible to judge whether the returned material is relevant.</p></div>
+                <div><span class="decision-index">B</span><h3>Visual content matters</h3><p>OCR and image processing extend analysis beyond plain text, especially when information is contained in charts or scanned pages.</p></div>
+                <div><span class="decision-index">C</span><h3>Deployment constraints shape choices</h3><p>The use of internally hosted open-source models means model selection and operating context are part of the solution—not a detail to hide behind the interface.</p></div>
+                <div><span class="decision-index">D</span><h3>Evaluation needs to be explicit</h3><p>Retrieval relevance, answer grounding, and visual extraction quality are useful evaluation dimensions. Specific scores are not published here because none were included in the material reviewed.</p></div>
+              </div>
+            </section>
+
+            <section id="evidence">
+              <p class="eyebrow">05 / EVIDENCE & LIMITS</p>
+              <h2>Clear about what is—and isn’t—being claimed.</h2>
+              <p>This case study is based on Apratim’s resume and uses an anonymized project description. It describes the capabilities and contribution stated there, but does not claim customer adoption, production scale, accuracy gains, latency, or business impact figures.</p>
+              <p>Exact architecture, screenshots, and evaluation results should only be added after employer/client approval. The system map on this page is explanatory, not a diagram of a confidential environment.</p>
+              <div class="case-next"><span class="mono-label">NEXT CASE STUDY</span><a href="network-assurance.html">Network assurance and AIOps <span aria-hidden="true">→</span></a></div>
+            </section>
+          </div>
+        </div>
+      </article>
+      <section class="case-contact section-shell">
+        <p class="eyebrow">LET’S TALK ABOUT THE WORK</p>
+        <h2>Building something<br><span>meaningful with AI?</span></h2>
+        <a class="button button-primary" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
+      </section>
+    </main>
+    <footer class="site-footer"><div class="section-shell footer-inner"><a class="wordmark" href="../index.html"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a><p>Built with care. <span id="year">2026</span></p><a class="back-top" href="#main">Back to top ↑</a></div></footer>
+  </body>
+</html>
