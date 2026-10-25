@@ -19,8 +19,8 @@
       href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     >
-    <link rel="stylesheet" href="styles.css?v=portfolio-resume-viewers-2026-10-25">
-    <script src="script.js?v=portfolio-resume-viewers-2026-10-25" defer></script>
+    <link rel="stylesheet" href="styles.css?v=scroll-story-2026-10-26">
+    <script src="script.js?v=scroll-story-2026-10-26" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -150,28 +150,34 @@
         </div>
 
         <div class="work-tour-layout">
-          <aside class="work-tour-guide" aria-label="Selected work tour">
-            <div class="work-tour-top"><span>THE WORK TOUR</span><strong><span data-project-progress-count>01</span> <i>/ 04</i></strong></div>
+          <aside class="work-tour-guide" aria-label="Project desk">
+            <div class="work-tour-top"><span>PROJECT DESK</span><strong><span data-project-progress-count>01</span> <i>/ 04</i></strong></div>
             <span class="work-tour-number" aria-hidden="true" data-tour-number>01</span>
             <p class="work-tour-kicker" data-tour-title>Commercial lending</p>
-            <p class="work-tour-caption" data-tour-caption aria-live="polite">Risk analysis for commercial lending, informed by applied ML and GenAI.</p>
-            <nav class="project-chapter-links" aria-label="Jump to a selected project">
-            <a class="project-chapter-link is-active" href="#project-credit" data-project-chapter-link="project-credit" aria-current="location">
+            <p class="work-tour-caption" data-tour-caption aria-live="polite">Scroll through each project; its visual panes and build notes stay in the story.</p>
+            <nav class="project-chapter-links" aria-label="Jump to a project">
+            <a class="project-chapter-link is-active" id="project-tab-credit" href="#project-credit" aria-current="location" data-project-chapter-link="project-credit">
               <span>01 <i>FINANCIAL SERVICES</i></span><strong>Credit risk</strong>
             </a>
-            <a class="project-chapter-link" href="#project-documents" data-project-chapter-link="project-documents">
+            <a class="project-chapter-link" id="project-tab-documents" href="#project-documents" data-project-chapter-link="project-documents">
               <span>02 <i>ENTERPRISE AI</i></span><strong>Document intelligence</strong>
             </a>
-            <a class="project-chapter-link" href="#project-network" data-project-chapter-link="project-network">
+            <a class="project-chapter-link" id="project-tab-network" href="#project-network" data-project-chapter-link="project-network">
               <span>03 <i>TELECOM</i></span><strong>Network assurance</strong>
             </a>
-            <a class="project-chapter-link" href="#project-banking" data-project-chapter-link="project-banking">
+            <a class="project-chapter-link" id="project-tab-banking" href="#project-banking" data-project-chapter-link="project-banking">
               <span>04 <i>OPEN BANKING</i></span><strong>Developer workflows</strong>
             </a>
             </nav>
             <span class="work-tour-progress" aria-hidden="true"><i data-project-progress-fill></i></span>
           </aside>
 
+          <div class="project-screen" aria-label="Selected project workspace">
+            <div class="project-screen-bar" aria-hidden="true">
+              <span class="screen-window-dots"><i></i><i></i><i></i></span>
+              <span class="screen-file-name" data-project-screen-title>WORKSPACE / COMMERCIAL-LENDING</span>
+              <span class="screen-window-status"><i></i> SCROLL TOUR</span>
+            </div>
           <div class="project-list" id="selected-projects">
           <article class="project-card project-card-featured" id="project-credit" data-guide-title="Commercial lending" data-guide-copy="Risk analysis for commercial lending, informed by applied ML and GenAI.">
 <div class="project-visual project-viewer visual-risk" data-viewer aria-label="Commercial lending views">
@@ -196,6 +202,23 @@
                 <span>Credit risk</span><span>Risk modelling</span><span>Machine learning</span><span>GenAI</span>
               </div>
               <div class="project-proofline"><span>MY ROLE</span><strong>Digital Specialist Engineer · contributing across design to deployment</strong></div>
+              <div class="project-story" aria-label="Commercial lending project story">
+                <section class="project-story-step" data-project-view="risk-tab-workflow">
+                  <span>01 / CONTEXT</span>
+                  <h4>Credit risk inside commercial lending.</h4>
+                  <p>The current work applies ML and GenAI to risk modelling and credit-risk analysis. This overview stays at the level of the public project scope.</p>
+                </section>
+                <section class="project-story-step" data-project-view="risk-tab-system">
+                  <span>02 / CONTRIBUTION</span>
+                  <h4>Contribute across design to deployment.</h4>
+                  <p>The profile describes work across the delivery path. Internal model design, underwriting rules, customer data, and decision evidence are not shown here.</p>
+                </section>
+                <section class="project-story-step" data-project-view="risk-tab-detail">
+                  <span>03 / SCOPE</span>
+                  <h4>Make the boundary clear.</h4>
+                  <p>The accompanying system views are illustrative. They do not represent a client interface, production architecture, or performance result.</p>
+                </section>
+              </div>
               <p class="project-scope-note"><span class="status-dot"></span> Current role · project details anonymized</p>
               <a class="case-study-link" href="work/commercial-lending-risk.html">Explore the work <span aria-hidden="true">↗</span></a>
             </div>
@@ -209,7 +232,7 @@
 <button class="viewer-tab" type="button" role="tab" id="docs-tab-system" aria-controls="docs-view-system" aria-selected="false" tabindex="-1">Retrieve</button>
 <button class="viewer-tab" type="button" role="tab" id="docs-tab-detail" aria-controls="docs-view-detail" aria-selected="false" tabindex="-1">See inside</button>
 </div>
-<section class="viewer-pane" role="tabpanel" id="docs-view-workflow" aria-labelledby="docs-tab-workflow" tabindex="0"><div class="viewer-pane-heading"><span>01 / ASK</span><h4>Ask across<br>internal knowledge.</h4><p>A synthetic search interaction. The example and document are invented for this portfolio.</p></div><div class="viewer-search-demo"><div class="viewer-search-input"><span>⌕</span><strong>What does the operations guide say about an exception?</strong><i>↗</i></div><div class="viewer-answer"><div class="viewer-answer-label"><i></i> GROUNDED RESPONSE · EXAMPLE</div><p>“Review the exception with the relevant supporting document before proceeding.”</p><div class="viewer-source"><span>ILLUSTRATIVE SOURCE</span><strong>Operations guide · section 04</strong><small>Source detail shown for interface demonstration only</small></div></div></div></section>
+<section class="viewer-pane" role="tabpanel" id="docs-view-workflow" aria-labelledby="docs-tab-workflow" tabindex="0"><div class="viewer-pane-heading"><span>01 / ASK</span><h4>Ask across<br>internal knowledge.</h4><p>A synthetic search interaction. The example and document are invented for this portfolio.</p></div><div class="viewer-search-demo"><div class="viewer-search-input"><span>⌕</span><strong>What does the operations guide say about an exception?</strong><i>↗</i></div><div class="viewer-answer"><div class="viewer-answer-label"><i></i> GROUNDED RESPONSE · EXAMPLE</div><p>“Review the exception with the relevant supporting document before proceeding.”</p><div class="viewer-source"><span>ILLUSTRATIVE SOURCE</span><strong>Operations guide · section 04</strong><a class="viewer-inline-artifact" href="work/document-intelligence.html#prototype">Try the synthetic keyword demo <span aria-hidden="true">↗</span></a></div></div></div></section>
 <section class="viewer-pane" role="tabpanel" id="docs-view-system" aria-labelledby="docs-tab-system" tabindex="0" hidden><div class="viewer-pane-heading"><span>02 / RETRIEVAL</span><h4>Retrieval methods<br>shape the answer.</h4><p>Retrieval methods and grounded generation, shown as a simplified concept map rather than an internal architecture.</p></div><div class="viewer-method-map"><div><span>QUERY</span><strong>Self-query</strong><small>Interpret the request</small></div><b>→</b><div class="viewer-method-pair"><span>RETRIEVAL + RAG</span><strong>GRAG · CRAG</strong><small>Methods named in project scope</small></div><b>→</b><div><span>RESPONSE</span><strong>Answer with context</strong><small>Internally hosted open models</small></div><div class="viewer-method-foot"><span>ALSO EXPLORED</span><strong>Text-to-query RAG</strong></div></div></section>
 <section class="viewer-pane" role="tabpanel" id="docs-view-detail" aria-labelledby="docs-tab-detail" tabindex="0" hidden><div class="viewer-pane-heading"><span>03 / VISUAL DOCUMENTS</span><h4>Some evidence<br>isn't plain text.</h4><p>OCR and image processing supported analysis of document images, graphs, and charts.</p></div><div class="viewer-vision-demo"><div class="viewer-paper-sheet"><span>DOCUMENT IMAGE · SYNTHETIC</span><div class="viewer-chart"><i></i><i></i><i></i><i></i><i></i><svg viewBox="0 0 180 72" aria-hidden="true"><path d="M4 55 C27 47 35 28 57 38S81 56 101 34 126 47 147 18 166 25 177 10"/></svg></div><small>Illustrative chart</small><div class="viewer-paper-lines"><i></i><i></i><i></i></div></div><div class="viewer-vision-output"><span>VISION + OCR</span><strong>Image processing</strong><small>Text · graph · chart</small><b>→ searchable context</b></div></div></section>
 <p class="viewer-disclaimer">SYNTHETIC VIEW · NO INTERNAL DATA OR SCREENSHOTS</p></div>
@@ -224,16 +247,23 @@
                 <span>RAG</span><span>OCR</span><span>LLM systems</span><span>Backend</span>
               </div>
               <div class="project-proofline"><span>MY ROLE</span><strong>AI Engineer · Backend Developer</strong></div>
-              <details class="case-details">
-                <summary>Explore the system <span aria-hidden="true">＋</span></summary>
-                <div class="case-body">
-                  <p><strong>The challenge</strong> — Help people find and interpret information across enterprise documents, including content embedded in images and charts.</p>
-                  <p><strong>My contribution</strong> — I developed retrieval and analysis capabilities using internally hosted open-source language models, alongside OCR and image processing for document content such as charts and images.</p>
-                  <p><strong>Design focus</strong> — Grounding answers in source material, making visual document content searchable, and giving users useful context for the result.</p>
-                  <p><strong>Outcome</strong> — The work brought text retrieval and visual document analysis into one enterprise knowledge workflow. No performance or adoption figures are claimed here.</p>
-                  <p class="case-note">Anonymized project summary. No internal documents, customer data, or confidential implementation details are shown.</p>
-                </div>
-              </details>
+              <div class="project-story" aria-label="Document intelligence project story">
+                <section class="project-story-step" data-project-view="docs-tab-workflow">
+                  <span>01 / THE TASK</span>
+                  <h4>Find and interpret enterprise knowledge.</h4>
+                  <p>People need useful answers across internal documents, where relevant information may sit in text, scanned pages, charts, or images.</p>
+                </section>
+                <section class="project-story-step" data-project-view="docs-tab-system">
+                  <span>02 / RETRIEVAL</span>
+                  <h4>Connect the question to grounded context.</h4>
+                  <p>Resume-listed methods include internally hosted open-source models, self-query, GRAG, CRAG, and text-to-query RAG. This sketch is a high-level summary, not an internal architecture diagram.</p>
+                </section>
+                <section class="project-story-step" data-project-view="docs-tab-detail">
+                  <span>03 / VISUAL CONTENT</span>
+                  <h4>Bring document images into the search path.</h4>
+                  <p>OCR and image processing supported analysis of visual document content such as graphs and charts. The on-page document example is synthetic; no performance figures are claimed.</p>
+                </section>
+              </div>
               <a class="case-study-link" href="work/document-intelligence.html">Read the case study <span aria-hidden="true">↗</span></a>
             </div>
           </article>
@@ -261,16 +291,23 @@
                 <span>Time series</span><span>AIOps</span><span>FastAPI</span><span>CI/CD</span>
               </div>
               <div class="project-proofline"><span>MY ROLE</span><strong>Data Engineer · Data Scientist · Backend Developer</strong></div>
-              <details class="case-details">
-                <summary>Explore the system <span aria-hidden="true">＋</span></summary>
-                <div class="case-body">
-                  <p><strong>The challenge</strong> — Work with large, varied network datasets and time-series signals to support specific operational use cases.</p>
-                  <p><strong>My contribution</strong> — I worked across data cleaning and engineering, statistical analysis, use-case-specific ML models, FastAPI microservices, and CI/CD and deployment tooling.</p>
-                  <p><strong>System path</strong> — Network and log data → quality/feature preparation → use-case-specific analysis or models → backend services and deployment pipeline.</p>
-                  <p><strong>Delivery</strong> — The engineering scope connected data preparation and analysis to model-backed services and deployment automation, helping move ML work closer to operational systems.</p>
-                  <p class="case-note">Anonymized project summary. Specific client environments and internal telemetry are intentionally omitted.</p>
-                </div>
-              </details>
+              <div class="project-story" aria-label="Network assurance project story">
+                <section class="project-story-step" data-project-view="network-tab-workflow">
+                  <span>01 / SIGNALS</span>
+                  <h4>Start with operational data over time.</h4>
+                  <p>The resume describes SD-WAN time-series analysis alongside network and log sources, including SolarWinds OT data and Splunk syslogs.</p>
+                </section>
+                <section class="project-story-step" data-project-view="network-tab-system">
+                  <span>02 / ANALYSIS</span>
+                  <h4>Prepare signals for specific use cases.</h4>
+                  <p>Data engineering, statistical analysis, and use-case-specific ML connect varied inputs to operational questions. The chart and flow are illustrative; client telemetry is omitted.</p>
+                </section>
+                <section class="project-story-step" data-project-view="network-tab-detail">
+                  <span>03 / DELIVERY</span>
+                  <h4>Carry the work into backend services.</h4>
+                  <p>Delivery experience includes FastAPI microservices, Docker, JFrog, Kubernetes, Argo CD, Ansible, and Jenkins, as listed in the supplied profile material.</p>
+                </section>
+              </div>
               <a class="case-study-link" href="work/network-assurance.html">Read the case study <span aria-hidden="true">↗</span></a>
             </div>
           </article>
@@ -304,19 +341,27 @@
                 <span>Developer experience</span><span>OpenAPI</span><span>RAG</span><span>GenAI</span>
               </div>
               <div class="project-proofline"><span>MY ROLE</span><strong>AI Engineer · API search and OpenAPI workflows</strong></div>
-              <details class="case-details">
-                <summary>Explore the system <span aria-hidden="true">＋</span></summary>
-                <div class="case-body">
-                  <p><strong>The challenge</strong> — Make API discovery and specification authoring more approachable while preserving correctness and reviewability.</p>
-                  <p><strong>My contribution</strong> — I developed AI-assisted API search and capabilities to create and review OpenAPI YAML from prompts using retrieval and few-shot techniques. Agentic API lifecycle management remains an exploration.</p>
-                  <p><strong>Product principle</strong> — Generated specifications should be inspectable and validated, with human review in the workflow rather than hidden behind a “magic” button.</p>
-                  <p><strong>Scope</strong> — Agentic API lifecycle management is an exploration, not a shipped capability claim. The API illustration on this page is synthetic and shows the intended human-review concept.</p>
-                  <p class="case-note">Anonymized project summary. API examples shown here are illustrative and are not a real banking interface.</p>
-                </div>
-              </details>
+              <div class="project-story" aria-label="Open banking API project story">
+                <section class="project-story-step" data-project-view="api-tab-workflow">
+                  <span>01 / FIND</span>
+                  <h4>Start API discovery from the developer task.</h4>
+                  <p>The search concept uses a natural-language request to surface potentially relevant API information for developer review.</p>
+                </section>
+                <section class="project-story-step" data-project-view="api-tab-system">
+                  <span>02 / DRAFT</span>
+                  <h4>Turn prompts into a reviewable specification.</h4>
+                  <p>The described workflow uses prompts, few-shot examples, and retrieval to create OpenAPI YAML. The endpoint and YAML shown in the monitor are synthetic.</p>
+                </section>
+                <section class="project-story-step" data-project-view="api-tab-detail">
+                  <span>03 / REVIEW</span>
+                  <h4>Keep generated work inspectable.</h4>
+                  <p>API details remain visible for human review. Agentic API lifecycle management is exploratory work, not a shipped capability claim.</p>
+                </section>
+              </div>
               <a class="case-study-link" href="work/open-banking-apis.html">Read the case study <span aria-hidden="true">↗</span></a>
             </div>
           </article>
+          </div>
           </div>
         </div>
         <p class="work-footnote"><span class="status-dot"></span> Internal project views are illustrative; client-specific systems and data are omitted.</p>
@@ -347,6 +392,33 @@
               going after the first deployment.
             </p>
           </div>
+          <section class="architecture-overview" aria-labelledby="architecture-overview-title">
+            <div class="architecture-overview-heading">
+              <div>
+                <p class="eyebrow">PRODUCT ARCHITECTURE / END TO END</p>
+                <h3 id="architecture-overview-title">Connect the task<br>to what ships.</h3>
+              </div>
+              <p>A product is the whole path: the user’s workflow, the system behind it, and the service that keeps learning after launch.</p>
+            </div>
+            <nav class="architecture-map" aria-label="Explore the connected product layers">
+              <span class="architecture-route" aria-hidden="true"><i></i></span>
+              <a class="architecture-node is-active" href="#trace-understand" data-architecture-node="0" aria-current="step">
+                <span>01 <i>DISCOVERY</i></span><strong>Context</strong><small>User + workflow</small>
+              </a>
+              <a class="architecture-node" href="#trace-architect" data-architecture-node="1">
+                <span>02 <i>ARCHITECTURE</i></span><strong>System</strong><small>Data + services</small>
+              </a>
+              <a class="architecture-node" href="#trace-build" data-architecture-node="2">
+                <span>03 <i>BUILD</i></span><strong>Product slice</strong><small>Experience + AI</small>
+              </a>
+              <a class="architecture-node" href="#trace-evaluate" data-architecture-node="3">
+                <span>04 <i>EVALUATION</i></span><strong>Quality</strong><small>Evidence + failure</small>
+              </a>
+              <a class="architecture-node" href="#trace-deliver" data-architecture-node="4">
+                <span>05 <i>OPERATIONS</i></span><strong>Learning loop</strong><small>Deploy + feedback</small>
+              </a>
+            </nav>
+          </section>
           <div class="product-trace-layout">
             <aside class="trace-board" aria-label="Interactive product delivery map">
               <div class="trace-board-top">

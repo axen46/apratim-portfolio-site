@@ -52,6 +52,7 @@ const projectProgressFill = document.querySelector("[data-project-progress-fill]
 const tourNumber = document.querySelector("[data-tour-number]");
 const tourTitle = document.querySelector("[data-tour-title]");
 const tourCaption = document.querySelector("[data-tour-caption]");
+const projectScreenTitle = document.querySelector("[data-project-screen-title]");
 let activeProjectChapter = null;
 
 const setActiveProjectChapter = (card) => {
@@ -60,6 +61,7 @@ const setActiveProjectChapter = (card) => {
     return;
   }
   activeProjectChapter = card;
+  card.classList.add("is-visible");
 
   projectChapterLinks.forEach((link) => {
     const isActive = link.dataset.projectChapterLink === card.id;
@@ -83,6 +85,9 @@ const setActiveProjectChapter = (card) => {
   if (tourCaption) {
     tourCaption.textContent = card.dataset.guideCopy ?? card.querySelector(".project-summary")?.textContent.trim() ?? "A closer look at the work.";
   }
+  if (projectScreenTitle) {
+    projectScreenTitle.textContent = `WORKSPACE / ${(card.dataset.guideTitle ?? "SELECTED PROJECT").replace(/\s+/g, "-").toUpperCase()}`;
+  }
   if (projectProgressFill) {
     projectProgressFill.style.width = `${((chapterIndex + 1) / projectChapterCards.length) * 100}%`;
   }
@@ -97,35 +102,59 @@ projectChapterLinks.forEach((link) => {
   });
 });
 
+const projectStorySteps = Array.from(document.querySelectorAll(".project-story-step[data-project-view]"));
+let projectTourFrame = 0;
+const updateProjectTour = () => {
+  projectTourFrame = 0;
+  const readingLine = window.innerHeight * 0.48;
+  const activeCard = projectChapterCards.find((card) => {
+    const bounds = card.getBoundingClientRect();
+    return bounds.top <= readingLine && bounds.bottom >= readingLine;
+  });
+
+  if (!activeCard) {
+    return;
+  }
+  setActiveProjectChapter(activeCard);
+
+  const cardStorySteps = projectStorySteps
+    .filter((step) => step.closest(".project-card") === activeCard);
+  if (!cardStorySteps.length) {
+    return;
+  }
+
+  const activeStory = cardStorySteps.reduce((closest, step) => {
+    const viewportCenter = window.innerHeight / 2;
+    const bounds = step.getBoundingClientRect();
+    const closestBounds = closest.getBoundingClientRect();
+    const distance = Math.abs(bounds.top + bounds.height / 2 - viewportCenter);
+    const closestDistance = Math.abs(closestBounds.top + closestBounds.height / 2 - viewportCenter);
+    return distance < closestDistance ? step : closest;
+  }, cardStorySteps[0]);
+
+  projectStorySteps.forEach((step) => {
+    step.classList.toggle("is-active", step === activeStory);
+  });
+
+  const matchingViewerTab = document.getElementById(activeStory.dataset.projectView);
+  if (matchingViewerTab instanceof HTMLButtonElement && matchingViewerTab.getAttribute("aria-selected") !== "true") {
+    matchingViewerTab.click();
+  }
+};
+const scheduleProjectTourUpdate = () => {
+  if (projectTourFrame) {
+    return;
+  }
+  projectTourFrame = window.requestAnimationFrame(updateProjectTour);
+};
+
 if (projectChapterCards.length) {
-  let projectChapterFrame = 0;
-  const updateProjectChapterFromScroll = () => {
-    if (projectChapterFrame) {
-      return;
-    }
-
-    projectChapterFrame = window.requestAnimationFrame(() => {
-      const activeLine = window.innerHeight * 0.44;
-      const activeCard = projectChapterCards
-        .filter((card) => !card.hidden)
-        .map((card) => ({ card, bounds: card.getBoundingClientRect() }))
-        .filter(({ bounds }) => bounds.bottom > window.innerHeight * 0.24 && bounds.top < window.innerHeight * 0.76)
-        .sort((first, second) => {
-          const firstCenter = first.bounds.top + first.bounds.height * 0.38;
-          const secondCenter = second.bounds.top + second.bounds.height * 0.38;
-          return Math.abs(firstCenter - activeLine) - Math.abs(secondCenter - activeLine);
-        })[0]?.card;
-
-    if (activeCard) {
-      setActiveProjectChapter(activeCard);
-    }
-      projectChapterFrame = 0;
-    });
-  };
-
-  window.addEventListener("scroll", updateProjectChapterFromScroll, { passive: true });
-  window.addEventListener("resize", updateProjectChapterFromScroll);
-  updateProjectChapterFromScroll();
+  const initialProject = projectChapterCards.find((card) => card.id === window.location.hash.slice(1))
+    ?? projectChapterCards[0];
+  setActiveProjectChapter(initialProject);
+  window.addEventListener("scroll", scheduleProjectTourUpdate, { passive: true });
+  window.addEventListener("resize", scheduleProjectTourUpdate);
+  scheduleProjectTourUpdate();
 }
 
 const mobileNavMenu = document.querySelector(".mobile-nav-more");
@@ -302,6 +331,8 @@ if (caseHeroArts.length && window.matchMedia("(hover: hover) and (pointer: fine)
 
 const productSteps = Array.from(document.querySelectorAll(".process-step[data-product-step]"));
 const traceLinks = Array.from(document.querySelectorAll("[data-trace-stage]"));
+const architectureNodes = Array.from(document.querySelectorAll("[data-architecture-node]"));
+const architectureMap = document.querySelector(".architecture-map");
 const traceSequence = document.querySelector(".trace-sequence");
 const traceReadoutLabel = document.querySelector("#trace-readout-label");
 const traceReadoutCopy = document.querySelector("#trace-readout-copy");
@@ -316,6 +347,19 @@ if (productSteps.length > 0 && traceLinks.length > 0 && traceSequence && traceRe
         link.removeAttribute("aria-current");
       }
     });
+    architectureNodes.forEach((node) => {
+      const isActive = Number(node.dataset.architectureNode) === activeIndex;
+      node.classList.toggle("is-active", isActive);
+      if (isActive) {
+        node.setAttribute("aria-current", "step");
+      } else {
+        node.removeAttribute("aria-current");
+      }
+    });
+    architectureMap?.style.setProperty(
+      "--architecture-progress",
+      `${(activeIndex / Math.max(productSteps.length - 1, 1)) * 100}%`,
+    );
     traceSequence.style.setProperty(
       "--trace-ratio",
       String(activeIndex / Math.max(productSteps.length - 1, 1)),
@@ -328,6 +372,16 @@ if (productSteps.length > 0 && traceLinks.length > 0 && traceSequence && traceRe
   activateProductStep(initialStep);
 
   traceLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const targetId = link.getAttribute("href")?.slice(1);
+      const targetStep = productSteps.find((step) => step.id === targetId);
+      if (targetStep) {
+        activateProductStep(targetStep);
+      }
+    });
+  });
+
+  architectureNodes.forEach((link) => {
     link.addEventListener("click", () => {
       const targetId = link.getAttribute("href")?.slice(1);
       const targetStep = productSteps.find((step) => step.id === targetId);
