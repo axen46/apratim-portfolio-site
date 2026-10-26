@@ -19,8 +19,8 @@
       href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     >
-    <link rel="stylesheet" href="styles.css?v=layer-story-2026-10-26c">
-    <script src="script.js?v=layer-story-2026-10-26c" defer></script>
+    <link rel="stylesheet" href="styles.css?v=project-scroll-deck-2026-10-26f">
+    <script src="script.js?v=project-scroll-deck-2026-10-26f" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -176,10 +176,11 @@
             <div class="project-screen-bar" aria-hidden="true">
               <span class="screen-window-dots"><i></i><i></i><i></i></span>
               <span class="screen-file-name" data-project-screen-title>WORKSPACE / COMMERCIAL-LENDING</span>
-              <span class="screen-window-status"><i></i> SCROLL TOUR</span>
+              <span class="screen-window-status"><i></i><span data-project-view-status aria-live="polite">01 / 03 · WORKFLOW</span></span>
             </div>
           <div class="project-list" id="selected-projects">
-          <article class="project-card project-card-featured" id="project-credit" data-guide-title="Commercial lending" data-guide-copy="Risk analysis for commercial lending, informed by applied ML and GenAI.">
+          <div class="project-track" id="project-track">
+          <article class="project-card project-card-featured" id="project-credit" data-project-theme="credit" data-guide-title="Commercial lending" data-guide-copy="Risk analysis for commercial lending, informed by applied ML and GenAI.">
 <div class="project-visual project-viewer visual-risk" data-viewer aria-label="Commercial lending views">
 <div class="viewer-topline"><span class="viewer-project-label">CURRENT WORK · FINANCIAL SERVICES</span><span class="viewer-synthetic"><i></i> ILLUSTRATIVE</span></div>
 <div class="viewer-tabs" role="tablist" aria-label="Commercial lending views">
@@ -198,7 +199,7 @@
                 Contributing to risk-modelling and credit-risk analysis solutions,
                 including next-generation commercial lending work across design to deployment.
               </p>
-              <div class="tag-list" aria-label="Capabilities">
+              <div class="tag-list" aria-label="Project focus areas">
                 <span>Credit risk</span><span>Risk modelling</span><span>Machine learning</span><span>GenAI</span>
               </div>
               <div class="project-proofline"><span>MY ROLE</span><strong>Digital Specialist Engineer · contributing across design to deployment</strong></div>
@@ -224,7 +225,7 @@
             </div>
           </article>
 
-          <article class="project-card project-card-featured" id="project-documents" data-guide-title="Document intelligence" data-guide-copy="Retrieval and document analysis across text, OCR, and visual information.">
+          <article class="project-card project-card-featured" id="project-documents" data-project-theme="documents" data-guide-title="Document intelligence" data-guide-copy="Retrieval and document analysis across text, OCR, and visual information.">
 <div class="project-visual project-viewer visual-docs" data-viewer aria-label="Document intelligence views">
 <div class="viewer-topline"><span class="viewer-project-label">ITAP · ENTERPRISE DOCUMENT INTELLIGENCE</span><span class="viewer-synthetic"><i></i> ILLUSTRATIVE</span></div>
 <div class="viewer-tabs" role="tablist" aria-label="Document intelligence views">
@@ -243,8 +244,8 @@
                 Developed retrieval and analysis capabilities for internal documents,
                 combining language models with text, OCR, and visual information.
               </p>
-              <div class="tag-list" aria-label="Capabilities">
-                <span>RAG</span><span>OCR</span><span>LLM systems</span><span>Backend</span>
+              <div class="tag-list" aria-label="Project focus areas">
+                <span>GRAG · CRAG</span><span>Self-query RAG</span><span>OCR · image processing</span><span>Open models</span>
               </div>
               <div class="project-proofline"><span>MY ROLE</span><strong>AI Engineer · Backend Developer</strong></div>
               <div class="project-story" aria-label="Document intelligence project story">
@@ -268,7 +269,7 @@
             </div>
           </article>
 
-          <article class="project-card" id="project-network" data-guide-title="Network assurance" data-guide-copy="Move network signals through analysis, model-backed services, and delivery.">
+          <article class="project-card" id="project-network" data-project-theme="network" data-guide-title="Network assurance" data-guide-copy="Move network signals through analysis, model-backed services, and delivery.">
 <div class="project-visual project-viewer visual-network" data-viewer aria-label="Network assurance views">
 <div class="viewer-topline"><span class="viewer-project-label">ISNA · TELECOM NETWORK ASSURANCE</span><span class="viewer-synthetic"><i></i> ILLUSTRATIVE</span></div>
 <div class="viewer-tabs" role="tablist" aria-label="Network assurance views">
@@ -287,8 +288,8 @@
                 Data engineering, time-series analysis, and ML services for network
                 assurance and operational use cases.
               </p>
-              <div class="tag-list" aria-label="Capabilities">
-                <span>Time series</span><span>AIOps</span><span>FastAPI</span><span>CI/CD</span>
+              <div class="tag-list" aria-label="Project focus areas">
+                <span>SD-WAN</span><span>SolarWinds</span><span>Splunk</span><span>FastAPI</span>
               </div>
               <div class="project-proofline"><span>MY ROLE</span><strong>Data Engineer · Data Scientist · Backend Developer</strong></div>
               <div class="project-story" aria-label="Network assurance project story">
@@ -312,7 +313,7 @@
             </div>
           </article>
 
-          <article class="project-card" id="project-banking" data-guide-title="Open banking" data-guide-copy="Explore AI-assisted API search and OpenAPI workflows with human review.">
+          <article class="project-card" id="project-banking" data-project-theme="banking" data-guide-title="Open banking" data-guide-copy="Explore AI-assisted API search and OpenAPI workflows with human review.">
 <div class="project-visual project-viewer visual-api" data-viewer aria-label="Open banking API views">
 <div class="viewer-topline"><span class="viewer-project-label">iBAP · OPEN BANKING TRANSFORMATION</span><span class="viewer-synthetic"><i></i> ILLUSTRATIVE</span></div>
 <div class="viewer-tabs" role="tablist" aria-label="Open banking API views">
@@ -337,8 +338,8 @@
                 Developed AI-assisted API search and OpenAPI authoring and review using
                 retrieval and few-shot techniques. Agentic lifecycle work remains exploratory.
               </p>
-              <div class="tag-list" aria-label="Capabilities">
-                <span>Developer experience</span><span>OpenAPI</span><span>RAG</span><span>GenAI</span>
+              <div class="tag-list" aria-label="Project focus areas">
+                <span>OpenAPI YAML</span><span>Prompting</span><span>Few-shot</span><span>RAG</span>
               </div>
               <div class="project-proofline"><span>MY ROLE</span><strong>AI Engineer · API search and OpenAPI workflows</strong></div>
               <div class="project-story" aria-label="Open banking API project story">
@@ -361,6 +362,7 @@
               <a class="case-study-link" href="work/open-banking-apis.html">Read the case study <span aria-hidden="true">↗</span></a>
             </div>
           </article>
+          </div>
           </div>
           </div>
         </div>

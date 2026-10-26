@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=layer-story-2026-10-26c">
-    <script src="../script.js?v=layer-story-2026-10-26c" defer></script>
+    <link rel="stylesheet" href="../styles.css?v=ordered-exploded-view-2026-10-26s">
+    <script src="../script.js?v=ordered-exploded-view-2026-10-26s" defer></script>
   </head>
   <body class="case-page">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -114,28 +114,41 @@
               <h2>Think in a chain of evidence, not just a model call.</h2>
               <p>The diagram below is a portfolio-level explanation of the capabilities in scope. It is intentionally generic; it does not expose or claim to reproduce a client’s deployed architecture.</p>
               <div class="docs-stack" data-docs-stack>
-                <aside class="docs-stack-visual" aria-label="Scroll-linked illustrative document intelligence layers">
-                  <div class="docs-stack-toolbar"><span>DOCUMENT INTELLIGENCE / LAYERS</span><strong data-docs-layer-count>01 / 05</strong></div>
-                  <nav class="docs-stack-layers" aria-label="Document intelligence capability layers">
-                    <span class="docs-stack-rail" aria-hidden="true"><i data-docs-stack-progress></i></span>
-                    <a href="#docs-stack-input" data-docs-layer-link="0" aria-current="step" aria-label="Go to layer 1: document inputs">
-                      <span class="docs-layer-number">01</span><span class="docs-layer-copy"><small>INPUT</small><strong>Documents</strong><em>Text · scans · charts</em></span><b aria-hidden="true">↗</b>
-                    </a>
-                    <a href="#docs-stack-extract" data-docs-layer-link="1" aria-label="Go to layer 2: extraction and visual processing">
-                      <span class="docs-layer-number">02</span><span class="docs-layer-copy"><small>PREPARE</small><strong>OCR + vision</strong><em>Extract visual content</em></span><b aria-hidden="true">↗</b>
-                    </a>
-                    <a href="#docs-stack-retrieve" data-docs-layer-link="2" aria-label="Go to layer 3: query-aware retrieval">
-                      <span class="docs-layer-number">03</span><span class="docs-layer-copy"><small>RETRIEVE</small><strong>Relevant context</strong><em>RAG · query methods</em></span><b aria-hidden="true">↗</b>
-                    </a>
-                    <a href="#docs-stack-analyze" data-docs-layer-link="3" aria-label="Go to layer 4: language model analysis">
-                      <span class="docs-layer-number">04</span><span class="docs-layer-copy"><small>ANALYZE</small><strong>Language models</strong><em>Internally hosted</em></span><b aria-hidden="true">↗</b>
-                    </a>
-                    <a href="#docs-stack-review" data-docs-layer-link="4" aria-label="Go to layer 5: response and human review">
-                      <span class="docs-layer-number">05</span><span class="docs-layer-copy"><small>EXPERIENCE</small><strong>Reviewable result</strong><em>Context for a person</em></span><b aria-hidden="true">↗</b>
-                    </a>
-                  </nav>
+                <aside class="docs-stack-visual" aria-label="Scroll-linked illustrative document intelligence experience">
+                  <div class="docs-stack-toolbar"><span>DOCUMENT INTELLIGENCE / SYSTEM VIEW</span><strong data-docs-layer-count>LAYER 01 / 05</strong></div>
+                  <div class="docs-stack-state"><span>SCROLL TO OPEN</span><strong data-docs-stack-state>ASSEMBLED VIEW</strong></div>
+                  <div class="docs-stack-canvas">
+                    <div class="docs-stack-backplate" aria-hidden="true">
+                      <span class="docs-backplate-top"><i></i> KNOWLEDGE ASSISTANT <b>SAMPLE</b></span>
+                      <span class="docs-backplate-query">⌕ &nbsp;How do I report a service outage?</span>
+                      <span class="docs-backplate-answer">Report it to the operations desk with the affected service, location, start time, and impact.</span>
+                      <span class="docs-backplate-source">↗ Service continuity guide · Incident reporting</span>
+                    </div>
+                    <nav class="docs-stack-layers" aria-label="Open the illustrative document intelligence layers">
+                      <a class="docs-stack-layer" href="#docs-stack-input" data-docs-layer-link="0" aria-current="step" aria-label="Go to layer 1: mixed document inputs">
+                        <span class="docs-layer-heading"><b>01</b><span><small>INPUT</small><strong>Mixed evidence</strong></span><em>PDF · PAGE · CHART</em></span>
+                        <span class="docs-layer-preview docs-preview-input" aria-hidden="true"><i class="docs-page-thumb"><b>PDF</b><span></span><span></span><span></span></i><span class="docs-preview-lines"><b>Service continuity guide</b><i></i><i></i><i></i><small>TEXT + SCANNED PAGES</small></span><span class="docs-chart-thumb"><i></i><i></i><i></i><i></i><i></i></span></span>
+                      </a>
+                      <a class="docs-stack-layer" href="#docs-stack-extract" data-docs-layer-link="1" aria-label="Go to layer 2: OCR and visual extraction">
+                        <span class="docs-layer-heading"><b>02</b><span><small>EXTRACT</small><strong>OCR + image processing</strong></span><em>TEXT · IMAGE</em></span>
+                        <span class="docs-layer-preview docs-preview-extract" aria-hidden="true"><span class="docs-preview-lines"><small>EXTRACTED TEXT</small><i></i><i></i><i></i><i></i></span><span class="docs-extract-chip">CHART REGION <b>↗</b></span><span class="docs-extract-scan">04</span></span>
+                      </a>
+                      <a class="docs-stack-layer" href="#docs-stack-retrieve" data-docs-layer-link="2" aria-label="Go to layer 3: query-aware retrieval">
+                        <span class="docs-layer-heading"><b>03</b><span><small>RETRIEVE</small><strong>Relevant context</strong></span><em>RAG · QUERY</em></span>
+                        <span class="docs-layer-preview docs-preview-retrieve" aria-hidden="true"><span class="docs-query-pill">⌕ How do I report an outage?</span><span class="docs-context-hit"><small>MATCHED PASSAGE</small><b>Incident reporting</b><i>Service continuity guide</i></span><span class="docs-context-mark">01</span></span>
+                      </a>
+                      <a class="docs-stack-layer" href="#docs-stack-analyze" data-docs-layer-link="3" aria-label="Go to layer 4: language model analysis">
+                        <span class="docs-layer-heading"><b>04</b><span><small>ANALYZE</small><strong>Model context</strong></span><em>OPEN MODEL</em></span>
+                        <span class="docs-layer-preview docs-preview-analyze" aria-hidden="true"><span class="docs-model-label"><i></i> INTERNALLY HOSTED MODEL</span><span class="docs-token-row"><b>QUESTION</b><i>+</i><b>RETRIEVED PASSAGE</b></span><span class="docs-model-output"><i></i><i></i><i></i><b>GROUND IN SOURCE</b></span></span>
+                      </a>
+                      <a class="docs-stack-layer" href="#docs-stack-review" data-docs-layer-link="4" aria-label="Go to layer 5: source-linked response">
+                        <span class="docs-layer-heading"><b>05</b><span><small>EXPERIENCE</small><strong>Source-linked answer</strong></span><em>REVIEW</em></span>
+                        <span class="docs-layer-preview docs-preview-answer" aria-hidden="true"><span class="docs-answer-label"><i></i> SYNTHETIC EXAMPLE</span><b>Report the outage to the operations desk with the affected service, location, start time, and impact.</b><span class="docs-answer-source">↗ Service continuity guide · Incident reporting</span></span>
+                      </a>
+                    </nav>
+                  </div>
                   <p class="docs-stack-readout" data-docs-stack-readout>Documents may contain readable text as well as scanned pages, graphs, or charts.</p>
-                  <span class="docs-stack-disclaimer">EXPLANATORY CAPABILITY MODEL · NOT A CLIENT ARCHITECTURE</span>
+                  <span class="docs-stack-disclaimer">ILLUSTRATIVE MODEL · SYNTHETIC CONTENT · NOT A CLIENT INTERFACE</span>
                 </aside>
                 <div class="docs-stack-story">
                   <article class="docs-stack-step is-active" id="docs-stack-input" data-docs-stack-step="0" data-docs-stack-summary="Documents may contain readable text as well as scanned pages, graphs, or charts.">

@@ -24,6 +24,7 @@ if (motionToggle) {
     motionToggle.setAttribute("aria-pressed", String(enabled));
     motionToggle.textContent = enabled ? "Motion on" : "Motion off";
     motionToggle.setAttribute("aria-label", enabled ? "Turn motion off" : "Turn motion on");
+    window.dispatchEvent(new CustomEvent("motionpreferencechange", { detail: { enabled } }));
 
     if (savePreference) {
       savedMotionPreference = enabled ? "enabled" : "disabled";
@@ -53,7 +54,25 @@ const tourNumber = document.querySelector("[data-tour-number]");
 const tourTitle = document.querySelector("[data-tour-title]");
 const tourCaption = document.querySelector("[data-tour-caption]");
 const projectScreenTitle = document.querySelector("[data-project-screen-title]");
+const projectScreen = document.querySelector(".project-screen");
+const projectList = document.querySelector(".project-list#selected-projects");
+const projectTrack = document.querySelector(".project-track#project-track");
+const workTourLayout = document.querySelector(".work-tour-layout");
+const projectViewStatus = document.querySelector("[data-project-view-status]");
 let activeProjectChapter = null;
+let projectDeckEnabled = false;
+
+const updateProjectViewStatus = (tab) => {
+  if (!projectViewStatus || !tab) {
+    return;
+  }
+  const tabs = Array.from(tab.closest("[role='tablist']")?.querySelectorAll("[role='tab']") ?? []);
+  const viewIndex = tabs.indexOf(tab);
+  if (viewIndex < 0) {
+    return;
+  }
+  projectViewStatus.textContent = `${String(viewIndex + 1).padStart(2, "0")} / ${String(tabs.length).padStart(2, "0")} · ${tab.textContent.trim().toUpperCase()}`;
+};
 
 const setActiveProjectChapter = (card) => {
   const chapterIndex = projectChapterCards.indexOf(card);
@@ -88,15 +107,85 @@ const setActiveProjectChapter = (card) => {
   if (projectScreenTitle) {
     projectScreenTitle.textContent = `WORKSPACE / ${(card.dataset.guideTitle ?? "SELECTED PROJECT").replace(/\s+/g, "-").toUpperCase()}`;
   }
+  if (projectScreen && card.dataset.projectTheme) {
+    projectScreen.dataset.projectTheme = card.dataset.projectTheme;
+  }
+  updateProjectViewStatus(card.querySelector(".viewer-tabs [aria-selected='true']"));
   if (projectProgressFill) {
     projectProgressFill.style.width = `${((chapterIndex + 1) / projectChapterCards.length) * 100}%`;
   }
 };
 
+const getProjectDeckMetrics = () => {
+  if (!workTourLayout || !projectScreen) {
+    return null;
+  }
+  const layoutBounds = workTourLayout.getBoundingClientRect();
+  const pinTop = Number.parseFloat(getComputedStyle(projectScreen).top) || 0;
+  const start = window.scrollY + layoutBounds.top - pinTop;
+  const travel = Math.max(1, workTourLayout.offsetHeight - projectScreen.offsetHeight);
+  return { start, travel };
+};
+
+const setProjectDeckAccessibility = (activeCard = null) => {
+  projectChapterCards.forEach((card) => {
+    const isCurrent = card === activeCard;
+    card.inert = projectDeckEnabled && !isCurrent;
+    if (projectDeckEnabled && !isCurrent) {
+      card.setAttribute("aria-hidden", "true");
+    } else {
+      card.removeAttribute("aria-hidden");
+    }
+  });
+};
+
+const syncProjectDeckMode = () => {
+  const shouldEnable = Boolean(
+    projectChapterCards.length > 1
+    && workTourLayout
+    && projectList
+    && projectTrack
+    && projectScreen
+    && window.matchMedia("(min-width: 1081px)").matches
+    && document.documentElement.classList.contains("motion-enabled")
+    && !reducedMotion.matches,
+  );
+  if (shouldEnable === projectDeckEnabled) {
+    return;
+  }
+
+  projectDeckEnabled = shouldEnable;
+  workTourLayout?.classList.toggle("is-scroll-deck", projectDeckEnabled);
+  workTourLayout?.style.setProperty("--work-slide-count", String(projectChapterCards.length));
+  if (projectDeckEnabled && projectList) {
+    projectList.scrollLeft = 0;
+  }
+  if (!projectDeckEnabled && projectTrack) {
+    projectTrack.style.removeProperty("transform");
+  }
+  setProjectDeckAccessibility(projectDeckEnabled ? activeProjectChapter : null);
+  scheduleProjectTourUpdate();
+};
+
+const goToProjectChapter = (card, behavior = "smooth") => {
+  const index = projectChapterCards.indexOf(card);
+  const metrics = getProjectDeckMetrics();
+  if (index < 0 || !metrics || !projectDeckEnabled || !workTourLayout) {
+    return;
+  }
+  const progress = index / (projectChapterCards.length - 1);
+  window.scrollTo({ top: metrics.start + metrics.travel * progress, behavior });
+};
+
 projectChapterLinks.forEach((link) => {
-  link.addEventListener("click", () => {
+  link.addEventListener("click", (event) => {
     const targetCard = projectChapterCards.find((card) => card.id === link.dataset.projectChapterLink);
     if (targetCard) {
+      if (projectDeckEnabled) {
+        event.preventDefault();
+        window.history.pushState(null, "", `#${targetCard.id}`);
+        goToProjectChapter(targetCard);
+      }
       setActiveProjectChapter(targetCard);
     }
   });
@@ -106,6 +195,20 @@ const projectStorySteps = Array.from(document.querySelectorAll(".project-story-s
 let projectTourFrame = 0;
 const updateProjectTour = () => {
   projectTourFrame = 0;
+  if (projectDeckEnabled && projectList && projectTrack && workTourLayout) {
+    const metrics = getProjectDeckMetrics();
+    if (!metrics) {
+      return;
+    }
+    const progress = Math.min(1, Math.max(0, (window.scrollY - metrics.start) / metrics.travel));
+    const trackPosition = progress * (projectChapterCards.length - 1);
+    const activeCard = projectChapterCards[Math.round(trackPosition)] ?? projectChapterCards[0];
+    projectTrack.style.transform = `translate3d(${-trackPosition * projectList.clientWidth}px, 0, 0)`;
+    setActiveProjectChapter(activeCard);
+    setProjectDeckAccessibility(activeCard);
+    return;
+  }
+
   const readingLine = window.innerHeight * 0.48;
   const activeCard = projectChapterCards.find((card) => {
     const bounds = card.getBoundingClientRect();
@@ -152,8 +255,43 @@ if (projectChapterCards.length) {
   const initialProject = projectChapterCards.find((card) => card.id === window.location.hash.slice(1))
     ?? projectChapterCards[0];
   setActiveProjectChapter(initialProject);
+  const syncAndPositionProjectDeck = () => {
+    syncProjectDeckMode();
+    if (projectDeckEnabled && window.location.hash.startsWith("#project-")) {
+      const hashProject = projectChapterCards.find((card) => card.id === window.location.hash.slice(1));
+      if (hashProject) {
+        goToProjectChapter(hashProject, "auto");
+      }
+    }
+    scheduleProjectTourUpdate();
+  };
+  const positionHashProject = () => {
+    if (!projectDeckEnabled || !window.location.hash.startsWith("#project-")) {
+      return;
+    }
+    const hashProject = projectChapterCards.find((card) => card.id === window.location.hash.slice(1));
+    if (!hashProject) {
+      return;
+    }
+    window.requestAnimationFrame(() => {
+      if (projectList) projectList.scrollLeft = 0;
+      goToProjectChapter(hashProject, "auto");
+      scheduleProjectTourUpdate();
+    });
+  };
   window.addEventListener("scroll", scheduleProjectTourUpdate, { passive: true });
-  window.addEventListener("resize", scheduleProjectTourUpdate);
+  window.addEventListener("resize", syncAndPositionProjectDeck);
+  window.addEventListener("motionpreferencechange", syncAndPositionProjectDeck);
+  window.addEventListener("load", positionHashProject, { once: true });
+  window.addEventListener("hashchange", positionHashProject);
+  window.addEventListener("popstate", () => {
+    const hashProject = projectChapterCards.find((card) => card.id === window.location.hash.slice(1));
+    if (hashProject && projectDeckEnabled) {
+      goToProjectChapter(hashProject);
+    }
+  });
+  reducedMotion.addEventListener?.("change", syncAndPositionProjectDeck);
+  syncAndPositionProjectDeck();
   scheduleProjectTourUpdate();
 }
 
@@ -277,6 +415,9 @@ projectViewers.forEach((viewer) => {
         panel.hidden = !selected;
       }
     });
+    if (tab.closest(".project-card") === activeProjectChapter) {
+      updateProjectViewStatus(tab);
+    }
     if (focus) tab.focus();
   };
 
@@ -552,14 +693,42 @@ if (docsStack) {
   const docsLayerLinks = Array.from(docsStack.querySelectorAll("[data-docs-layer-link]"));
   const docsLayerCount = docsStack.querySelector("[data-docs-layer-count]");
   const docsStackReadout = docsStack.querySelector("[data-docs-stack-readout]");
+  const docsStackState = docsStack.querySelector("[data-docs-stack-state]");
+  const docsStackVisual = docsStack.querySelector(".docs-stack-visual");
   let docsStackFrame = 0;
 
-  const activateDocsStep = (step) => {
+  const activateDocsStep = (step, openProgress = 0) => {
     const activeIndex = Number(step.dataset.docsStackStep);
+    const stillMode = reducedMotion.matches || !document.documentElement.classList.contains("motion-enabled");
+    const visibleOpenProgress = stillMode ? 1 : openProgress;
+    const mobileLayout = window.matchMedia("(max-width: 680px)").matches;
+    const mobileDocked = mobileLayout && window.innerHeight > 760;
+    const shortViewport = !mobileLayout && window.innerHeight <= 780;
+    const closedSpacing = mobileLayout ? 7 : 9;
+    const openSpacing = mobileLayout
+      ? (mobileDocked ? 64 : 80)
+      : shortViewport
+        ? (window.innerHeight <= 580 ? 52 : 74)
+        : 132;
+    const sequenceProgress = visibleOpenProgress * docsLayerLinks.length;
+
     docsStack.style.setProperty(
       "--docs-stack-progress",
-      `${(activeIndex / Math.max(docsSteps.length - 1, 1)) * 100}%`,
+      `${openProgress * 100}%`,
     );
+    docsStack.style.setProperty("--docs-stack-open", String(visibleOpenProgress));
+    docsLayerLinks.forEach((link, index) => {
+      const offset = index - ((docsLayerLinks.length - 1) / 2);
+      const layerProgress = Math.min(1, Math.max(0, sequenceProgress - index));
+      const layerMotionProgress = 1 - ((1 - layerProgress) ** 3);
+      const layerSpacing = closedSpacing + ((openSpacing - closedSpacing) * layerMotionProgress);
+      link.style.setProperty("--docs-layer-progress", String(layerProgress));
+      link.style.setProperty("--docs-layer-opacity", index > activeIndex && layerProgress === 0 ? "0.3" : "1");
+      link.style.setProperty("--docs-layer-y", `${offset * layerSpacing}px`);
+      link.style.setProperty("--docs-layer-x", `${offset * layerMotionProgress * 4}px`);
+      link.style.setProperty("--docs-layer-z", `${(-offset * (6 + (layerMotionProgress * 5))) + (layerMotionProgress * 4)}px`);
+      link.style.setProperty("--docs-layer-tilt", `${offset * layerMotionProgress * -1.25}deg`);
+    });
     docsSteps.forEach((item) => item.classList.toggle("is-active", item === step));
     docsLayerLinks.forEach((link) => {
       if (Number(link.dataset.docsLayerLink) === activeIndex) {
@@ -569,10 +738,19 @@ if (docsStack) {
       }
     });
     if (docsLayerCount) {
-      docsLayerCount.textContent = `${String(activeIndex + 1).padStart(2, "0")} / ${String(docsSteps.length).padStart(2, "0")}`;
+      docsLayerCount.textContent = `LAYER ${String(activeIndex + 1).padStart(2, "0")} / ${String(docsSteps.length).padStart(2, "0")}`;
     }
     if (docsStackReadout) {
       docsStackReadout.textContent = step.dataset.docsStackSummary ?? "Explore the capabilities behind document intelligence.";
+    }
+    if (docsStackState && docsStackVisual) {
+      const phase = visibleOpenProgress < 0.03 ? "assembled" : visibleOpenProgress > 0.98 ? "open" : "opening";
+      docsStackVisual.dataset.stackPhase = phase;
+      docsStackState.textContent = phase === "assembled"
+        ? "ASSEMBLED VIEW"
+        : phase === "open"
+          ? "LAYERS OPEN"
+          : "OPENING LAYERS";
     }
   };
 
@@ -592,7 +770,31 @@ if (docsStack) {
     if (!docsSteps.length) {
       return;
     }
-    const viewportCenter = window.innerHeight / 2;
+    const mobileDocked = window.matchMedia("(max-width: 680px)").matches && window.innerHeight > 760;
+    const viewportCenter = mobileDocked
+      ? (window.innerHeight - 490 + 72) / 2
+      : window.innerHeight / 2;
+    const stepCenters = docsSteps.map((step) => {
+      const bounds = step.getBoundingClientRect();
+      return bounds.top + (bounds.height / 2);
+    });
+    let openProgress = 0;
+    if (viewportCenter >= stepCenters[stepCenters.length - 1]) {
+      openProgress = 1;
+    } else if (viewportCenter > stepCenters[0]) {
+      const segmentIndex = stepCenters.findIndex((center, index) =>
+        index < stepCenters.length - 1 && viewportCenter <= stepCenters[index + 1],
+      );
+      if (segmentIndex >= 0) {
+        const segmentStart = stepCenters[segmentIndex];
+        const segmentEnd = stepCenters[segmentIndex + 1];
+        const segmentProgress = segmentEnd === segmentStart
+          ? 0
+          : (viewportCenter - segmentStart) / (segmentEnd - segmentStart);
+        openProgress = (segmentIndex + segmentProgress) / (docsSteps.length - 1);
+      }
+    }
+    openProgress = Math.min(1, Math.max(0, openProgress));
     const activeStep = docsSteps.reduce((closest, step) => {
       const bounds = step.getBoundingClientRect();
       const closestBounds = closest.getBoundingClientRect();
@@ -600,7 +802,7 @@ if (docsStack) {
       const closestDistance = Math.abs(closestBounds.top + closestBounds.height / 2 - viewportCenter);
       return distance < closestDistance ? step : closest;
     }, docsSteps[0]);
-    activateDocsStep(activeStep);
+    activateDocsStep(activeStep, openProgress);
   };
   const scheduleDocsStackUpdate = () => {
     if (!docsStackFrame) {
@@ -612,6 +814,7 @@ if (docsStack) {
     activateDocsStep(docsSteps[0]);
     window.addEventListener("scroll", scheduleDocsStackUpdate, { passive: true });
     window.addEventListener("resize", scheduleDocsStackUpdate);
+    motionToggle?.addEventListener("click", scheduleDocsStackUpdate);
     scheduleDocsStackUpdate();
   }
 }
