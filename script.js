@@ -295,6 +295,244 @@ if (projectChapterCards.length) {
   scheduleProjectTourUpdate();
 }
 
+const moreWorkSection = document.querySelector("[data-more-work]");
+const moreWorkRun = moreWorkSection?.querySelector("[data-more-work-run]");
+const moreWorkPin = moreWorkSection?.querySelector("[data-more-work-pin]");
+const moreWorkFrameElement = moreWorkSection?.querySelector("[data-more-work-frame]");
+const moreWorkTrack = moreWorkSection?.querySelector("[data-more-work-track]");
+const moreWorkItems = Array.from(moreWorkSection?.querySelectorAll("[data-more-work-item]") ?? []);
+const moreWorkControls = moreWorkSection?.querySelector("[data-more-work-controls]");
+const moreWorkViewButtons = Array.from(moreWorkSection?.querySelectorAll("[data-more-work-view]") ?? []);
+const moreWorkCount = moreWorkSection?.querySelector("[data-more-work-count]");
+const moreWorkProgress = moreWorkSection?.querySelector("[data-more-work-progress]");
+const moreWorkProgressTrack = moreWorkSection?.querySelector(".more-work-progress-track");
+const moreWorkPrevious = moreWorkSection?.querySelector("[data-more-work-prev]");
+const moreWorkNext = moreWorkSection?.querySelector("[data-more-work-next]");
+let moreWorkView = "rail";
+let moreWorkPinned = false;
+let moreWorkActiveIndex = 0;
+let moreWorkFrame = 0;
+
+const getMoreWorkMetrics = () => {
+  if (!moreWorkRun || !moreWorkPin || !moreWorkFrameElement || !moreWorkTrack) {
+    return null;
+  }
+
+  const pinTop = Number.parseFloat(getComputedStyle(moreWorkPin).top) || 0;
+  const runBounds = moreWorkRun.getBoundingClientRect();
+  const travel = Math.max(1, moreWorkRun.offsetHeight - moreWorkPin.offsetHeight);
+  const horizontalTravel = Math.max(0, moreWorkTrack.scrollWidth - moreWorkFrameElement.clientWidth);
+  return {
+    start: window.scrollY + runBounds.top - pinTop,
+    travel,
+    horizontalTravel,
+  };
+};
+
+const setMoreWorkActive = (index, progress) => {
+  if (!moreWorkItems.length) {
+    return;
+  }
+
+  const boundedIndex = Math.min(moreWorkItems.length - 1, Math.max(0, index));
+  moreWorkActiveIndex = boundedIndex;
+  moreWorkItems.forEach((item, itemIndex) => {
+    const isCurrent = itemIndex === boundedIndex;
+    item.classList.toggle("is-current", isCurrent);
+    if (isCurrent) {
+      item.setAttribute("aria-current", "step");
+    } else {
+      item.removeAttribute("aria-current");
+    }
+  });
+
+  if (moreWorkCount) {
+    moreWorkCount.textContent = String(boundedIndex + 1).padStart(2, "0");
+  }
+  if (moreWorkProgress) {
+    const visibleProgress = Math.max(1 / moreWorkItems.length, Math.min(1, progress));
+    moreWorkProgress.style.transform = `scaleX(${visibleProgress})`;
+  }
+  if (moreWorkProgressTrack) {
+    moreWorkProgressTrack.setAttribute("aria-valuenow", String(boundedIndex + 1));
+    const title = moreWorkItems[boundedIndex].querySelector("h4")?.textContent.trim() ?? "Project";
+    moreWorkProgressTrack.setAttribute("aria-valuetext", `${boundedIndex + 1} of ${moreWorkItems.length}: ${title}`);
+  }
+  if (moreWorkPrevious) {
+    moreWorkPrevious.disabled = boundedIndex === 0;
+  }
+  if (moreWorkNext) {
+    moreWorkNext.disabled = boundedIndex === moreWorkItems.length - 1;
+  }
+};
+
+const getMoreWorkStart = () => {
+  if (!moreWorkRun || !moreWorkPin) {
+    return 0;
+  }
+  const pinTop = Number.parseFloat(getComputedStyle(moreWorkPin).top) || 0;
+  return window.scrollY + moreWorkRun.getBoundingClientRect().top - pinTop;
+};
+
+const syncMoreWorkMode = () => {
+  if (!moreWorkSection || !moreWorkRun || !moreWorkPin || !moreWorkTrack || !moreWorkFrameElement) {
+    return;
+  }
+
+  const wasPinned = moreWorkPinned;
+  const oldStart = wasPinned ? getMoreWorkStart() : 0;
+  const shouldPin = Boolean(
+    moreWorkView === "rail"
+    && moreWorkItems.length > 1
+    && window.matchMedia("(min-width: 1081px) and (min-height: 740px)").matches
+    && document.documentElement.classList.contains("motion-enabled")
+    && !reducedMotion.matches,
+  );
+
+  if (wasPinned && !shouldPin) {
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    const headerHeight = document.querySelector(".site-header")?.offsetHeight ?? 0;
+    const listStart = window.scrollY + moreWorkSection.getBoundingClientRect().top - headerHeight - 16;
+    const targetScroll = moreWorkView === "list" ? listStart : oldStart;
+    root.style.scrollBehavior = "auto";
+    window.scrollTo({ top: Math.max(0, targetScroll), behavior: "auto" });
+    root.style.scrollBehavior = previousScrollBehavior;
+  }
+
+  moreWorkSection.classList.toggle("is-list-view", moreWorkView === "list");
+  moreWorkTrack.classList.toggle("is-list", moreWorkView === "list");
+  moreWorkTrack.classList.toggle("is-rail", moreWorkView === "rail");
+  moreWorkRun.classList.toggle("is-scroll-pinned", shouldPin);
+  moreWorkPin.classList.toggle("is-scroll-pinned", shouldPin);
+  moreWorkPinned = shouldPin;
+
+  if (shouldPin) {
+    moreWorkFrameElement.scrollLeft = 0;
+    moreWorkTrack.style.removeProperty("transform");
+    const horizontalTravel = Math.max(0, moreWorkTrack.scrollWidth - moreWorkFrameElement.clientWidth);
+    moreWorkRun.style.height = `${moreWorkPin.offsetHeight + horizontalTravel}px`;
+  } else {
+    moreWorkRun.style.removeProperty("height");
+    moreWorkTrack.style.removeProperty("transform");
+    if (moreWorkView === "rail") {
+      moreWorkFrameElement.scrollLeft = 0;
+    }
+  }
+
+  scheduleMoreWorkUpdate();
+};
+
+const updateMoreWork = () => {
+  moreWorkFrame = 0;
+  if (!moreWorkTrack || !moreWorkFrameElement || moreWorkItems.length === 0) {
+    return;
+  }
+
+  if (moreWorkPinned) {
+    const metrics = getMoreWorkMetrics();
+    if (!metrics) {
+      return;
+    }
+    const progress = Math.min(1, Math.max(0, (window.scrollY - metrics.start) / metrics.travel));
+    const activeIndex = Math.round(progress * (moreWorkItems.length - 1));
+    moreWorkTrack.style.transform = `translate3d(${-metrics.horizontalTravel * progress}px, 0, 0)`;
+    setMoreWorkActive(activeIndex, progress);
+    return;
+  }
+
+  if (moreWorkView === "rail") {
+    const maxScroll = Math.max(1, moreWorkTrack.scrollWidth - moreWorkFrameElement.clientWidth);
+    const progress = Math.min(1, Math.max(0, moreWorkFrameElement.scrollLeft / maxScroll));
+    setMoreWorkActive(Math.round(progress * (moreWorkItems.length - 1)), progress);
+  } else {
+    setMoreWorkActive(moreWorkActiveIndex, (moreWorkActiveIndex + 1) / moreWorkItems.length);
+  }
+};
+
+function scheduleMoreWorkUpdate() {
+  if (!moreWorkFrame) {
+    moreWorkFrame = window.requestAnimationFrame(updateMoreWork);
+  }
+}
+
+const setMoreWorkView = (view) => {
+  if (!moreWorkSection || !["rail", "list"].includes(view) || view === moreWorkView) {
+    return;
+  }
+
+  moreWorkView = view;
+  moreWorkViewButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.moreWorkView === view));
+  });
+  if (moreWorkControls) {
+    moreWorkControls.hidden = false;
+  }
+  syncMoreWorkMode();
+};
+
+if (moreWorkSection && moreWorkRun && moreWorkPin && moreWorkTrack && moreWorkFrameElement && moreWorkItems.length) {
+  if (moreWorkControls) {
+    moreWorkControls.hidden = false;
+  }
+
+  moreWorkViewButtons.forEach((button) => {
+    button.addEventListener("click", () => setMoreWorkView(button.dataset.moreWorkView));
+  });
+
+  const moveMoreWorkTo = (targetIndex) => {
+    const boundedIndex = Math.min(moreWorkItems.length - 1, Math.max(0, targetIndex));
+    if (moreWorkPinned && moreWorkItems.length > 1) {
+      const metrics = getMoreWorkMetrics();
+      if (metrics) {
+        const progress = boundedIndex / (moreWorkItems.length - 1);
+        window.scrollTo({
+          top: metrics.start + metrics.travel * progress,
+          behavior: document.documentElement.classList.contains("motion-enabled") && !reducedMotion.matches ? "smooth" : "auto",
+        });
+      }
+      return;
+    }
+
+    if (moreWorkView === "rail") {
+      const targetItem = moreWorkItems[boundedIndex];
+      const left = Math.max(0, targetItem.offsetLeft - moreWorkTrack.offsetLeft);
+      moreWorkFrameElement.scrollTo({
+        left,
+        behavior: document.documentElement.classList.contains("motion-enabled") && !reducedMotion.matches ? "smooth" : "auto",
+      });
+    }
+  };
+
+  moreWorkPrevious?.addEventListener("click", () => moveMoreWorkTo(moreWorkActiveIndex - 1));
+  moreWorkNext?.addEventListener("click", () => moveMoreWorkTo(moreWorkActiveIndex + 1));
+  moreWorkFrameElement.addEventListener("keydown", (event) => {
+    if (event.altKey || event.ctrlKey || event.metaKey || moreWorkView !== "rail") {
+      return;
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      moveMoreWorkTo(moreWorkActiveIndex + 1);
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      moveMoreWorkTo(moreWorkActiveIndex - 1);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      moveMoreWorkTo(0);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      moveMoreWorkTo(moreWorkItems.length - 1);
+    }
+  });
+  moreWorkFrameElement.addEventListener("scroll", scheduleMoreWorkUpdate, { passive: true });
+  window.addEventListener("scroll", scheduleMoreWorkUpdate, { passive: true });
+  window.addEventListener("resize", syncMoreWorkMode);
+  window.addEventListener("motionpreferencechange", syncMoreWorkMode);
+  reducedMotion.addEventListener?.("change", syncMoreWorkMode);
+  syncMoreWorkMode();
+  setMoreWorkActive(0, 1 / moreWorkItems.length);
+}
+
 const mobileNavMenu = document.querySelector(".mobile-nav-more");
 const mobileNavSummary = mobileNavMenu?.querySelector("summary");
 
