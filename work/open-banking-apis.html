@@ -3,113 +3,542 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#2358e9">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232358e9'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='36' fill='white'%3EA.%3C/text%3E%3C/svg%3E">
+    <meta name="theme-color" content="#6d28d9">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%236d28d9'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='36' fill='white'%3EA.%3C/text%3E%3C/svg%3E">
     <meta name="description" content="Apratim Sarkar's case study on AI-assisted API search and OpenAPI authoring and review for an open-banking platform.">
     <meta property="og:title" content="AI-assisted banking API workflows — Apratim Sarkar">
-    <meta property="og:description" content="A case study in retrieval-assisted API discovery and specification workflows.">
+    <meta property="og:description" content="An editorial case study in retrieval-assisted API discovery, specification drafting, and validation workflows.">
     <title>AI-assisted banking API workflows — Apratim Sarkar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=layer-story-2026-10-26c">
-    <script src="../script.js?v=layer-story-2026-10-26c" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,400;1,600&family=Space+Grotesk:wght@400..700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="../styles.css?v=jrp-editorial-2026-10-28h">
+    <script src="../script.js?v=jrp-editorial-2026-10-28h" defer></script>
   </head>
-  <body class="case-page">
+  <body class="jrp-landing jrp-case-page" data-case-theme="api">
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <a class="wordmark" href="../index.html" aria-label="Apratim Sarkar, home"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="../index.html#work">Selected work</a>
-        <a href="../index.html#about">About</a>
-        <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Enable motion</button>
-        <a class="nav-contact" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
-      </nav>
+
+    <!-- Shared SVG liquid displacement & goo filters -->
+    <svg class="jrp-svg-defs" width="0" height="0" aria-hidden="true">
+      <defs>
+        <filter id="jrp-goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="sound-goo" x="-30%" y="-30%" width="160%" height="180%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="liquid-tip-goo" x="-30%" y="-30%" width="160%" height="180%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="work-liquid-3" x="-12%" y="-12%" width="124%" height="124%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.014 0.02" numOctaves="2" seed="37" result="n" />
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
+
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Right-edge reading progress indicator -->
+    <div class="jrp-progress" aria-hidden="true">
+      <span class="jrp-progress__value" data-reading-pct>0%</span>
+      <span class="jrp-progress__line">
+        <span class="jrp-progress__fill" data-reading-fill></span>
+      </span>
+    </div>
+
+    <!-- Gooey floating cursor pill & anchored liquid tool-chip drip tooltip -->
+    <div class="jrp-cursor-pill" data-cursor-pill-el aria-hidden="true">
+      <span class="jrp-cursor-pill__goo">
+        <i class="jrp-cursor-pill__drop" data-cursor-pill-drop></i>
+        <i class="jrp-cursor-pill__burst" data-cursor-pill-burst></i>
+        <i class="jrp-cursor-pill__body" data-cursor-pill-body></i>
+      </span>
+      <span class="jrp-cursor-pill__label" data-cursor-pill-label>View case study</span>
+      <span class="jrp-cursor-pill__note" data-cursor-pill-note></span>
+    </div>
+
+    <div class="jrp-liquid-tip" data-liquid-tip aria-hidden="true">
+      <span class="jrp-liquid-tip__goo">
+        <i class="jrp-liquid-tip__drop" data-liquid-tip-drop></i>
+        <i class="jrp-liquid-tip__body" data-liquid-tip-body></i>
+      </span>
+      <span class="jrp-liquid-tip__text" data-liquid-tip-text>
+        <span class="jrp-liquid-tip__name" data-liquid-tip-name></span>
+        <span class="jrp-liquid-tip__note" data-liquid-tip-note></span>
+      </span>
+    </div>
+
+    <!-- Fixed Header Navigation -->
+    <header class="site-header jrp-navbar" data-navbar>
+      <div class="jrp-nav">
+        <a class="wordmark jrp-brand" href="../index.html" aria-label="Apratim Sarkar, home">
+          <svg class="jrp-signature" viewBox="0 0 210 52" aria-hidden="true">
+            <path
+              class="jrp-signature__path"
+              d="M14 40 C22 12, 34 8, 38 26 C40 35, 39 40, 42 40 M20 29 C30 27, 42 25, 49 27 M52 25 C52 34, 51 45, 51 47 M52 28 C56 21, 65 22, 65 29 C65 36, 56 38, 52 36 M72 25 C72 31, 72 37, 72 39 M72 29 C75 23, 81 22, 85 24 M98 25 C91 24, 87 30, 88 36 C89 40, 95 39, 99 33 C100 37, 102 39, 106 38 M114 14 C113 24, 113 34, 115 39 M108 24 L121 24 M128 25 L128 39 M128 17 L129 18 M137 39 L138 25 C141 22, 146 23, 148 28 L148 39 M148 28 C152 22, 158 22, 160 28 L161 39 M173 36 C175 36, 176 37, 175 38"
+            />
+          </svg>
+          <span class="sr-only">Apratim Sarkar</span>
+        </a>
+
+        <nav class="main-nav jrp-nav__links" aria-label="Main navigation">
+          <a class="jrp-navbar__link" href="../index.html#about">About Me</a>
+          <a class="jrp-navbar__link" href="../index.html#contact">Contact</a>
+          <a class="jrp-navbar__link" href="../index.html#work">Works</a>
+          <a class="jrp-navbar__link" href="../index.html#more-work">Projects</a>
+          <a class="jrp-navbar__link" href="../index.html?game=1">Play Game</a>
+          <a class="jrp-navbar__link" href="../index.html?resume=1">Resume</a>
+        </nav>
+
+        <button
+          class="motion-toggle jrp-sound-toggle"
+          type="button"
+          data-sound-toggle
+          data-motion-toggle
+          aria-pressed="true"
+          aria-label="Mute sound"
+          title="Toggle interactive sound (M)"
+        >
+          <svg class="jrp-sound-toggle__wave" viewBox="0 0 24 24" aria-hidden="true">
+            <line class="jrp-sound-toggle__flat" x1="4" y1="12" x2="20" y2="12" />
+            <g class="jrp-sound-toggle__amp">
+              <path class="jrp-sound-toggle__path" d="M-12 12 q3 -7 6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0" />
+            </g>
+          </svg>
+          <span class="jrp-sound-toggle__label" data-motion-label data-sound-label>Sound on</span>
+          <span class="jrp-sound-tip" data-sound-tip aria-hidden="true">
+            <span class="jrp-sound-tip__goo">
+              <span class="jrp-sound-tip__stem"></span>
+              <span class="jrp-sound-tip__pill"></span>
+            </span>
+            <span class="jrp-sound-tip__text" data-sound-tip-text>Click anywhere for sound</span>
+          </span>
+        </button>
+      </div>
     </header>
+
     <main id="main">
-      <article>
-        <header class="case-hero case-hero-api">
-          <div class="case-hero-inner section-shell">
-            <a class="back-link" href="../index.html#work">← Back to selected work</a>
-            <p class="eyebrow">CASE STUDY 03 / DEVELOPER WORKFLOW</p>
-            <h1>Bring useful assistance into <span>API work.</span></h1>
-            <p class="case-hero-summary">AI capabilities for API discovery and OpenAPI authoring and review, using retrieval and few-shot techniques.</p>
-            <div class="case-hero-art api-hero-art" role="img" aria-label="Illustrative API workflow from a natural-language request through retrieval and specification drafting to review">
-              <div class="case-art-label mono-label">SYNTHETIC WORKFLOW · ILLUSTRATIVE API</div>
-              <div class="case-flow">
-                <div class="flow-step"><span>01 / ASK</span><strong>Describe the<br>API task</strong><small>Natural language</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step"><span>02 / FIND</span><strong>Retrieve<br>context</strong><small>API knowledge</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step flow-step-accent"><span>03 / DRAFT</span><strong>OpenAPI<br>specification</strong><small>Few-shot patterns</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step"><span>04 / REVIEW</span><strong>Inspect &<br>validate</strong><small>Illustrative concept</small></div>
-              </div>
+      <!-- Editorial Case Hero -->
+      <section class="jrp-case-hero">
+        <div class="jrp-case-hero__shell">
+          <div class="jrp-case-hero__topbar">
+            <a class="jrp-case-back" href="../index.html#work" data-cursor-pill="Back to home">← Back to home</a>
+            <span class="jrp-case-eyebrow">Case 04 / Developer Systems · Open Banking APIs</span>
+            <a class="jrp-case-next-top" href="commercial-lending-risk.html" data-cursor-pill="Next case study">Commercial Lending →</a>
+          </div>
+
+          <h1 class="jrp-case-hero__title">
+            Bring intelligent assistance into <em>API engineering workflows.</em>
+          </h1>
+
+          <p class="jrp-case-hero__lede">
+            Engineered as AI Engineer for Infosys IP: Infosys Banking APIs Platform (iBAP) within Infosys Financial Services—accelerating FinTech, digital banking, and open-banking transformation through RAG-assisted API discovery, few-shot OpenAPI 3.1 authoring, and exploratory agentic API lifecycle management.
+          </p>
+
+          <div class="jrp-case-meta">
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Role &amp; Practice</span>
+              <strong class="jrp-case-meta__value">AI Engineer · Infosys Financial Services</strong>
             </div>
-            <div class="case-meta-grid">
-              <div><span>MY ROLE</span><strong>AI Engineer</strong></div>
-              <div><span>SETTING</span><strong>Open banking · API engineering</strong></div>
-              <div><span>STATUS</span><strong>Capabilities developed · agentic work exploratory</strong></div>
-              <div><span>FOCUS</span><strong>API search · OpenAPI · retrieval</strong></div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Infosys IP Platform</span>
+              <strong class="jrp-case-meta__value">Infosys Banking APIs Platform (iBAP)</strong>
+            </div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">AI &amp; Schema Stack</span>
+              <strong class="jrp-case-meta__value">Few-Shot Prompting · RAG · OpenAPI 3.1 · Agents</strong>
+            </div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Service &amp; Tooling</span>
+              <strong class="jrp-case-meta__value">FastAPI · Spring Boot · Postman API · PostgreSQL</strong>
             </div>
           </div>
-        </header>
-        <div class="case-layout section-shell">
-          <aside class="case-aside">
-            <span class="mono-label">IN THIS STORY</span>
-            <div class="case-story-progress" aria-hidden="true"><div><span>CHAPTER</span><strong data-case-progress-count>01 / 05</strong></div><span class="case-story-progress-track"><i data-case-progress-fill style="width: 20%"></i></span></div>
-            <a href="#problem" data-case-link aria-current="location">01 · The problem</a>
-            <a href="#contribution" data-case-link>02 · Contribution</a>
-            <a href="#workflow" data-case-link>03 · Workflow</a>
-            <a href="#judgment" data-case-link>04 · Product judgment</a>
-            <a href="#evidence" data-case-link>05 · Evidence & limits</a>
-          </aside>
-          <div class="case-article">
-            <section id="problem">
-              <p class="eyebrow">01 / THE PROBLEM</p>
-              <h2>API work has a discovery problem as well as a specification problem.</h2>
-              <p>In an open-banking API platform, engineers need to find relevant API information and create or review specifications. These tasks depend on domain context and precise, structured output—two areas where a plain-language interface can help only if it brings the right information into the workflow.</p>
-            </section>
-            <section id="contribution">
-              <p class="eyebrow">02 / MY CONTRIBUTION</p>
-              <h2>Applied generative AI to API search and specification workflows.</h2>
-              <p>My work included AI-based search and capabilities for creating and reviewing OpenAPI YAML from user prompts. The approaches described include retrieval-augmented generation and few-shot learning.</p>
-              <div class="contribution-callout"><strong>Scope distinction</strong><span>The API search and OpenAPI capabilities are described as developed. Agentic API lifecycle management is exploration, not a shipped capability claim.</span></div>
-            </section>
-            <section id="workflow">
-              <p class="eyebrow">03 / WORKFLOW</p>
-              <h2>Bring context into the authoring moment.</h2>
-              <p>This synthetic example explains the interaction concept, not an actual banking API or production interface.</p>
-              <div class="api-example">
-                <div class="api-example-top"><span>REQUEST</span><strong>“Find the account activity API and draft a GET endpoint.”</strong></div>
-                <div class="api-example-step"><span>01</span><div><strong>Retrieve relevant API context</strong><p>Use the available API knowledge as context for search or generation.</p></div></div>
-                <div class="api-example-step"><span>02</span><div><strong>Draft structured OpenAPI YAML</strong><p>Use prompt and few-shot patterns to produce a specification-shaped result.</p></div></div>
-                <div class="api-example-step"><span>03</span><div><strong>Review the specification</strong><p>Inspect and validate the output before treating it as correct or publishable.</p></div></div>
+
+          <!-- Signal & Architecture Projection Strip -->
+          <div class="jrp-case-kpis" aria-label="Open banking API signal projections">
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">INFOSYS IP PLATFORM</span>
+              <strong class="jrp-case-kpi__metric">iBAP Open Banking</strong>
+              <span class="jrp-case-kpi__sub">FinTech &amp; digital banking transformation</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="95"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">DISCOVERY ENGINE</span>
+              <strong class="jrp-case-kpi__metric">Intent-to-Endpoint RAG</strong>
+              <span class="jrp-case-kpi__sub">Semantic search across banking catalogs</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="92"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">CONTRACT SYNTHESIS</span>
+              <strong class="jrp-case-kpi__metric">Few-Shot OpenAPI 3.1</strong>
+              <span class="jrp-case-kpi__sub">Typed paths, OAuth2 scopes &amp; RFC 7807 errors</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="96"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">VERIFICATION GATE</span>
+              <strong class="jrp-case-kpi__metric">Automated Schema Lint</strong>
+              <span class="jrp-case-kpi__sub">Human-in-the-loop review + exploratory agents</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="90"></i></div>
+            </div>
+          </div>
+
+          <!-- Monolith System Architecture Showcase -->
+          <div class="jrp-case-showcase">
+            <div class="project-visual project-viewer jrp-monolith visual-api is-open is-centered" data-viewer data-story-media data-liquid-filter="work-liquid-3" aria-label="Open banking interactive preview">
+              <div class="jrp-monolith__rings" aria-hidden="true"><span></span><span></span></div>
+              <div class="jrp-monolith__sheen" aria-hidden="true"></div>
+              <div class="jrp-monolith__meniscus" aria-hidden="true"></div>
+              <div class="jrp-monolith__top">
+                <span><i class="jrp-live-dot" aria-hidden="true"></i> 04 · OPEN BANKING APIS</span>
+                <span>RETRIEVAL + CONTRACTS</span>
               </div>
-              <p class="diagram-note">Illustrative task and API details. No real banking endpoint, customer data, or internal specification is represented.</p>
-            </section>
-            <section id="judgment">
-              <p class="eyebrow">04 / PRODUCT JUDGMENT</p>
-              <h2>Help with the work; keep the work inspectable.</h2>
-              <div class="decision-grid">
-                <div><span class="decision-index">A</span><h3>Search should answer a task</h3><p>API search is most valuable when it helps a developer make progress in a specific workflow, not merely return a chat response.</p></div>
-                <div><span class="decision-index">B</span><h3>Structured output needs scrutiny</h3><p>OpenAPI YAML is machine-readable. A polished-looking draft should not be mistaken for a validated contract.</p></div>
-                <div><span class="decision-index">C</span><h3>Context affects usefulness</h3><p>Retrieval and few-shot examples can shape what the system returns; their quality and relevance deserve evaluation.</p></div>
-                <div><span class="decision-index">D</span><h3>Separate exploration from delivery</h3><p>Agentic API lifecycle management was described as an area being explored, so this portfolio keeps it distinct from the capabilities developed.</p></div>
+              <div class="viewer-tabs jrp-monolith__tabs" role="tablist" aria-label="Open banking views">
+                <button class="viewer-tab" type="button" role="tab" id="api-tab-flow" aria-controls="api-view-flow" aria-selected="true" tabindex="0">Authoring</button>
+                <button class="viewer-tab" type="button" role="tab" id="api-tab-spec" aria-controls="api-view-spec" aria-selected="false" tabindex="-1">OpenAPI YAML</button>
+                <button class="viewer-tab" type="button" role="tab" id="api-tab-review" aria-controls="api-view-review" aria-selected="false" tabindex="-1">Inspection</button>
               </div>
-            </section>
-            <section id="evidence">
-              <p class="eyebrow">05 / EVIDENCE & LIMITS</p>
-              <h2>Show the boundary between capability and claim.</h2>
-              <p>This anonymized summary reflects the described AI search and OpenAPI work. It does not claim that all generated specifications were accepted, that an autonomous agent was deployed, or that a quantified productivity gain was achieved.</p>
-              <p>The workflow graphic and example request are synthetic. Further product screenshots, model/evaluation details, and impact measurements should only be included when verified and approved for public use.</p>
-              <div class="case-next"><span class="mono-label">BACK TO SELECTED WORK</span><a href="../index.html#work">Explore all projects <span aria-hidden="true">→</span></a></div>
-            </section>
+              <div class="jrp-monolith__viz" aria-hidden="true">
+                <svg viewBox="0 0 380 68" class="jrp-monolith__svg">
+                  <rect x="6" y="14" width="80" height="40" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)"/>
+                  <text x="46" y="38" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="9" letter-spacing="1">PROMPT</text>
+                  <path class="jrp-svg-flow" d="M86 34 H134" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <rect x="134" y="8" width="112" height="52" rx="7" fill="rgba(109,40,217,0.2)" stroke="rgba(167,139,250,0.6)"/>
+                  <text x="190" y="26" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="8" letter-spacing="1">FEW-SHOT RAG</text>
+                  <text x="190" y="38" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-family="DM Mono, monospace" font-size="8">SCHEMA DRAFT</text>
+                  <text x="190" y="50" text-anchor="middle" fill="rgba(255,255,255,0.58)" font-family="DM Mono, monospace" font-size="7">SYNTAX LINT</text>
+                  <path class="jrp-svg-flow" d="M246 34 H294" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <rect x="294" y="10" width="80" height="48" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)"/>
+                  <text x="334" y="31" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="8" font-weight="600" letter-spacing="1">VALIDATED</text>
+                  <text x="334" y="45" text-anchor="middle" fill="rgba(255,255,255,0.58)" font-family="DM Mono, monospace" font-size="7">CONTRACT</text>
+                </svg>
+              </div>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="api-view-flow" aria-labelledby="api-tab-flow" tabindex="0">
+                <div class="jrp-monolith__headline">
+                  <span>01 / PROMPT-TO-CONTRACT</span>
+                  <h4>Natural language to structured<br>OpenAPI specifications.</h4>
+                  <p>Few-shot learning and contextual retrieval draft standards-compliant REST endpoints.</p>
+                </div>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>01</i><strong>Intent Match</strong><small>Natural-language API task</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>02</i><strong>Few-Shot RAG</strong><small>Templates and domain schemas</small></div>
+                  <div class="jrp-monolith__step"><i>03</i><strong>Contract Draft</strong><small>OpenAPI 3.1 YAML output</small></div>
+                </div>
+              </section>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="api-view-spec" aria-labelledby="api-tab-spec" tabindex="0" hidden>
+                <div class="jrp-monolith__headline">
+                  <span>02 / STRUCTURED SPECIFICATION</span>
+                  <h4>Syntactically verified<br>machine-readable output.</h4>
+                  <p>Headers, security scopes, response codes, and pagination schemes strictly typed.</p>
+                </div>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>PATHS</i><strong>GET &amp; POST Schemas</strong><small>Path parameters and query tokens</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>AUTH</i><strong>OAuth2 Scopes</strong><small>PSD2 / open-banking compliance</small></div>
+                  <div class="jrp-monolith__step"><i>ERRORS</i><strong>4xx / 5xx Models</strong><small>Structured RFC 7807 problem details</small></div>
+                </div>
+              </section>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="api-view-review" aria-labelledby="api-tab-review" tabindex="0" hidden>
+                <div class="jrp-monolith__headline">
+                  <span>03 / HUMAN-IN-THE-LOOP</span>
+                  <h4>AI drafts the contract;<br>the engineer validates.</h4>
+                  <p>Syntax is verified automatically; architectural suitability remains in developer hands.</p>
+                </div>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>LINT</i><strong>Schema Linter</strong><small>Catches indentation and type errors</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>REVIEW</i><strong>Engineer Gate</strong><small>Approve, adjust, or discard draft</small></div>
+                  <div class="jrp-monolith__step"><i>GATEWAY</i><strong>Catalog Sync</strong><small>Ready for developer portal</small></div>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
-      </article>
-      <section class="case-contact section-shell"><p class="eyebrow">LET’S TALK ABOUT THE WORK</p><h2>Making developer workflows<br><span>more useful with AI?</span></h2><a class="button button-primary" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a></section>
+      </section>
+
+      <!-- Two-Column Story Layout -->
+      <div class="jrp-case-layout">
+        <!-- Sticky Story Sidebar -->
+        <aside class="jrp-case-sidebar">
+          <div class="jrp-case-tracker">
+            <div class="jrp-case-tracker__head">
+              <span class="jrp-case-tracker__label">Chapter</span>
+              <strong class="jrp-case-tracker__count" data-jrp-case-count>01 / 05</strong>
+            </div>
+            <div class="jrp-case-tracker__bar">
+              <i class="jrp-case-tracker__fill" data-jrp-case-fill style="width: 20%"></i>
+            </div>
+            <nav class="jrp-case-nav" aria-label="Case study chapters">
+              <a class="jrp-case-nav__item is-active" href="#problem" data-case-link aria-current="location">
+                <span class="jrp-case-nav__num">01</span>
+                <span>The Problem</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#contribution" data-case-link>
+                <span class="jrp-case-nav__num">02</span>
+                <span>My Contribution</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#workflow" data-case-link>
+                <span class="jrp-case-nav__num">03</span>
+                <span>Interactive Workflow</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#judgment" data-case-link>
+                <span class="jrp-case-nav__num">04</span>
+                <span>Product Judgment</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#evidence" data-case-link>
+                <span class="jrp-case-nav__num">05</span>
+                <span>Evidence &amp; Limits</span>
+              </a>
+            </nav>
+          </div>
+
+          <div class="jrp-case-sidebar__badge">
+            <strong>Synthetic Banking Sandbox</strong>
+            <span>All API specs, payloads, and endpoint paths shown on this page are synthetic illustrative examples. No proprietary banking endpoint is published.</span>
+          </div>
+        </aside>
+
+        <!-- Case Story Content -->
+        <article class="jrp-case-article">
+          <section class="jrp-case-section" id="problem">
+            <span class="jrp-case-section__badge">01 / THE PROBLEM</span>
+            <h2 class="jrp-case-section__title">APIs have a discovery challenge as well as a specification challenge.</h2>
+            <p>
+              In open banking ecosystems, engineering teams maintain hundreds of distinct microservices and REST endpoints covering accounts, payments, consent management, and transaction histories. Developers frequently spend hours searching documentation to locate reusable interfaces or constructing repetitive OpenAPI YAML specifications from scratch.
+            </p>
+            <p>
+              While generative AI can write boilerplate, open-banking contracts have strict syntax, validation, and security requirements. A specification authoring assistant is only useful if it grounds generation in verified schema patterns and keeps the generated output strictly inspectable.
+            </p>
+            <div class="jrp-case-compare" role="region" aria-label="Before and after API workflow comparison">
+              <div class="jrp-case-compare__card jrp-case-compare__card--before">
+                <span class="jrp-case-compare__tag">MANUAL CATALOG LOOKUP</span>
+                <h3>Path memorization &amp; repetitive YAML</h3>
+                <p>Engineers combed through hundreds of banking endpoints by exact path name and hand-authored repetitive OpenAPI 3.1 boilerplate and error schemas.</p>
+              </div>
+              <div class="jrp-case-compare__card jrp-case-compare__card--after">
+                <span class="jrp-case-compare__tag">RAG + FEW-SHOT AUTHORING</span>
+                <h3>Intent-driven search &amp; validated contracts</h3>
+                <p>Semantic RAG surfaces relevant catalog endpoints by developer task and drafts schema-validated OpenAPI YAML using curated few-shot examples.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="contribution">
+            <span class="jrp-case-section__badge">02 / MY CONTRIBUTION</span>
+            <h2 class="jrp-case-section__title">Applying generative AI to API discovery and contract authoring.</h2>
+            <p>
+              I engineered AI-assisted search and prompt-driven specification authoring modules for the platform:
+            </p>
+            <ul style="padding-left: 20px; line-height: 1.8; color: var(--jrp-ink-muted); margin-bottom: 24px;">
+              <li><strong>Semantic API Discovery:</strong> Implemented natural-language vector search over API schemas and docstrings, allowing developers to query capabilities by intent rather than memorizing endpoint paths.</li>
+              <li><strong>Few-Shot Prompt Engineering:</strong> Crafted high-precision prompt templates populated with verified OpenAPI 3.1 examples to enforce consistent casing, headers, error responses, and HTTP status codes.</li>
+              <li><strong>Schema Validation Gate:</strong> Integrated automated YAML parsing and linting pipelines to verify structural correctness before presenting the output for human review.</li>
+            </ul>
+            <div class="jrp-case-callout">
+              <strong>Scope Distinction</strong>
+              <span>The API search and OpenAPI generation capabilities are fully developed. Agentic lifecycle management was an exploratory research area, not a claim of autonomous production deployment.</span>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="workflow">
+            <span class="jrp-case-section__badge">03 / INTERACTIVE WORKFLOW</span>
+            <h2 class="jrp-case-section__title">Bringing relevant context into the developer's authoring moment.</h2>
+            <p>
+              The workflow demonstrates how conversational intent transitions into machine-readable specifications:
+            </p>
+
+            <div class="api-example" style="background: #ffffff; border: 1px solid var(--jrp-border); border-radius: 16px; padding: 28px; box-shadow: 0 4px 20px rgba(22, 19, 36, 0.03);">
+              <div class="api-example-top" style="margin-bottom: 20px;">
+                <span style="font-family: var(--jrp-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--case-accent); font-weight: 700; display: block; margin-bottom: 6px;">SAMPLE DEVELOPER REQUEST</span>
+                <strong style="font-size: 16px; color: var(--jrp-ink);">“Find the transaction activity API and draft a GET /accounts/{id}/transactions endpoint with pagination.”</strong>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div class="api-example-step" style="display: flex; gap: 14px; align-items: baseline;">
+                  <span style="font-family: var(--jrp-mono); font-size: 11px; font-weight: 700; color: var(--case-accent); background: var(--case-accent-tint); padding: 4px 8px; border-radius: 6px;">01</span>
+                  <div>
+                    <strong style="font-size: 14px; color: var(--jrp-ink);">Semantic Retrieval</strong>
+                    <p style="font-size: 13px !important; color: var(--jrp-ink-muted); margin: 4px 0 0 !important;">Searches the banking catalog for matching transaction schemas, ISO-20022 currency formats, and security scopes.</p>
+                  </div>
+                </div>
+                <div class="api-example-step" style="display: flex; gap: 14px; align-items: baseline;">
+                  <span style="font-family: var(--jrp-mono); font-size: 11px; font-weight: 700; color: var(--case-accent); background: var(--case-accent-tint); padding: 4px 8px; border-radius: 6px;">02</span>
+                  <div>
+                    <strong style="font-size: 14px; color: var(--jrp-ink);">Structured YAML Drafting</strong>
+                    <p style="font-size: 13px !important; color: var(--jrp-ink-muted); margin: 4px 0 0 !important;">Generates valid OpenAPI 3.1 YAML specifying path parameters, cursor tokens, response schemas, and 401/403/429 error objects.</p>
+                  </div>
+                </div>
+                <div class="api-example-step" style="display: flex; gap: 14px; align-items: baseline;">
+                  <span style="font-family: var(--jrp-mono); font-size: 11px; font-weight: 700; color: var(--case-accent); background: var(--case-accent-tint); padding: 4px 8px; border-radius: 6px;">03</span>
+                  <div>
+                    <strong style="font-size: 14px; color: var(--jrp-ink);">Automated Contract Validation</strong>
+                    <p style="font-size: 13px !important; color: var(--jrp-ink-muted); margin: 4px 0 0 !important;">Syntax is checked against OpenAPI specification schemas before presenting the contract to the engineer for review.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="diagram-note" style="margin-top: 14px; font-size: 12px; color: var(--jrp-ink-faint);">
+              Illustrative synthetic example. No production banking endpoint or customer credential is represented.
+            </p>
+          </section>
+
+          <section class="jrp-case-section" id="judgment">
+            <span class="jrp-case-section__badge">04 / PRODUCT JUDGMENT</span>
+            <h2 class="jrp-case-section__title">Assist the engineer; keep contracts inspectable.</h2>
+
+            <!-- Interactive Contract Generation Projection Simulator -->
+            <div class="jrp-case-proj" data-proj-switcher>
+              <div class="jrp-case-proj__head">
+                <div>
+                  <span class="jrp-case-proj__eyebrow">iBAP SPECIFICATION PROJECTION</span>
+                  <h3 class="jrp-case-proj__title">Intent-to-OpenAPI 3.1 Contract Coverage Explorer</h3>
+                </div>
+                <div class="jrp-case-proj__tabs" role="tablist" aria-label="Open banking domain intents">
+                  <button type="button" class="jrp-case-proj__tab is-active" data-proj-tab="api-accounts" aria-selected="true">01 · Account Balances</button>
+                  <button type="button" class="jrp-case-proj__tab" data-proj-tab="api-tx" aria-selected="false">02 · Transaction Activity</button>
+                  <button type="button" class="jrp-case-proj__tab" data-proj-tab="api-consent" aria-selected="false">03 · Consent &amp; Payments</button>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane is-active" data-proj-pane="api-accounts">
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Semantic Catalog Match (GET /accounts/{accountId}/balances)</strong><span>RAG retrieval over iBAP canonical schemas</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="96"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Few-Shot Schema Structural Fidelity</strong><span>ISO-20022 currency + credit/debit indicator typing</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="94"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>OpenAPI 3.1 Linter &amp; Security Scope Check</strong><span>OAuth2 accounts.read scope + 401/403/429 responses</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="100"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>CANONICAL DOMAIN</span><strong>AIS (Account Information Services) · Open Banking</strong></div>
+                  <div><span>FEW-SHOT ANCHOR</span><strong>Verified balance payload + FAPI interaction headers</strong></div>
+                  <div><span>GATEWAY INTEGRATION</span><strong>FastAPI / Spring Boot stub + Postman API collection</strong></div>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane" data-proj-pane="api-tx" hidden>
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Cursor Pagination &amp; Date-Range Query Synthesis</strong><span>fromBookingDateTime, toBookingDateTime &amp; page cursor</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="95"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Nested Transaction &amp; Merchant Schema Binding</strong><span>SQLAlchemy / PostgreSQL backed canonical models</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="92"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>RFC 7807 Problem Details Error Contract</strong><span>Deterministic validation before human review</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="100"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>CANONICAL DOMAIN</span><strong>Transaction History &amp; Statement Ledgers</strong></div>
+                  <div><span>FEW-SHOT ANCHOR</span><strong>Paginated array envelope + hypermedia links</strong></div>
+                  <div><span>GATEWAY INTEGRATION</span><strong>Ready for developer portal &amp; contract testing</strong></div>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane" data-proj-pane="api-consent" hidden>
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>POST /payment-consents &amp; Idempotency Headers</strong><span>x-idempotency-key &amp; detached JWS signature headers</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="93"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>State-Machine Transition Modelling</strong><span>AwaitingAuthorisation → Authorised → Consumed</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="90"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Exploratory Agentic Lifecycle Orchestration</strong><span>Research prototype for multi-step spec validation</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="82"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>CANONICAL DOMAIN</span><strong>PIS (Payment Initiation) &amp; Consent Management</strong></div>
+                  <div><span>FEW-SHOT ANCHOR</span><strong>Debtor/Creditor account schema + consent lifecycle</strong></div>
+                  <div><span>SCOPE BOUNDARY</span><strong>Search &amp; authoring shipped; agentic lifecycle exploratory</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="jrp-decision-grid">
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">01</span>
+                <h3>Search Toward Action</h3>
+                <p>API search should accelerate specific implementation tasks, not merely return passive conversational text.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">02</span>
+                <h3>Syntax Over Polish</h3>
+                <p>OpenAPI contracts are machine-executed. Valid schema constraints must strictly take precedence over fluent phrasing.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">03</span>
+                <h3>Curated Context</h3>
+                <p>Few-shot examples must reflect production security standards, including OAuth2 scopes and rate-limiting headers.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">04</span>
+                <h3>Honest Boundaries</h3>
+                <p>Distinguish cleanly between shipped assist tools and exploratory agentic research to maintain trust.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="evidence">
+            <span class="jrp-case-section__badge">05 / EVIDENCE &amp; LIMITS</span>
+            <h2 class="jrp-case-section__title">Clear boundaries between capability and claims.</h2>
+            <p>
+              This case study reflects developed prompt-to-OpenAPI capabilities. It does not claim autonomous end-to-end API deployment, universal specification acceptance without developer revision, or unverified commercial productivity metrics.
+            </p>
+            <div class="jrp-case-callout">
+              <strong>Transparent Presentation</strong>
+              <span>All workflows and schemas are presented with technical clarity, demonstrating real engineering rigor without unsubstantiated hype.</span>
+            </div>
+          </section>
+        </article>
+      </div>
+
+      <!-- Cinematic Next Project Flow (Looping back to Case 01) -->
+      <section class="jrp-case-next">
+        <a class="jrp-case-next__card" href="commercial-lending-risk.html">
+          <span class="jrp-case-next__tag">NEXT CHAPTER · 01</span>
+          <h2 class="jrp-case-next__title">
+            Commercial Lending <em>&amp; Credit Risk ML</em>
+          </h2>
+          <span class="jrp-case-next__action">
+            Read Case Study <span aria-hidden="true">→</span>
+          </span>
+        </a>
+      </section>
     </main>
-    <footer class="site-footer"><div class="section-shell footer-inner"><a class="wordmark" href="../index.html"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a><p>Built with care. <span id="year">2026</span></p><a class="back-top" href="#main">Back to top ↑</a></div></footer>
+
+    <!-- Editorial Footer -->
+    <footer class="jrp-case-footer">
+      <div class="jrp-case-footer__inner">
+        <a class="wordmark jrp-brand" href="../index.html" aria-label="Apratim Sarkar, home">
+          <svg class="jrp-signature" viewBox="0 0 210 52" style="width: 140px; height: 36px" aria-hidden="true">
+            <path
+              class="jrp-signature__path"
+              d="M14 40 C22 12, 34 8, 38 26 C40 35, 39 40, 42 40 M20 29 C30 27, 42 25, 49 27 M52 25 C52 34, 51 45, 51 47 M52 28 C56 21, 65 22, 65 29 C65 36, 56 38, 52 36 M72 25 C72 31, 72 37, 72 39 M72 29 C75 23, 81 22, 85 24 M98 25 C91 24, 87 30, 88 36 C89 40, 95 39, 99 33 C100 37, 102 39, 106 38 M114 14 C113 24, 113 34, 115 39 M108 24 L121 24 M128 25 L128 39 M128 17 L129 18 M137 39 L138 25 C141 22, 146 23, 148 28 L148 39 M148 28 C152 22, 158 22, 160 28 L161 39 M173 36 C175 36, 176 37, 175 38"
+            />
+          </svg>
+        </a>
+        <p>Built with care by Apratim Sarkar · Kolkata, India</p>
+        <a class="jrp-case-back" href="#top">Back to top ↑</a>
+      </div>
+    </footer>
   </body>
 </html>

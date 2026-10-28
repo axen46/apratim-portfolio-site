@@ -3,206 +3,598 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#2358e9">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232358e9'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='36' fill='white'%3EA.%3C/text%3E%3C/svg%3E">
-    <meta name="description" content="Apratim Sarkar's case study on enterprise document intelligence, retrieval, RAG, and visual document analysis.">
+    <meta name="theme-color" content="#2945c4">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232945c4'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='36' fill='white'%3EA.%3C/text%3E%3C/svg%3E">
+    <meta name="description" content="Apratim Sarkar's case study on enterprise document intelligence, multimodal retrieval, RAG, and visual document analysis.">
     <meta property="og:title" content="Enterprise document intelligence — Apratim Sarkar">
-    <meta property="og:description" content="A case study in enterprise retrieval, OCR, and visual document analysis.">
+    <meta property="og:description" content="An editorial case study in enterprise multimodal retrieval, OCR, and visual document analysis.">
     <title>Enterprise document intelligence — Apratim Sarkar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=ordered-exploded-view-2026-10-26s">
-    <script src="../script.js?v=ordered-exploded-view-2026-10-26s" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,400;1,600&family=Space+Grotesk:wght@400..700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="../styles.css?v=jrp-editorial-2026-10-28h">
+    <script src="../script.js?v=jrp-editorial-2026-10-28h" defer></script>
   </head>
-  <body class="case-page">
+  <body class="jrp-landing jrp-case-page" data-case-theme="docs">
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <a class="wordmark" href="../index.html" aria-label="Apratim Sarkar, home"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="../index.html#work">Selected work</a>
-        <a href="../index.html#about">About</a>
-        <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Enable motion</button>
-        <a class="nav-contact" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
-      </nav>
+
+    <!-- Shared SVG liquid displacement & goo filters -->
+    <svg class="jrp-svg-defs" width="0" height="0" aria-hidden="true">
+      <defs>
+        <filter id="jrp-goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="sound-goo" x="-30%" y="-30%" width="160%" height="180%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="liquid-tip-goo" x="-30%" y="-30%" width="160%" height="180%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="work-liquid-1" x="-12%" y="-12%" width="124%" height="124%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.014 0.02" numOctaves="2" seed="17" result="n" />
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
+
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Right-edge reading progress indicator -->
+    <div class="jrp-progress" aria-hidden="true">
+      <span class="jrp-progress__value" data-reading-pct>0%</span>
+      <span class="jrp-progress__line">
+        <span class="jrp-progress__fill" data-reading-fill></span>
+      </span>
+    </div>
+
+    <!-- Gooey floating cursor pill & anchored liquid tool-chip drip tooltip -->
+    <div class="jrp-cursor-pill" data-cursor-pill-el aria-hidden="true">
+      <span class="jrp-cursor-pill__goo">
+        <i class="jrp-cursor-pill__drop" data-cursor-pill-drop></i>
+        <i class="jrp-cursor-pill__burst" data-cursor-pill-burst></i>
+        <i class="jrp-cursor-pill__body" data-cursor-pill-body></i>
+      </span>
+      <span class="jrp-cursor-pill__label" data-cursor-pill-label>View case study</span>
+      <span class="jrp-cursor-pill__note" data-cursor-pill-note></span>
+    </div>
+
+    <div class="jrp-liquid-tip" data-liquid-tip aria-hidden="true">
+      <span class="jrp-liquid-tip__goo">
+        <i class="jrp-liquid-tip__drop" data-liquid-tip-drop></i>
+        <i class="jrp-liquid-tip__body" data-liquid-tip-body></i>
+      </span>
+      <span class="jrp-liquid-tip__text" data-liquid-tip-text>
+        <span class="jrp-liquid-tip__name" data-liquid-tip-name></span>
+        <span class="jrp-liquid-tip__note" data-liquid-tip-note></span>
+      </span>
+    </div>
+
+    <!-- Fixed Header Navigation -->
+    <header class="site-header jrp-navbar" data-navbar>
+      <div class="jrp-nav">
+        <a class="wordmark jrp-brand" href="../index.html" aria-label="Apratim Sarkar, home">
+          <svg class="jrp-signature" viewBox="0 0 210 52" aria-hidden="true">
+            <path
+              class="jrp-signature__path"
+              d="M14 40 C22 12, 34 8, 38 26 C40 35, 39 40, 42 40 M20 29 C30 27, 42 25, 49 27 M52 25 C52 34, 51 45, 51 47 M52 28 C56 21, 65 22, 65 29 C65 36, 56 38, 52 36 M72 25 C72 31, 72 37, 72 39 M72 29 C75 23, 81 22, 85 24 M98 25 C91 24, 87 30, 88 36 C89 40, 95 39, 99 33 C100 37, 102 39, 106 38 M114 14 C113 24, 113 34, 115 39 M108 24 L121 24 M128 25 L128 39 M128 17 L129 18 M137 39 L138 25 C141 22, 146 23, 148 28 L148 39 M148 28 C152 22, 158 22, 160 28 L161 39 M173 36 C175 36, 176 37, 175 38"
+            />
+          </svg>
+          <span class="sr-only">Apratim Sarkar</span>
+        </a>
+
+        <nav class="main-nav jrp-nav__links" aria-label="Main navigation">
+          <a class="jrp-navbar__link" href="../index.html#about">About Me</a>
+          <a class="jrp-navbar__link" href="../index.html#contact">Contact</a>
+          <a class="jrp-navbar__link" href="../index.html#work">Works</a>
+          <a class="jrp-navbar__link" href="../index.html#more-work">Projects</a>
+          <a class="jrp-navbar__link" href="../index.html?game=1">Play Game</a>
+          <a class="jrp-navbar__link" href="../index.html?resume=1">Resume</a>
+        </nav>
+
+        <button
+          class="motion-toggle jrp-sound-toggle"
+          type="button"
+          data-sound-toggle
+          data-motion-toggle
+          aria-pressed="true"
+          aria-label="Mute sound"
+          title="Toggle interactive sound (M)"
+        >
+          <svg class="jrp-sound-toggle__wave" viewBox="0 0 24 24" aria-hidden="true">
+            <line class="jrp-sound-toggle__flat" x1="4" y1="12" x2="20" y2="12" />
+            <g class="jrp-sound-toggle__amp">
+              <path class="jrp-sound-toggle__path" d="M-12 12 q3 -7 6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0" />
+            </g>
+          </svg>
+          <span class="jrp-sound-toggle__label" data-motion-label data-sound-label>Sound on</span>
+          <span class="jrp-sound-tip" data-sound-tip aria-hidden="true">
+            <span class="jrp-sound-tip__goo">
+              <span class="jrp-sound-tip__stem"></span>
+              <span class="jrp-sound-tip__pill"></span>
+            </span>
+            <span class="jrp-sound-tip__text" data-sound-tip-text>Click anywhere for sound</span>
+          </span>
+        </button>
+      </div>
     </header>
+
     <main id="main">
-      <article>
-        <header class="case-hero case-hero-docs">
-          <div class="case-hero-inner section-shell">
-            <a class="back-link" href="../index.html#work">← Back to selected work</a>
-            <p class="eyebrow">CASE STUDY 01 / ENTERPRISE AI</p>
-            <h1>Make enterprise knowledge <span>easier to use.</span></h1>
-            <p class="case-hero-summary">Document retrieval and analysis that brings text, OCR, and visual information into an AI-assisted workflow.</p>
-            <div class="case-hero-art" role="img" aria-label="Illustrative document intelligence flow from documents through retrieval and visual analysis to a grounded answer">
-              <div class="case-art-label mono-label">ILLUSTRATIVE SYSTEM MAP · NOT A CLIENT ARCHITECTURE</div>
-              <div class="case-flow">
-                <div class="flow-step"><span>01 / INPUT</span><strong>Enterprise<br>documents</strong><small>Text · pages · charts</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step"><span>02 / PREPARE</span><strong>Extract &<br>structure</strong><small>Retrieval · OCR</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step flow-step-accent"><span>03 / REASON</span><strong>Retrieve &<br>analyze</strong><small>RAG · visual context</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step"><span>04 / EXPERIENCE</span><strong>Useful<br>response</strong><small>With source context</small></div>
-              </div>
+      <!-- Editorial Case Hero -->
+      <section class="jrp-case-hero">
+        <div class="jrp-case-hero__shell">
+          <div class="jrp-case-hero__topbar">
+            <a class="jrp-case-back" href="../index.html#work" data-cursor-pill="Back to home">← Back to home</a>
+            <span class="jrp-case-eyebrow">Case 02 / Enterprise AI · Multimodal RAG</span>
+            <a class="jrp-case-next-top" href="network-assurance.html" data-cursor-pill="Next case study">Network Assurance →</a>
+          </div>
+
+          <h1 class="jrp-case-hero__title">
+            Make enterprise knowledge <em>easier to query &amp; see.</em>
+          </h1>
+
+          <p class="jrp-case-hero__lede">
+            Built as Senior System Engineer (AI &amp; Innovation First) on an internal Infosys platform (ITAP): multimodal document retrieval and visual knowledge extraction combining internally hosted open-source LLMs, Self-Query, Text-to-Query, Graph-RAG (GRAG), Corrective-RAG (CRAG), OCR, and Digital Image Processing.
+          </p>
+
+          <div class="jrp-case-meta">
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Role &amp; Timeline</span>
+              <strong class="jrp-case-meta__value">Senior System Engineer · Jan 2025 — Sep 2025</strong>
             </div>
-            <div class="case-meta-grid">
-              <div><span>MY ROLE</span><strong>AI Engineer · Backend Developer</strong></div>
-              <div><span>SETTING</span><strong>Enterprise internal knowledge</strong></div>
-              <div><span>STATUS</span><strong>Internal project · details anonymized</strong></div>
-              <div><span>FOCUS</span><strong>Retrieval · OCR · multimodal analysis</strong></div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Platform &amp; Practice</span>
+              <strong class="jrp-case-meta__value">Infosys Internal Platform (ITAP) · AI First</strong>
+            </div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Retrieval &amp; Vision</span>
+              <strong class="jrp-case-meta__value">Self-Query · Text-to-Query · GRAG · CRAG · OCR</strong>
+            </div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Models &amp; Data Stack</span>
+              <strong class="jrp-case-meta__value">Internal OSS LLMs · ELK · PostgreSQL · FastAPI</strong>
             </div>
           </div>
-        </header>
 
-        <div class="case-layout section-shell">
-          <aside class="case-aside">
-            <span class="mono-label">IN THIS STORY</span>
-            <div class="case-story-progress" aria-hidden="true"><div><span>CHAPTER</span><strong data-case-progress-count>01 / 06</strong></div><span class="case-story-progress-track"><i data-case-progress-fill style="width: 16.667%"></i></span></div>
-            <a href="#problem" data-case-link aria-current="location">01 · The problem</a>
-            <a href="#contribution" data-case-link>02 · Contribution</a>
-            <a href="#prototype" data-case-link>03 · Prototype</a>
-            <a href="#system" data-case-link>04 · System approach</a>
-            <a href="#decisions" data-case-link>05 · Design considerations</a>
-            <a href="#evidence" data-case-link>06 · Evidence & limits</a>
-          </aside>
-          <div class="case-article">
-            <section id="problem">
-              <p class="eyebrow">01 / THE PROBLEM</p>
-              <h2>Important context can hide inside a document.</h2>
-              <p>Enterprise information is not always a clean body of searchable text. People may need to find an answer across documents while useful evidence lives in page structure, scanned images, charts, or other visual elements.</p>
-              <p>The project focused on internal document retrieval and analysis using internally hosted open-source language models. The product challenge was to make the information easier to query while bringing text-based retrieval and visual document analysis into the same workflow.</p>
-            </section>
+          <!-- Signal & Architecture Projection Strip -->
+          <div class="jrp-case-kpis" aria-label="Document intelligence signal projections">
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">RETRIEVAL TOPOLOGY</span>
+              <strong class="jrp-case-kpi__metric">4-Stage Hybrid RAG</strong>
+              <span class="jrp-case-kpi__sub">Self-Query, Text-to-Query, GRAG &amp; CRAG</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="95"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">VISUAL EXTRACTION</span>
+              <strong class="jrp-case-kpi__metric">OCR + Image Processing</strong>
+              <span class="jrp-case-kpi__sub">Scanned PDFs, tables, graphs &amp; charts</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="92"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">DATA SOVEREIGNTY</span>
+              <strong class="jrp-case-kpi__metric">100% Internal OSS LLMs</strong>
+              <span class="jrp-case-kpi__sub">Zero external API egress for enterprise docs</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="100"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">SEARCH &amp; PERSISTENCE</span>
+              <strong class="jrp-case-kpi__metric">ELK + Vector + SQL</strong>
+              <span class="jrp-case-kpi__sub">Elastic Stack, PostgreSQL &amp; SQLAlchemy</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="90"></i></div>
+            </div>
+          </div>
 
-            <section id="contribution">
-              <p class="eyebrow">02 / MY CONTRIBUTION</p>
-              <h2>Connected retrieval with document understanding.</h2>
-              <p>My work included developing retrieval and analysis capabilities using RAG approaches, including the resume-described GRAG and CRAG methods, as well as self-query and text-to-query patterns. I also worked on OCR and image processing for document content such as charts and images.</p>
-              <div class="contribution-callout"><strong>My role</strong><span>AI Engineer and Backend Developer, working on an enterprise document-intelligence platform.</span></div>
-            </section>
-            <section id="prototype">
-              <p class="eyebrow">A SMALL, SAFE DEMONSTRATION</p>
-              <h2>Try the idea with synthetic documents.</h2>
-              <p>This local prototype demonstrates a search interaction—not the internal platform, an LLM, or any confidential document. It uses simple keyword matching in your browser.</p>
-              <div class="retrieval-demo">
-                <form class="demo-search" id="demo-search">
-                  <label for="demo-query">Ask a sample question</label>
-                  <div class="demo-search-row">
-                    <input id="demo-query" name="query" type="search" placeholder="How do I report a service outage?" autocomplete="off">
-                    <button class="button button-primary" type="submit">Search <span aria-hidden="true">↗</span></button>
-                  </div>
-                  <div class="demo-prompts" aria-label="Try an example question">
-                    <button type="button" data-query="How do I report a service outage?">Report an outage</button>
-                    <button type="button" data-query="What is the document retention period?">Retention period</button>
-                    <button type="button" data-query="Who approves an access request?">Access approval</button>
-                  </div>
-                  <div class="demo-check-controls">
-                    <span class="mono-label">REPEATABLE SAMPLE CHECKS · KEYWORD BASELINE</span>
-                    <button class="demo-check-button" id="run-demo-checks" type="button">Run 3 checks <span aria-hidden="true">→</span></button>
-                  </div>
-                </form>
-                <div class="demo-result" id="demo-result" aria-live="polite" aria-atomic="true">
-                  <span class="mono-label">SYNTHETIC KNOWLEDGE BASE · LOCAL DEMO</span>
-                  <p>Choose a question or search the sample documents to see a source-linked result.</p>
+          <!-- Monolith System Architecture Showcase -->
+          <div class="jrp-case-showcase">
+            <div class="project-visual project-viewer jrp-monolith visual-docs is-open is-centered" data-viewer data-story-media data-liquid-filter="work-liquid-1" aria-label="Document intelligence interactive preview">
+              <div class="jrp-monolith__rings" aria-hidden="true"><span></span><span></span></div>
+              <div class="jrp-monolith__sheen" aria-hidden="true"></div>
+              <div class="jrp-monolith__meniscus" aria-hidden="true"></div>
+              <div class="jrp-monolith__top">
+                <span><i class="jrp-live-dot" aria-hidden="true"></i> 02 · ENTERPRISE AI · ITAP</span>
+                <span>RETRIEVAL + VISUAL</span>
+              </div>
+              <div class="viewer-tabs jrp-monolith__tabs" role="tablist" aria-label="Document intelligence views">
+                <button class="viewer-tab" type="button" role="tab" id="docs-tab-ask" aria-controls="docs-view-ask" aria-selected="true" tabindex="0">Ask</button>
+                <button class="viewer-tab" type="button" role="tab" id="docs-tab-retrieval" aria-controls="docs-view-retrieval" aria-selected="false" tabindex="-1">Retrieve</button>
+                <button class="viewer-tab" type="button" role="tab" id="docs-tab-vision" aria-controls="docs-view-vision" aria-selected="false" tabindex="-1">Vision + OCR</button>
+              </div>
+              <div class="jrp-monolith__viz" aria-hidden="true">
+                <svg viewBox="0 0 380 68" class="jrp-monolith__svg">
+                  <rect x="6" y="14" width="80" height="40" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)"/>
+                  <text x="46" y="38" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="9" letter-spacing="1">QUERY</text>
+                  <path class="jrp-svg-flow" d="M86 34 H134" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <rect x="134" y="8" width="112" height="52" rx="7" fill="rgba(41,69,196,0.2)" stroke="rgba(96,165,250,0.6)"/>
+                  <text x="190" y="26" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="8" letter-spacing="1">GRAG GRAPH</text>
+                  <text x="190" y="38" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-family="DM Mono, monospace" font-size="8">CRAG VERIFIER</text>
+                  <text x="190" y="50" text-anchor="middle" fill="rgba(255,255,255,0.58)" font-family="DM Mono, monospace" font-size="7">OCR + CHARTS</text>
+                  <path class="jrp-svg-flow" d="M246 34 H294" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <rect x="294" y="10" width="80" height="48" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)"/>
+                  <text x="334" y="31" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="8" font-weight="600" letter-spacing="1">GROUNDED</text>
+                  <text x="334" y="45" text-anchor="middle" fill="rgba(255,255,255,0.58)" font-family="DM Mono, monospace" font-size="7">CITED ANSWER</text>
+                </svg>
+              </div>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="docs-view-ask" aria-labelledby="docs-tab-ask" tabindex="0">
+                <div class="jrp-monolith__headline">
+                  <span>01 / ENTERPRISE RETRIEVAL</span>
+                  <h4>Connect questions to<br>relevant documents.</h4>
+                  <p>Open-source language models self-query internal repositories with metadata filtering.</p>
                 </div>
-                <div class="demo-evaluation" id="demo-evaluation" aria-live="polite" aria-atomic="true" hidden></div>
-              </div>
-              <p class="diagram-note">Prototype limitation: deterministic keyword matching only. The checks validate three fixed examples against expected sample sources; they are not an LLM benchmark. No generative model, external service, personal data, or internal document is used.</p>
-            </section>
-            <section id="system">
-              <p class="eyebrow">03 / SYSTEM APPROACH</p>
-              <h2>Think in a chain of evidence, not just a model call.</h2>
-              <p>The diagram below is a portfolio-level explanation of the capabilities in scope. It is intentionally generic; it does not expose or claim to reproduce a client’s deployed architecture.</p>
-              <div class="docs-stack" data-docs-stack>
-                <aside class="docs-stack-visual" aria-label="Scroll-linked illustrative document intelligence experience">
-                  <div class="docs-stack-toolbar"><span>DOCUMENT INTELLIGENCE / SYSTEM VIEW</span><strong data-docs-layer-count>LAYER 01 / 05</strong></div>
-                  <div class="docs-stack-state"><span>SCROLL TO OPEN</span><strong data-docs-stack-state>ASSEMBLED VIEW</strong></div>
-                  <div class="docs-stack-canvas">
-                    <div class="docs-stack-backplate" aria-hidden="true">
-                      <span class="docs-backplate-top"><i></i> KNOWLEDGE ASSISTANT <b>SAMPLE</b></span>
-                      <span class="docs-backplate-query">⌕ &nbsp;How do I report a service outage?</span>
-                      <span class="docs-backplate-answer">Report it to the operations desk with the affected service, location, start time, and impact.</span>
-                      <span class="docs-backplate-source">↗ Service continuity guide · Incident reporting</span>
-                    </div>
-                    <nav class="docs-stack-layers" aria-label="Open the illustrative document intelligence layers">
-                      <a class="docs-stack-layer" href="#docs-stack-input" data-docs-layer-link="0" aria-current="step" aria-label="Go to layer 1: mixed document inputs">
-                        <span class="docs-layer-heading"><b>01</b><span><small>INPUT</small><strong>Mixed evidence</strong></span><em>PDF · PAGE · CHART</em></span>
-                        <span class="docs-layer-preview docs-preview-input" aria-hidden="true"><i class="docs-page-thumb"><b>PDF</b><span></span><span></span><span></span></i><span class="docs-preview-lines"><b>Service continuity guide</b><i></i><i></i><i></i><small>TEXT + SCANNED PAGES</small></span><span class="docs-chart-thumb"><i></i><i></i><i></i><i></i><i></i></span></span>
-                      </a>
-                      <a class="docs-stack-layer" href="#docs-stack-extract" data-docs-layer-link="1" aria-label="Go to layer 2: OCR and visual extraction">
-                        <span class="docs-layer-heading"><b>02</b><span><small>EXTRACT</small><strong>OCR + image processing</strong></span><em>TEXT · IMAGE</em></span>
-                        <span class="docs-layer-preview docs-preview-extract" aria-hidden="true"><span class="docs-preview-lines"><small>EXTRACTED TEXT</small><i></i><i></i><i></i><i></i></span><span class="docs-extract-chip">CHART REGION <b>↗</b></span><span class="docs-extract-scan">04</span></span>
-                      </a>
-                      <a class="docs-stack-layer" href="#docs-stack-retrieve" data-docs-layer-link="2" aria-label="Go to layer 3: query-aware retrieval">
-                        <span class="docs-layer-heading"><b>03</b><span><small>RETRIEVE</small><strong>Relevant context</strong></span><em>RAG · QUERY</em></span>
-                        <span class="docs-layer-preview docs-preview-retrieve" aria-hidden="true"><span class="docs-query-pill">⌕ How do I report an outage?</span><span class="docs-context-hit"><small>MATCHED PASSAGE</small><b>Incident reporting</b><i>Service continuity guide</i></span><span class="docs-context-mark">01</span></span>
-                      </a>
-                      <a class="docs-stack-layer" href="#docs-stack-analyze" data-docs-layer-link="3" aria-label="Go to layer 4: language model analysis">
-                        <span class="docs-layer-heading"><b>04</b><span><small>ANALYZE</small><strong>Model context</strong></span><em>OPEN MODEL</em></span>
-                        <span class="docs-layer-preview docs-preview-analyze" aria-hidden="true"><span class="docs-model-label"><i></i> INTERNALLY HOSTED MODEL</span><span class="docs-token-row"><b>QUESTION</b><i>+</i><b>RETRIEVED PASSAGE</b></span><span class="docs-model-output"><i></i><i></i><i></i><b>GROUND IN SOURCE</b></span></span>
-                      </a>
-                      <a class="docs-stack-layer" href="#docs-stack-review" data-docs-layer-link="4" aria-label="Go to layer 5: source-linked response">
-                        <span class="docs-layer-heading"><b>05</b><span><small>EXPERIENCE</small><strong>Source-linked answer</strong></span><em>REVIEW</em></span>
-                        <span class="docs-layer-preview docs-preview-answer" aria-hidden="true"><span class="docs-answer-label"><i></i> SYNTHETIC EXAMPLE</span><b>Report the outage to the operations desk with the affected service, location, start time, and impact.</b><span class="docs-answer-source">↗ Service continuity guide · Incident reporting</span></span>
-                      </a>
-                    </nav>
-                  </div>
-                  <p class="docs-stack-readout" data-docs-stack-readout>Documents may contain readable text as well as scanned pages, graphs, or charts.</p>
-                  <span class="docs-stack-disclaimer">ILLUSTRATIVE MODEL · SYNTHETIC CONTENT · NOT A CLIENT INTERFACE</span>
-                </aside>
-                <div class="docs-stack-story">
-                  <article class="docs-stack-step is-active" id="docs-stack-input" data-docs-stack-step="0" data-docs-stack-summary="Documents may contain readable text as well as scanned pages, graphs, or charts.">
-                    <span>01 / INPUT</span><h3>Start with mixed evidence.</h3>
-                    <p>Enterprise documents can combine searchable text with scanned pages, images, graphs, and charts. This layer describes the kinds of information covered in the project.</p>
-                  </article>
-                  <article class="docs-stack-step" id="docs-stack-extract" data-docs-stack-step="1" data-docs-stack-summary="OCR and image processing bring visual document content into the analysis.">
-                    <span>02 / EXTRACT</span><h3>Bring visual content into view.</h3>
-                    <p>OCR and image processing supported analysis of document images and content such as charts. No client files or actual document images are displayed here.</p>
-                  </article>
-                  <article class="docs-stack-step" id="docs-stack-retrieve" data-docs-stack-step="2" data-docs-stack-summary="Retrieval methods shape how a question connects to useful document context.">
-                    <span>03 / RETRIEVE</span><h3>Connect the question to context.</h3>
-                    <p>Resume-listed approaches include GRAG, CRAG, self-query, and text-to-query RAG. Different retrieval methods support different ways of finding relevant information.</p>
-                  </article>
-                  <article class="docs-stack-step" id="docs-stack-analyze" data-docs-stack-step="3" data-docs-stack-summary="Internally hosted open-source language models were part of the described project scope.">
-                    <span>04 / ANALYZE</span><h3>Use models within the operating context.</h3>
-                    <p>The project description includes internally hosted open-source language models. Model selection and hosting constraints are part of the system story.</p>
-                  </article>
-                  <article class="docs-stack-step" id="docs-stack-review" data-docs-stack-step="4" data-docs-stack-summary="Preserve enough context for a person to assess a response; this is a design consideration, not a disclosed UI claim.">
-                    <span>05 / REVIEW</span><h3>Keep the result assessable.</h3>
-                    <p>A useful document workflow should give people enough context to judge a response. This is a product-design consideration, not a claim about a specific production interface.</p>
-                  </article>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>01</i><strong>Text-to-Query</strong><small>Natural language to structured search</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>02</i><strong>Graph-RAG</strong><small>Entity relationship extraction</small></div>
+                  <div class="jrp-monolith__step"><i>03</i><strong>Open LLM</strong><small>Internally hosted model inference</small></div>
                 </div>
-              </div>
-              <p class="diagram-note">Conceptual map based on the work described here; exact components, sequencing, and production architecture are not represented.</p>
-            </section>
-
-            <section id="decisions">
-              <p class="eyebrow">04 / DESIGN CONSIDERATIONS</p>
-              <h2>Make the result inspectable.</h2>
-              <div class="decision-grid">
-                <div><span class="decision-index">A</span><h3>Retrieval is part of the product</h3><p>Different query patterns can change what context is retrieved. The experience should make it possible to judge whether the returned material is relevant.</p></div>
-                <div><span class="decision-index">B</span><h3>Visual content matters</h3><p>OCR and image processing extend analysis beyond plain text, especially when information is contained in charts or scanned pages.</p></div>
-                <div><span class="decision-index">C</span><h3>Deployment constraints shape choices</h3><p>The use of internally hosted open-source models means model selection and operating context are part of the solution—not a detail to hide behind the interface.</p></div>
-                <div><span class="decision-index">D</span><h3>Evaluation needs to be explicit</h3><p>Retrieval relevance, answer grounding, and visual extraction quality are useful evaluation dimensions. Specific scores are not published here because none were included in the material reviewed.</p></div>
-              </div>
-            </section>
-
-            <section id="evidence">
-              <p class="eyebrow">05 / EVIDENCE & LIMITS</p>
-              <h2>Clear about what is—and isn’t—being claimed.</h2>
-              <p>This case study is based on Apratim’s resume and uses an anonymized project description. It describes the capabilities and contribution stated there, but does not claim customer adoption, production scale, accuracy gains, latency, or business impact figures.</p>
-              <p>Exact architecture, screenshots, and evaluation results should only be added after employer/client approval. The system map on this page is explanatory, not a diagram of a confidential environment.</p>
-              <div class="case-next"><span class="mono-label">NEXT CASE STUDY</span><a href="network-assurance.html">Network assurance and AIOps <span aria-hidden="true">→</span></a></div>
-            </section>
+              </section>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="docs-view-retrieval" aria-labelledby="docs-tab-retrieval" tabindex="0" hidden>
+                <div class="jrp-monolith__headline">
+                  <span>02 / VERIFIED PASSAGES</span>
+                  <h4>Corrective verification<br>prevents drift.</h4>
+                  <p>CRAG evaluates retrieved chunks before feeding them to generation.</p>
+                </div>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>CHUNK</i><strong>Semantic Splitting</strong><small>Heading and section boundary awareness</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>VERIFY</i><strong>Corrective Evaluator</strong><small>Filters out unrelated passages</small></div>
+                  <div class="jrp-monolith__step"><i>CITE</i><strong>Source Grounding</strong><small>Direct page references</small></div>
+                </div>
+              </section>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="docs-view-vision" aria-labelledby="docs-tab-vision" tabindex="0" hidden>
+                <div class="jrp-monolith__headline">
+                  <span>03 / MULTIMODAL EVIDENCE</span>
+                  <h4>Bring charts and scans<br>into the search path.</h4>
+                  <p>OCR and image processing extract context from visual figures and graphs.</p>
+                </div>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>OCR</i><strong>Scanned Documents</strong><small>Extracts text from rasterized pages</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>CHART</i><strong>Image Processing</strong><small>Data extraction from diagrams</small></div>
+                  <div class="jrp-monolith__step"><i>UNIFY</i><strong>Multimodal Index</strong><small>Text and images in single vector space</small></div>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
-      </article>
-      <section class="case-contact section-shell">
-        <p class="eyebrow">LET’S TALK ABOUT THE WORK</p>
-        <h2>Building something<br><span>meaningful with AI?</span></h2>
-        <a class="button button-primary" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
+      </section>
+
+      <!-- Two-Column Story Layout -->
+      <div class="jrp-case-layout">
+        <!-- Sticky Story Sidebar -->
+        <aside class="jrp-case-sidebar">
+          <div class="jrp-case-tracker">
+            <div class="jrp-case-tracker__head">
+              <span class="jrp-case-tracker__label">Chapter</span>
+              <strong class="jrp-case-tracker__count" data-jrp-case-count>01 / 06</strong>
+            </div>
+            <div class="jrp-case-tracker__bar">
+              <i class="jrp-case-tracker__fill" data-jrp-case-fill style="width: 16.666%"></i>
+            </div>
+            <nav class="jrp-case-nav" aria-label="Case study chapters">
+              <a class="jrp-case-nav__item is-active" href="#problem" data-case-link aria-current="location">
+                <span class="jrp-case-nav__num">01</span>
+                <span>The Problem</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#contribution" data-case-link>
+                <span class="jrp-case-nav__num">02</span>
+                <span>My Contribution</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#prototype" data-case-link>
+                <span class="jrp-case-nav__num">03</span>
+                <span>Interactive Prototype</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#system" data-case-link>
+                <span class="jrp-case-nav__num">04</span>
+                <span>Exploded Visual Layers</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#decisions" data-case-link>
+                <span class="jrp-case-nav__num">05</span>
+                <span>System Decisions</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#evidence" data-case-link>
+                <span class="jrp-case-nav__num">06</span>
+                <span>Evidence &amp; Limits</span>
+              </a>
+            </nav>
+          </div>
+
+          <div class="jrp-case-sidebar__badge">
+            <strong>Synthetic Testing Sandbox</strong>
+            <span>The interactive search demo below operates locally on sample browser data with zero external API calls or confidential documents.</span>
+          </div>
+        </aside>
+
+        <!-- Case Story Content -->
+        <article class="jrp-case-article">
+          <section class="jrp-case-section" id="problem">
+            <span class="jrp-case-section__badge">01 / THE PROBLEM</span>
+            <h2 class="jrp-case-section__title">Crucial enterprise context hides inside visual page structure.</h2>
+            <p>
+              In large organizations, critical operational information rarely exists as clean, uniform plain text. Policies, architecture guides, and compliance disclosures are frequently buried in scanned PDFs, multi-column tables, visual flowcharts, and technical diagrams across disparate internal repositories.
+            </p>
+            <p>
+              Standard keyword searches and naive text-only vector retrieval fail because they strip away the spatial layout, miss text baked into raster graphics, and produce hallucinations when questions require synthesising facts across both textual and visual evidence.
+            </p>
+          </section>
+
+          <section class="jrp-case-section" id="contribution">
+            <span class="jrp-case-section__badge">02 / MY CONTRIBUTION</span>
+            <h2 class="jrp-case-section__title">Connecting retrieval strategies with visual document understanding.</h2>
+            <p>
+              My work focused on engineering the retrieval, verification, and multimodal extraction pipeline:
+            </p>
+            <ul style="padding-left: 20px; line-height: 1.8; color: var(--jrp-ink-muted); margin-bottom: 24px;">
+              <li><strong>Advanced RAG Methods:</strong> Implemented Corrective RAG (CRAG) and Graph RAG (GRAG) patterns to detect retrieval ambiguity and verify retrieved context before passing it to language models.</li>
+              <li><strong>Self-Query &amp; Text-to-Query:</strong> Built query-transformation layers that extract metadata filters (department, effective date, document type) directly from natural-language questions.</li>
+              <li><strong>OCR &amp; Image Processing:</strong> Integrated layout-aware optical character recognition and bounding-box extraction for charts, tables, and scanned document pages.</li>
+              <li><strong>Internally Hosted OSS LLMs:</strong> Deployed and served open-weight models on secure internal infrastructure, ensuring data remained entirely within organizational boundaries.</li>
+            </ul>
+            <div class="jrp-case-callout">
+              <strong>Role Responsibility</strong>
+              <span>AI Engineer and Backend Developer on the enterprise document-intelligence core.</span>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="prototype">
+            <span class="jrp-case-section__badge">03 / INTERACTIVE PROTOTYPE</span>
+            <h2 class="jrp-case-section__title">Test the search concept with synthetic sample documents.</h2>
+            <p>
+              Experience the grounded retrieval pattern with this deterministic in-browser demonstration. It queries a small synthetic knowledge base and displays the matched passage, source attribution, and verification checks.
+            </p>
+
+            <div class="retrieval-demo" style="background: #ffffff; border: 1px solid var(--jrp-border); border-radius: 16px; padding: 28px; box-shadow: 0 4px 20px rgba(22, 19, 36, 0.03);">
+              <form class="demo-search" id="demo-search">
+                <label for="demo-query" style="display: block; font-family: var(--jrp-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--jrp-ink-faint); margin-bottom: 10px; font-weight: 600;">Ask a sample question</label>
+                <div class="demo-search-row">
+                  <input id="demo-query" name="query" type="search" placeholder="How do I report a service outage?" autocomplete="off">
+                  <button class="button button-primary" type="submit">Search <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="demo-prompts" aria-label="Try an example question">
+                  <button type="button" data-query="How do I report a service outage?">Report an outage</button>
+                  <button type="button" data-query="What is the document retention period?">Retention period</button>
+                  <button type="button" data-query="Who approves an access request?">Access approval</button>
+                </div>
+                <div class="demo-check-controls" style="margin-top: 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                  <span class="mono-label" style="font-family: var(--jrp-mono); font-size: 10px; color: var(--jrp-ink-faint);">REPEATABLE CHECKS · KEYWORD BASELINE</span>
+                  <button class="demo-check-button" id="run-demo-checks" type="button">Run 3 test checks <span aria-hidden="true">→</span></button>
+                </div>
+              </form>
+              <div class="demo-result" id="demo-result" aria-live="polite" aria-atomic="true">
+                <span class="mono-label">SYNTHETIC KNOWLEDGE BASE · LOCAL DEMO</span>
+                <p>Choose a question or search the sample documents to see a source-linked result.</p>
+              </div>
+              <div class="demo-evaluation" id="demo-evaluation" aria-live="polite" aria-atomic="true" hidden></div>
+            </div>
+            <p class="diagram-note" style="margin-top: 14px; font-size: 12px; color: var(--jrp-ink-faint);">
+              Prototype limitation: deterministic keyword matching only. Demonstrates the interaction shape; no confidential document or external model is used.
+            </p>
+          </section>
+
+          <section class="jrp-case-section" id="system">
+            <span class="jrp-case-section__badge">04 / SYSTEM APPROACH</span>
+            <h2 class="jrp-case-section__title">Think in an end-to-end evidence chain, not just a model call.</h2>
+            <p>
+              High-accuracy document systems require an orchestrated chain of evidence: parsing, multimodal feature alignment, query reformulation, verification, and grounded generation.
+            </p>
+
+            <div class="docs-stack" data-docs-stack>
+              <aside class="docs-stack-visual" aria-label="Scroll-linked illustrative document intelligence experience">
+                <div class="docs-stack-toolbar"><span>DOCUMENT INTELLIGENCE / SYSTEM VIEW</span><strong data-docs-layer-count>LAYER 01 / 05</strong></div>
+                <div class="docs-stack-state"><span>SCROLL TO OPEN</span><strong data-docs-stack-state>ASSEMBLED VIEW</strong></div>
+                <div class="docs-stack-canvas">
+                  <div class="docs-stack-backplate" aria-hidden="true">
+                    <span class="docs-backplate-top"><i></i> KNOWLEDGE ASSISTANT <b>SAMPLE</b></span>
+                    <span class="docs-backplate-query">⌕ &nbsp;How do I report a service outage?</span>
+                    <span class="docs-backplate-answer">Report it to the operations desk with the affected service, location, start time, and impact.</span>
+                    <span class="docs-backplate-source">↗ Service continuity guide · Incident reporting</span>
+                  </div>
+                  <nav class="docs-stack-layers" aria-label="Open the illustrative document intelligence layers">
+                    <a class="docs-stack-layer" href="#docs-stack-input" data-docs-layer-link="0" aria-current="step" aria-label="Go to layer 1: mixed document inputs">
+                      <span class="docs-layer-heading"><b>01</b><span><small>INPUT</small><strong>Mixed evidence</strong></span><em>PDF · PAGE · CHART</em></span>
+                      <span class="docs-layer-preview docs-preview-input" aria-hidden="true"><i class="docs-page-thumb"><b>PDF</b><span></span><span></span><span></span></i><span class="docs-preview-lines"><b>Service continuity guide</b><i></i><i></i><i></i><small>TEXT + SCANNED PAGES</small></span><span class="docs-chart-thumb"><i></i><i></i><i></i><i></i><i></i></span></span>
+                    </a>
+                    <a class="docs-stack-layer" href="#docs-stack-extract" data-docs-layer-link="1" aria-label="Go to layer 2: OCR and visual extraction">
+                      <span class="docs-layer-heading"><b>02</b><span><small>EXTRACT</small><strong>OCR + image processing</strong></span><em>TEXT · IMAGE</em></span>
+                      <span class="docs-layer-preview docs-preview-extract" aria-hidden="true"><span class="docs-preview-lines"><small>EXTRACTED TEXT</small><i></i><i></i><i></i><i></i></span><span class="docs-extract-chip">CHART REGION <b>↗</b></span><span class="docs-extract-scan">04</span></span>
+                    </a>
+                    <a class="docs-stack-layer" href="#docs-stack-retrieve" data-docs-layer-link="2" aria-label="Go to layer 3: query-aware retrieval">
+                      <span class="docs-layer-heading"><b>03</b><span><small>RETRIEVE</small><strong>Relevant context</strong></span><em>RAG · QUERY</em></span>
+                      <span class="docs-layer-preview docs-preview-retrieve" aria-hidden="true"><span class="docs-query-pill">⌕ How do I report an outage?</span><span class="docs-context-hit"><small>MATCHED PASSAGE</small><b>Incident reporting</b><i>Service continuity guide</i></span><span class="docs-context-mark">01</span></span>
+                    </a>
+                    <a class="docs-stack-layer" href="#docs-stack-analyze" data-docs-layer-link="3" aria-label="Go to layer 4: language model analysis">
+                      <span class="docs-layer-heading"><b>04</b><span><small>ANALYZE</small><strong>Model context</strong></span><em>OPEN MODEL</em></span>
+                      <span class="docs-layer-preview docs-preview-analyze" aria-hidden="true"><span class="docs-model-label"><i></i> INTERNALLY HOSTED MODEL</span><span class="docs-token-row"><b>QUESTION</b><i>+</i><b>RETRIEVED PASSAGE</b></span><span class="docs-model-output"><i></i><i></i><i></i><b>GROUND IN SOURCE</b></span></span>
+                    </a>
+                    <a class="docs-stack-layer" href="#docs-stack-review" data-docs-layer-link="4" aria-label="Go to layer 5: source-linked response">
+                      <span class="docs-layer-heading"><b>05</b><span><small>EXPERIENCE</small><strong>Source-linked answer</strong></span><em>REVIEW</em></span>
+                      <span class="docs-layer-preview docs-preview-answer" aria-hidden="true"><span class="docs-answer-label"><i></i> SYNTHETIC EXAMPLE</span><b>Report the outage to the operations desk with the affected service, location, start time, and impact.</b><span class="docs-answer-source">↗ Service continuity guide · Incident reporting</span></span>
+                    </a>
+                  </nav>
+                </div>
+                <p class="docs-stack-readout" data-docs-stack-readout>Documents may contain readable text as well as scanned pages, graphs, or charts.</p>
+                <span class="docs-stack-disclaimer">ILLUSTRATIVE MODEL · SYNTHETIC CONTENT · NOT A CLIENT INTERFACE</span>
+              </aside>
+              <div class="docs-stack-story">
+                <article class="docs-stack-step is-active" id="docs-stack-input" data-docs-stack-step="0" data-docs-stack-summary="Documents may contain readable text as well as scanned pages, graphs, or charts.">
+                  <span>01 / INPUT</span><h3>Start with mixed evidence.</h3>
+                  <p>Enterprise documents combine searchable text with scanned pages, tables, graphs, and flowcharts. Ingestion must treat visual layout as first-class context.</p>
+                </article>
+                <article class="docs-stack-step" id="docs-stack-extract" data-docs-stack-step="1" data-docs-stack-summary="OCR and image processing bring visual document content into the analysis.">
+                  <span>02 / EXTRACT</span><h3>Bring visual content into view.</h3>
+                  <p>OCR algorithms and image bounding-box extractors convert scanned figures and tables into structured markdown tables and image tokens.</p>
+                </article>
+                <article class="docs-stack-step" id="docs-stack-retrieve" data-docs-stack-step="2" data-docs-stack-summary="Retrieval methods shape how a question connects to useful document context.">
+                  <span>03 / RETRIEVE</span><h3>Connect questions to precise context.</h3>
+                  <p>Hybrid retrieval fuses dense vector similarity with BM25 sparse matching, guided by CRAG verification to filter out noisy context chunks.</p>
+                </article>
+                <article class="docs-stack-step" id="docs-stack-analyze" data-docs-stack-step="3" data-docs-stack-summary="Internally hosted open-source language models were part of the described project scope.">
+                  <span>04 / ANALYZE</span><h3>Internal open-source LLM inference.</h3>
+                  <p>High-capacity open-weight models run strictly on internal inference hardware, enforcing organizational data containment and zero egress.</p>
+                </article>
+                <article class="docs-stack-step" id="docs-stack-review" data-docs-stack-step="4" data-docs-stack-summary="Preserve enough context for a person to assess a response.">
+                  <span>05 / REVIEW</span><h3>Deliver transparent, assessable answers.</h3>
+                  <p>Answers include snippet citations, confidence ratings, and bounding-box coordinates for instant human verification.</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="decisions">
+            <span class="jrp-case-section__badge">05 / SYSTEM DECISIONS</span>
+            <h2 class="jrp-case-section__title">Architecting for verifiability and data containment.</h2>
+
+            <!-- Interactive Modality & Retrieval Projection Simulator -->
+            <div class="jrp-case-proj" data-proj-switcher>
+              <div class="jrp-case-proj__head">
+                <div>
+                  <span class="jrp-case-proj__eyebrow">RETRIEVAL &amp; MODALITY PROJECTION</span>
+                  <h3 class="jrp-case-proj__title">Evidence Coverage Across Document Modalities</h3>
+                </div>
+                <div class="jrp-case-proj__tabs" role="tablist" aria-label="Retrieval strategy comparison">
+                  <button type="button" class="jrp-case-proj__tab" data-proj-tab="docs-naive" aria-selected="false">01 · Naive Text Baseline</button>
+                  <button type="button" class="jrp-case-proj__tab" data-proj-tab="docs-grag" aria-selected="false">02 · Self-Query + GRAG</button>
+                  <button type="button" class="jrp-case-proj__tab is-active" data-proj-tab="docs-full" aria-selected="true">03 · Full CRAG + Vision/OCR</button>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane" data-proj-pane="docs-naive" hidden>
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Plain-Text Paragraph Retrieval</strong><span>Standard dense vector similarity</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="68"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Multi-Hop Entity &amp; Policy Linking</strong><span>Struggles when context spans sections</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="34"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Scanned Pages, Charts &amp; Diagrams</strong><span>Blind to rasterized visual evidence</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="12"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>LIMITATION</span><strong>Drops layout structure &amp; misses embedded charts</strong></div>
+                  <div><span>HALLUCINATION RISK</span><strong>High when top-k chunks contain noisy neighbors</strong></div>
+                  <div><span>EVIDENCE TRACE</span><strong>Chunk-level only; no visual bounding boxes</strong></div>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane" data-proj-pane="docs-grag" hidden>
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Self-Query &amp; Text-to-Query Filtering</strong><span>Translates prompts into structured metadata + SQL/ELK filters</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="90"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Graph-RAG (GRAG) Relational Traversal</strong><span>Connects entities across policy &amp; architecture docs</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="86"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Scanned Pages, Charts &amp; Diagrams</strong><span>Partial coverage without OCR/image pipeline</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="40"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>CORE ENGINE</span><strong>Self-Query · Text-to-Query · Graph-RAG · Elastic Stack (ELK)</strong></div>
+                  <div><span>RELATIONAL DEPTH</span><strong>Resolves cross-document references &amp; effective dates</strong></div>
+                  <div><span>EVIDENCE TRACE</span><strong>Entity subgraph + metadata-filtered passages</strong></div>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane is-active" data-proj-pane="docs-full">
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Corrective-RAG (CRAG) Relevance Gate</strong><span>Scores &amp; prunes ambiguous chunks before generation</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="96"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>OCR &amp; Digital Image Processing</strong><span>Extracts text, tables, graphs &amp; chart regions from scans</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="93"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Internal Open-Source LLM Containment</strong><span>100% on-premise inference with cited page &amp; figure coordinates</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="100"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>FULL ITAP STACK</span><strong>Internal OSS LLMs · GRAG · CRAG · OCR · Digital Image Processing</strong></div>
+                  <div><span>STORAGE &amp; INDEXING</span><strong>Elastic Stack (ELK) · PostgreSQL · SQLAlchemy · Vector Index</strong></div>
+                  <div><span>EVIDENCE TRACE</span><strong>Verified passage + visual chart region + page citation</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="jrp-decision-grid">
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">01</span>
+                <h3>Hybrid RAG Fusion</h3>
+                <p>Dense semantic embeddings catch conceptual meaning; sparse lexical search protects exact acronyms and policy codes.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">02</span>
+                <h3>Layout-Aware Chunking</h3>
+                <p>Documents are chunked by structural headings, tables, and visual sections rather than arbitrary character token windows.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">03</span>
+                <h3>Corrective Verification</h3>
+                <p>CRAG evaluates retrieved passage relevance before inference, triggering automated query refinement if confidence falls below threshold.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">04</span>
+                <h3>On-Prem Sovereign Stack</h3>
+                <p>Internally hosted open-weight LLMs eliminate sensitive proprietary document exposure to third-party cloud APIs.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="evidence">
+            <span class="jrp-case-section__badge">06 / EVIDENCE &amp; LIMITS</span>
+            <h2 class="jrp-case-section__title">Clear technical boundaries.</h2>
+            <p>
+              This case study is based on demonstrated engineering capabilities and resume-described systems. It does not publish proprietary benchmark datasets, internal organizational documents, or undisclosed client performance figures.
+            </p>
+            <div class="jrp-case-callout">
+              <strong>Compliance Boundary</strong>
+              <span>All sample texts and interactive demonstrations shown use synthetic public information. Real employer and client architectures remain confidential.</span>
+            </div>
+          </section>
+        </article>
+      </div>
+
+      <!-- Cinematic Next Project Flow -->
+      <section class="jrp-case-next">
+        <a class="jrp-case-next__card" href="network-assurance.html">
+          <span class="jrp-case-next__tag">NEXT CHAPTER · 03</span>
+          <h2 class="jrp-case-next__title">
+            Network Assurance, Telemetry <em>&amp; AIOps Delivery</em>
+          </h2>
+          <span class="jrp-case-next__action">
+            Read Case Study <span aria-hidden="true">→</span>
+          </span>
+        </a>
       </section>
     </main>
-    <footer class="site-footer"><div class="section-shell footer-inner"><a class="wordmark" href="../index.html"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a><p>Built with care. <span id="year">2026</span></p><a class="back-top" href="#main">Back to top ↑</a></div></footer>
+
+    <!-- Editorial Footer -->
+    <footer class="jrp-case-footer">
+      <div class="jrp-case-footer__inner">
+        <a class="wordmark jrp-brand" href="../index.html" aria-label="Apratim Sarkar, home">
+          <svg class="jrp-signature" viewBox="0 0 210 52" style="width: 140px; height: 36px" aria-hidden="true">
+            <path
+              class="jrp-signature__path"
+              d="M14 40 C22 12, 34 8, 38 26 C40 35, 39 40, 42 40 M20 29 C30 27, 42 25, 49 27 M52 25 C52 34, 51 45, 51 47 M52 28 C56 21, 65 22, 65 29 C65 36, 56 38, 52 36 M72 25 C72 31, 72 37, 72 39 M72 29 C75 23, 81 22, 85 24 M98 25 C91 24, 87 30, 88 36 C89 40, 95 39, 99 33 C100 37, 102 39, 106 38 M114 14 C113 24, 113 34, 115 39 M108 24 L121 24 M128 25 L128 39 M128 17 L129 18 M137 39 L138 25 C141 22, 146 23, 148 28 L148 39 M148 28 C152 22, 158 22, 160 28 L161 39 M173 36 C175 36, 176 37, 175 38"
+            />
+          </svg>
+        </a>
+        <p>Built with care by Apratim Sarkar · Kolkata, India</p>
+        <a class="jrp-case-back" href="#top">Back to top ↑</a>
+      </div>
+    </footer>
   </body>
 </html>

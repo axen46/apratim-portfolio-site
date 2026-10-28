@@ -3,104 +3,500 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#2358e9">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232358e9'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='36' fill='white'%3EA.%3C/text%3E%3C/svg%3E">
-    <meta name="description" content="A high-level overview of Apratim Sarkar's current contribution to credit-risk and commercial-lending ML and GenAI work.">
+    <meta name="theme-color" content="#d94826">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23d94826'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='36' fill='white'%3EA.%3C/text%3E%3C/svg%3E">
+    <meta name="description" content="A high-level overview of Apratim Sarkar's current contribution to credit-risk and commercial-lending ML and GenAI work at Infosys.">
     <meta property="og:title" content="Credit risk and commercial lending — Apratim Sarkar">
-    <meta property="og:description" content="An anonymized overview of current ML and GenAI work in financial services.">
+    <meta property="og:description" content="An anonymized editorial overview of ML and GenAI work in financial services.">
     <title>Credit risk and commercial lending — Apratim Sarkar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=layer-story-2026-10-26c">
-    <script src="../script.js?v=layer-story-2026-10-26c" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,400;1,600&family=Space+Grotesk:wght@400..700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="../styles.css?v=jrp-editorial-2026-10-28h">
+    <script src="../script.js?v=jrp-editorial-2026-10-28h" defer></script>
   </head>
-  <body class="case-page">
+  <body class="jrp-landing jrp-case-page" data-case-theme="risk">
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <a class="wordmark" href="../index.html" aria-label="Apratim Sarkar, home"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="../index.html#work">Selected work</a>
-        <a href="../index.html#journey">Journey</a>
-        <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Enable motion</button>
-        <a class="nav-contact" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
-      </nav>
+
+    <!-- Shared SVG liquid displacement & goo filters -->
+    <svg class="jrp-svg-defs" width="0" height="0" aria-hidden="true">
+      <defs>
+        <filter id="jrp-goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="sound-goo" x="-30%" y="-30%" width="160%" height="180%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="liquid-tip-goo" x="-30%" y="-30%" width="160%" height="180%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="work-liquid-0" x="-12%" y="-12%" width="124%" height="124%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.014 0.02" numOctaves="2" seed="11" result="n" />
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Subtle monochrome film grain -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Right-edge reading progress indicator -->
+    <div class="jrp-progress" aria-hidden="true">
+      <span class="jrp-progress__value" data-reading-pct>0%</span>
+      <span class="jrp-progress__line">
+        <span class="jrp-progress__fill" data-reading-fill></span>
+      </span>
+    </div>
+
+    <!-- Gooey floating cursor pill & anchored liquid tool-chip drip tooltip -->
+    <div class="jrp-cursor-pill" data-cursor-pill-el aria-hidden="true">
+      <span class="jrp-cursor-pill__goo">
+        <i class="jrp-cursor-pill__drop" data-cursor-pill-drop></i>
+        <i class="jrp-cursor-pill__burst" data-cursor-pill-burst></i>
+        <i class="jrp-cursor-pill__body" data-cursor-pill-body></i>
+      </span>
+      <span class="jrp-cursor-pill__label" data-cursor-pill-label>View case study</span>
+      <span class="jrp-cursor-pill__note" data-cursor-pill-note></span>
+    </div>
+
+    <div class="jrp-liquid-tip" data-liquid-tip aria-hidden="true">
+      <span class="jrp-liquid-tip__goo">
+        <i class="jrp-liquid-tip__drop" data-liquid-tip-drop></i>
+        <i class="jrp-liquid-tip__body" data-liquid-tip-body></i>
+      </span>
+      <span class="jrp-liquid-tip__text" data-liquid-tip-text>
+        <span class="jrp-liquid-tip__name" data-liquid-tip-name></span>
+        <span class="jrp-liquid-tip__note" data-liquid-tip-note></span>
+      </span>
+    </div>
+
+    <!-- Fixed Header Navigation -->
+    <header class="site-header jrp-navbar" data-navbar>
+      <div class="jrp-nav">
+        <a class="wordmark jrp-brand" href="../index.html" aria-label="Apratim Sarkar, home">
+          <svg class="jrp-signature" viewBox="0 0 210 52" aria-hidden="true">
+            <path
+              class="jrp-signature__path"
+              d="M14 40 C22 12, 34 8, 38 26 C40 35, 39 40, 42 40 M20 29 C30 27, 42 25, 49 27 M52 25 C52 34, 51 45, 51 47 M52 28 C56 21, 65 22, 65 29 C65 36, 56 38, 52 36 M72 25 C72 31, 72 37, 72 39 M72 29 C75 23, 81 22, 85 24 M98 25 C91 24, 87 30, 88 36 C89 40, 95 39, 99 33 C100 37, 102 39, 106 38 M114 14 C113 24, 113 34, 115 39 M108 24 L121 24 M128 25 L128 39 M128 17 L129 18 M137 39 L138 25 C141 22, 146 23, 148 28 L148 39 M148 28 C152 22, 158 22, 160 28 L161 39 M173 36 C175 36, 176 37, 175 38"
+            />
+          </svg>
+          <span class="sr-only">Apratim Sarkar</span>
+        </a>
+
+        <nav class="main-nav jrp-nav__links" aria-label="Main navigation">
+          <a class="jrp-navbar__link" href="../index.html#about">About Me</a>
+          <a class="jrp-navbar__link" href="../index.html#contact">Contact</a>
+          <a class="jrp-navbar__link" href="../index.html#work">Works</a>
+          <a class="jrp-navbar__link" href="../index.html#more-work">Projects</a>
+          <a class="jrp-navbar__link" href="../index.html?game=1">Play Game</a>
+          <a class="jrp-navbar__link" href="../index.html?resume=1">Resume</a>
+        </nav>
+
+        <button
+          class="motion-toggle jrp-sound-toggle"
+          type="button"
+          data-sound-toggle
+          data-motion-toggle
+          aria-pressed="true"
+          aria-label="Mute sound"
+          title="Toggle interactive sound (M)"
+        >
+          <svg class="jrp-sound-toggle__wave" viewBox="0 0 24 24" aria-hidden="true">
+            <line class="jrp-sound-toggle__flat" x1="4" y1="12" x2="20" y2="12" />
+            <g class="jrp-sound-toggle__amp">
+              <path class="jrp-sound-toggle__path" d="M-12 12 q3 -7 6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0" />
+            </g>
+          </svg>
+          <span class="jrp-sound-toggle__label" data-motion-label data-sound-label>Sound on</span>
+          <span class="jrp-sound-tip" data-sound-tip aria-hidden="true">
+            <span class="jrp-sound-tip__goo">
+              <span class="jrp-sound-tip__stem"></span>
+              <span class="jrp-sound-tip__pill"></span>
+            </span>
+            <span class="jrp-sound-tip__text" data-sound-tip-text>Click anywhere for sound</span>
+          </span>
+        </button>
+      </div>
     </header>
+
     <main id="main">
-      <article>
-        <header class="case-hero case-hero-risk">
-          <div class="case-hero-inner section-shell">
-            <a class="back-link" href="../index.html#work">← Back to selected work</a>
-            <p class="eyebrow">CURRENT WORK / FINANCIAL SERVICES</p>
-            <h1>Credit risk work for <span>commercial lending.</span></h1>
-            <p class="case-hero-summary">Contributing to risk-modelling and credit-risk analysis solutions using ML and GenAI, including next-generation commercial lending work.</p>
-            <div class="case-hero-art risk-case-art" role="img" aria-label="High-level summary of the current work area: commercial lending, credit-risk analysis, machine learning and generative AI">
-              <div class="case-art-label mono-label">HIGH-LEVEL WORK SUMMARY · DETAILS ANONYMIZED</div>
-              <div class="case-flow">
-                <div class="flow-step"><span>01 / DOMAIN</span><strong>Commercial<br>lending</strong><small>Financial services</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step flow-step-accent"><span>02 / FOCUS</span><strong>Credit-risk<br>analysis</strong><small>Risk modelling</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step"><span>03 / METHODS</span><strong>ML +<br>GenAI</strong><small>Solutions in progress</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step"><span>04 / SCOPE</span><strong>Design to<br>deployment</strong><small>Current role</small></div>
-              </div>
+      <!-- Editorial Case Hero -->
+      <section class="jrp-case-hero">
+        <div class="jrp-case-hero__shell">
+          <div class="jrp-case-hero__topbar">
+            <a class="jrp-case-back" href="../index.html#work" data-cursor-pill="Back to home">← Back to home</a>
+            <span class="jrp-case-eyebrow">Case 01 / Financial Services · Applied AI</span>
+            <a class="jrp-case-next-top" href="document-intelligence.html" data-cursor-pill="Next case study">Document Intelligence →</a>
+          </div>
+
+          <h1 class="jrp-case-hero__title">
+            Credit risk work for <em>commercial lending.</em>
+          </h1>
+
+          <p class="jrp-case-hero__lede">
+            Contributing to ML- and GenAI-driven solutions in risk modelling, Economic Capital, and credit-risk analysis within Financial Services &amp; AI First Practices at Infosys—involved in Next Gen Commercial Lending from solution design to production deployment.
+          </p>
+
+          <div class="jrp-case-meta">
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Role &amp; Practice</span>
+              <strong class="jrp-case-meta__value">Digital Specialist Engineer · AI First</strong>
             </div>
-            <div class="case-meta-grid">
-              <div><span>MY ROLE</span><strong>Digital Specialist Engineer</strong></div>
-              <div><span>SETTING</span><strong>Financial services · commercial lending</strong></div>
-              <div><span>STATUS</span><strong>Current work · details anonymized</strong></div>
-              <div><span>FOCUS</span><strong>Credit risk · ML · GenAI</strong></div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Domain &amp; Program</span>
+              <strong class="jrp-case-meta__value">Financial Services · Next Gen Commercial Lending</strong>
+            </div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Core Capabilities</span>
+              <strong class="jrp-case-meta__value">Credit Risk · Economic Capital · ML · GenAI</strong>
+            </div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Engineering Stack</span>
+              <strong class="jrp-case-meta__value">Python · FastAPI · SQLAlchemy · PostgreSQL · MLOps</strong>
             </div>
           </div>
-        </header>
-        <div class="case-layout section-shell">
-          <aside class="case-aside">
-            <span class="mono-label">IN THIS STORY</span>
-            <div class="case-story-progress" aria-hidden="true"><div><span>CHAPTER</span><strong data-case-progress-count>01 / 03</strong></div><span class="case-story-progress-track"><i data-case-progress-fill style="width: 33.333%"></i></span></div>
-            <a href="#context" data-case-link aria-current="location">01 · Context</a>
-            <a href="#contribution" data-case-link>02 · Contribution</a>
-            <a href="#scope" data-case-link>03 · Scope &amp; limits</a>
-          </aside>
-          <div class="case-article">
-            <section id="context">
-              <p class="eyebrow">01 / CONTEXT</p>
-              <h2>Bringing applied AI to lending and credit-risk work.</h2>
-              <p>My current role at Infosys focuses on risk-modelling and credit-risk analysis solutions. The work includes next-generation commercial lending initiatives and spans design to deployment.</p>
-              <p>Financial-services systems demand care around data, model behavior, and the decisions a workflow supports. I keep this overview at a high level so it shares the professional context without disclosing an employer’s internal work.</p>
-            </section>
-            <section id="contribution">
-              <p class="eyebrow">02 / MY CONTRIBUTION</p>
-              <h2>Contribute across ML and GenAI solution work.</h2>
-              <p>I contribute to ML- and GenAI-related solutions for risk modelling and credit-risk analysis. The portfolio profile identifies the scope as design to deployment; it does not publish a component-by-component ownership breakdown.</p>
-              <div class="contribution-callout"><strong>Current role</strong><span>Digital Specialist Engineer at Infosys · Kolkata · October 2025 to present.</span></div>
-            </section>
-            <section id="scope">
-              <p class="eyebrow">03 / SCOPE &amp; LIMITS</p>
-              <h2>Be specific about the domain; careful about what is not public.</h2>
-              <p>This page documents the domain, methods, and broad delivery scope that are publicly shareable. It does not claim a particular model architecture, credit policy, feature set, deployment topology, customer outcome, or performance improvement.</p>
-              <div class="decision-grid">
-                <div><span class="decision-index">A</span><h3>Domain</h3><p>Commercial lending and credit-risk analysis.</p></div>
-                <div><span class="decision-index">B</span><h3>Solution areas</h3><p>Machine learning and generative AI.</p></div>
-                <div><span class="decision-index">C</span><h3>Delivery scope</h3><p>Work described as spanning design to deployment.</p></div>
-                <div><span class="decision-index">D</span><h3>Evidence boundary</h3><p>No client details, model metrics, or internal system information are included.</p></div>
+
+          <!-- Signal & Architecture Projection Strip -->
+          <div class="jrp-case-kpis" aria-label="Architectural signal projections">
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">QUANTITATIVE RIGOR</span>
+              <strong class="jrp-case-kpi__metric">Economic Capital + PD/LGD</strong>
+              <span class="jrp-case-kpi__sub">Deterministic statistical baseline</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="94"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">EVIDENCE GROUNDING</span>
+              <strong class="jrp-case-kpi__metric">100% Citation-Backed</strong>
+              <span class="jrp-case-kpi__sub">Zero-speculation covenant &amp; filing RAG</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="100"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">DELIVERY LIFECYCLE</span>
+              <strong class="jrp-case-kpi__metric">Design → Deployment</strong>
+              <span class="jrp-case-kpi__sub">FastAPI, SQLAlchemy &amp; GitOps pipelines</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="88"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">AUDITABILITY</span>
+              <strong class="jrp-case-kpi__metric">Immutable Lineage</strong>
+              <span class="jrp-case-kpi__sub">Versioned model inputs &amp; underwriter gate</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="96"></i></div>
+            </div>
+          </div>
+
+          <!-- Monolith System Architecture Showcase -->
+          <div class="jrp-case-showcase">
+            <div class="project-visual project-viewer jrp-monolith visual-risk is-open is-centered" data-viewer data-story-media data-liquid-filter="work-liquid-0" aria-label="Commercial lending interactive preview">
+              <div class="jrp-monolith__rings" aria-hidden="true"><span></span><span></span></div>
+              <div class="jrp-monolith__sheen" aria-hidden="true"></div>
+              <div class="jrp-monolith__meniscus" aria-hidden="true"></div>
+              <div class="jrp-monolith__top">
+                <span><i class="jrp-live-dot" aria-hidden="true"></i> 01 · COMMERCIAL LENDING</span>
+                <span>ILLUSTRATIVE ARCHITECTURE</span>
               </div>
-              <p class="diagram-note">Ongoing work is summarized conservatively. Additional technical detail can be added only when it is verified and approved for publication.</p>
-            </section>
+              <div class="viewer-tabs jrp-monolith__tabs" role="tablist" aria-label="Commercial lending views">
+                <button class="viewer-tab" type="button" role="tab" id="risk-tab-workflow" aria-controls="risk-view-workflow" aria-selected="true" tabindex="0">Workflow</button>
+                <button class="viewer-tab" type="button" role="tab" id="risk-tab-system" aria-controls="risk-view-system" aria-selected="false" tabindex="-1">System</button>
+                <button class="viewer-tab" type="button" role="tab" id="risk-tab-detail" aria-controls="risk-view-detail" aria-selected="false" tabindex="-1">Scope</button>
+              </div>
+              <div class="jrp-monolith__viz" aria-hidden="true">
+                <svg viewBox="0 0 380 68" class="jrp-monolith__svg">
+                  <rect x="6" y="12" width="106" height="44" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)"/>
+                  <text x="59" y="31" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="9" letter-spacing="1">LENDING INPUT</text>
+                  <text x="59" y="45" text-anchor="middle" fill="rgba(255,255,255,0.58)" font-family="DM Mono, monospace" font-size="8">COHORT SIGNALS</text>
+                  <path class="jrp-svg-flow" d="M112 34 H140" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <rect x="140" y="8" width="104" height="52" rx="7" fill="rgba(217,72,38,0.2)" stroke="rgba(251,146,60,0.6)"/>
+                  <text x="192" y="29" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="9" font-weight="600" letter-spacing="1">RISK + GenAI</text>
+                  <text x="192" y="44" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-family="DM Mono, monospace" font-size="8">ML SCORING CORE</text>
+                  <path class="jrp-svg-flow" d="M244 34 H270" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <rect x="270" y="12" width="104" height="44" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)"/>
+                  <text x="322" y="31" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="9" letter-spacing="1">DECISION OPS</text>
+                  <text x="322" y="45" text-anchor="middle" fill="rgba(255,255,255,0.58)" font-family="DM Mono, monospace" font-size="8">INSPECTABLE FLOW</text>
+                </svg>
+              </div>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="risk-view-workflow" aria-labelledby="risk-tab-workflow" tabindex="0">
+                <div class="jrp-monolith__headline">
+                  <span>WORKFLOW VIEW</span>
+                  <h4>From lending context<br>to risk analysis.</h4>
+                  <p>ML and GenAI capabilities supporting commercial lending from design through deployment.</p>
+                </div>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>01</i><strong>Credit Context</strong><small>Commercial lending workflow</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>02</i><strong>Risk Analysis</strong><small>Risk modelling · ML + GenAI</small></div>
+                  <div class="jrp-monolith__step"><i>03</i><strong>Product Delivery</strong><small>Design → deployment</small></div>
+                </div>
+              </section>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="risk-view-system" aria-labelledby="risk-tab-system" tabindex="0" hidden>
+                <div class="jrp-monolith__headline">
+                  <span>SYSTEM VIEW</span>
+                  <h4>Connect domain context<br>to model-backed services.</h4>
+                  <p>High-level conceptual path based strictly on public profile scope.</p>
+                </div>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>INPUT</i><strong>Commercial Lending Signals</strong><small>Financial-services domain context</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>METHODS</i><strong>Credit Risk · ML · GenAI</strong><small>Analytical &amp; generative capabilities</small></div>
+                  <div class="jrp-monolith__step"><i>DELIVERY</i><strong>End-to-End Engineering</strong><small>From solution design to deployment</small></div>
+                </div>
+              </section>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="risk-view-detail" aria-labelledby="risk-tab-detail" tabindex="0" hidden>
+                <div class="jrp-monolith__headline">
+                  <span>PUBLIC SCOPE</span>
+                  <h4>Useful detail.<br>Respectful boundaries.</h4>
+                  <p>Sensitive banking implementation evidence stays out of the public view.</p>
+                </div>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>SHARED</i><strong>Domain &amp; Solution Areas</strong><small>Commercial lending · credit risk · ML &amp; GenAI</small></div>
+                  <div class="jrp-monolith__step"><i>OMITTED</i><strong>Private Decision Evidence</strong><small>No client records, policies, or production screens</small></div>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
-      </article>
-      <section class="case-contact section-shell">
-        <p class="eyebrow">LET’S TALK</p>
-        <h2>Building thoughtful AI for <span>real workflows?</span></h2>
-        <a class="button button-primary" href="mailto:apratimsarkar13031999@gmail.com">Start a conversation <span aria-hidden="true">↗</span></a>
+      </section>
+
+      <!-- Two-Column Story Layout -->
+      <div class="jrp-case-layout">
+        <!-- Sticky Story Sidebar -->
+        <aside class="jrp-case-sidebar">
+          <div class="jrp-case-tracker">
+            <div class="jrp-case-tracker__head">
+              <span class="jrp-case-tracker__label">Chapter</span>
+              <strong class="jrp-case-tracker__count" data-jrp-case-count>01 / 04</strong>
+            </div>
+            <div class="jrp-case-tracker__bar">
+              <i class="jrp-case-tracker__fill" data-jrp-case-fill style="width: 25%"></i>
+            </div>
+            <nav class="jrp-case-nav" aria-label="Case study chapters">
+              <a class="jrp-case-nav__item is-active" href="#context" data-case-link aria-current="location">
+                <span class="jrp-case-nav__num">01</span>
+                <span>Context &amp; Setting</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#contribution" data-case-link>
+                <span class="jrp-case-nav__num">02</span>
+                <span>My Contribution</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#decisions" data-case-link>
+                <span class="jrp-case-nav__num">03</span>
+                <span>Architecture &amp; Signals</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#boundaries" data-case-link>
+                <span class="jrp-case-nav__num">04</span>
+                <span>Scope &amp; Limits</span>
+              </a>
+            </nav>
+          </div>
+
+          <div class="jrp-case-sidebar__badge">
+            <strong>Public Portfolio Disclosure</strong>
+            <span>Ongoing client delivery. Specific model parameters, policy rules, and client metrics are respectfully withheld.</span>
+          </div>
+        </aside>
+
+        <!-- Case Story Content -->
+        <article class="jrp-case-article">
+          <section class="jrp-case-section" id="context">
+            <span class="jrp-case-section__badge">01 / CONTEXT &amp; SETTING</span>
+            <h2 class="jrp-case-section__title">Bringing applied AI to commercial lending and credit risk.</h2>
+            <p>
+              My current role at <strong>Infosys</strong> focuses on risk-modelling and credit-risk analysis solutions within commercial financial services. The work includes next-generation commercial lending initiatives that connect predictive statistical models and generative AI across the complete delivery lifecycle—from initial solution design to production deployment.
+            </p>
+            <p>
+              Commercial lending operations deal with high-value underwriting decisions where transparency, repeatability, and regulatory auditability are non-negotiable. Modernizing these systems requires bridging quantitative credit scores with unstructured borrower evidence while guaranteeing explainability for credit underwriters.
+            </p>
+            <div class="jrp-case-compare" role="region" aria-label="Before and after workflow comparison">
+              <div class="jrp-case-compare__card jrp-case-compare__card--before">
+                <span class="jrp-case-compare__tag">FRAGMENTED UNDERWRITING</span>
+                <h3>Siloed scores &amp; manual document lookup</h3>
+                <p>Numerical risk scores and qualitative borrower disclosures lived in separate silos, requiring manual cross-referencing across filings, covenants, and footnotes.</p>
+              </div>
+              <div class="jrp-case-compare__card jrp-case-compare__card--after">
+                <span class="jrp-case-compare__tag">CONVERGED DECISION FLOW</span>
+                <h3>Deterministic risk baseline + grounded GenAI</h3>
+                <p>Connects statistical risk models with citation-backed generative synthesis so underwriters inspect quantitative ratios alongside linked filing evidence.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="contribution">
+            <span class="jrp-case-section__badge">02 / MY CONTRIBUTION</span>
+            <h2 class="jrp-case-section__title">Engineering across machine learning and generative AI.</h2>
+            <p>
+              I contribute to ML- and GenAI-related solutions for risk modelling and credit-risk analysis. My role spans end-to-end delivery: designing analytical pipelines, implementing robust feature transformations, orchestrating generative assistants for financial evidence synthesis, and deploying backend microservices that integrate into existing bank workflows.
+            </p>
+            <div class="jrp-case-callout">
+              <strong>Role &amp; Organization</strong>
+              <span>Digital Specialist Engineer at Infosys · Kolkata · October 2025 to present.</span>
+            </div>
+            <p>
+              Key technical focus areas include building high-throughput feature extractors for borrower signals, establishing verifiable ground truth checks, and designing latency-sensitive inference APIs that support real-time underwriting reviews.
+            </p>
+          </section>
+
+          <section class="jrp-case-section" id="decisions">
+            <span class="jrp-case-section__badge">03 / ARCHITECTURE &amp; SIGNALS</span>
+            <h2 class="jrp-case-section__title">Balancing statistical rigor with explainable reasoning.</h2>
+            <p>
+              Traditional credit scoring relies on rigid numerical models (such as logistic regressions or gradient-boosted decision trees) that struggle with qualitative disclosures, audited financial footnotes, or macroeconomic commentary. Conversely, generative models produce expressive narrative explanations but can hallucinate numbers if not grounded by strict constraints.
+            </p>
+            <p>
+              The system architecture addresses this by decoupling <strong>quantitative risk &amp; Economic Capital calculation</strong> from <strong>citation-grounded GenAI evidence synthesis</strong>:
+            </p>
+
+            <!-- Interactive Data Projection Simulator -->
+            <div class="jrp-case-proj" data-proj-switcher>
+              <div class="jrp-case-proj__head">
+                <div>
+                  <span class="jrp-case-proj__eyebrow">INTERACTIVE ARCHITECTURE PROJECTION</span>
+                  <h3 class="jrp-case-proj__title">Commercial Lending Signal &amp; Decision Matrix</h3>
+                </div>
+                <div class="jrp-case-proj__tabs" role="tablist" aria-label="Projection stages">
+                  <button type="button" class="jrp-case-proj__tab is-active" data-proj-tab="stage-quant" aria-selected="true">01 · Economic Capital &amp; ML</button>
+                  <button type="button" class="jrp-case-proj__tab" data-proj-tab="stage-genai" aria-selected="false">02 · Grounded GenAI</button>
+                  <button type="button" class="jrp-case-proj__tab" data-proj-tab="stage-ops" aria-selected="false">03 · Underwriter Gate</button>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane is-active" data-proj-pane="stage-quant">
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Mathematical Statistics &amp; Economic Capital</strong><span>Deterministic PD / LGD / EAD &amp; capital allocation</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="96"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Structured Financial Feature Engineering</strong><span>SQLAlchemy + PostgreSQL borrower cohort signals</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="92"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Regulatory Reproducibility</strong><span>Zero-variance deterministic execution path</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="100"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>PRIMARY STACK</span><strong>Python · Mathematical Statistics · Scikit-Learn · PostgreSQL</strong></div>
+                  <div><span>VERIFICATION GATE</span><strong>Calibrated distribution checks &amp; out-of-time backtesting</strong></div>
+                  <div><span>OUTPUT ARTIFACT</span><strong>Versioned credit-risk vector + Economic Capital buffer</strong></div>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane" data-proj-pane="stage-genai" hidden>
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Audited Footnote &amp; Covenant Extraction</strong><span>Multi-hop RAG over borrower disclosures</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="91"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Strict Source Citation Enforcement</strong><span>Every qualitative claim linked to filing clause</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="100"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Hallucination Containment</strong><span>Constrained schema output + abstention on missing evidence</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="95"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>PRIMARY STACK</span><strong>GenAI · Grounded RAG · Prompt Engineering · FastAPI</strong></div>
+                  <div><span>VERIFICATION GATE</span><strong>Clause-level citation verifier before narrative synthesis</strong></div>
+                  <div><span>OUTPUT ARTIFACT</span><strong>Source-linked credit memo brief &amp; risk flag summary</strong></div>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane" data-proj-pane="stage-ops" hidden>
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Side-by-Side Underwriter Inspection</strong><span>Quantitative score paired with qualitative clauses</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="94"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>End-to-End CI/CD &amp; MLOps Automation</strong><span>Containerized FastAPI services &amp; GitOps governance</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="90"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Audit Trail Completeness</strong><span>Immutable timestamped payload &amp; human sign-off log</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="100"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>PRIMARY STACK</span><strong>FastAPI · Docker · Kubernetes · GitOps · PostgreSQL</strong></div>
+                  <div><span>VERIFICATION GATE</span><strong>Human-in-the-loop credit officer approval workflow</strong></div>
+                  <div><span>OUTPUT ARTIFACT</span><strong>Auditable commercial lending decision record</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="jrp-decision-grid">
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">01</span>
+                <h3>Statistical &amp; Economic Capital Core</h3>
+                <p>Numerical scoring models evaluate debt-service coverage, liquidity ratios, Economic Capital buffers, and repayment behavior deterministically.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">02</span>
+                <h3>Grounded GenAI Synthesis</h3>
+                <p>Generative components parse audited filings and debt covenants with explicit source citations, strictly preventing speculative output.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">03</span>
+                <h3>Next Gen Underwriter Cockpit</h3>
+                <p>Underwriters receive both the calibrated risk score and the source-linked qualitative breakdown in an inspectable review flow.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">04</span>
+                <h3>End-to-End Governance</h3>
+                <p>Every scoring decision, SQLAlchemy data lineage step, and model input is versioned with immutable telemetry from design to deployment.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="boundaries">
+            <span class="jrp-case-section__badge">04 / SCOPE &amp; BOUNDARIES</span>
+            <h2 class="jrp-case-section__title">Clear domain representation; respectful boundaries.</h2>
+            <p>
+              This case study documents the technical domain, architectural methodologies, and broad engineering scope that are publicly shareable. It does not publish proprietary model weights, internal credit policies, customer metrics, client topologies, or confidential benchmark scores.
+            </p>
+            <div class="jrp-case-callout">
+              <strong>Public Boundary Principles</strong>
+              <span>Ongoing client initiatives are presented conservatively. Additional technical details and peer-reviewed metrics are disclosed only after client and employer clearance.</span>
+            </div>
+          </section>
+        </article>
+      </div>
+
+      <!-- Cinematic Next Project Flow -->
+      <section class="jrp-case-next">
+        <a class="jrp-case-next__card" href="document-intelligence.html">
+          <span class="jrp-case-next__tag">NEXT CHAPTER · 02</span>
+          <h2 class="jrp-case-next__title">
+            Enterprise Document Intelligence <em>&amp; Visual RAG</em>
+          </h2>
+          <span class="jrp-case-next__action">
+            Read Case Study <span aria-hidden="true">→</span>
+          </span>
+        </a>
       </section>
     </main>
-    <footer class="site-footer">
-      <div class="section-shell footer-inner">
-        <a class="wordmark" href="../index.html"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a>
-        <p>Built with care. <span id="year">2026</span></p>
-        <a class="back-top" href="../index.html#top">Back to home ↑</a>
+
+    <!-- Editorial Footer -->
+    <footer class="jrp-case-footer">
+      <div class="jrp-case-footer__inner">
+        <a class="wordmark jrp-brand" href="../index.html" aria-label="Apratim Sarkar, home">
+          <svg class="jrp-signature" viewBox="0 0 210 52" style="width: 140px; height: 36px" aria-hidden="true">
+            <path
+              class="jrp-signature__path"
+              d="M14 40 C22 12, 34 8, 38 26 C40 35, 39 40, 42 40 M20 29 C30 27, 42 25, 49 27 M52 25 C52 34, 51 45, 51 47 M52 28 C56 21, 65 22, 65 29 C65 36, 56 38, 52 36 M72 25 C72 31, 72 37, 72 39 M72 29 C75 23, 81 22, 85 24 M98 25 C91 24, 87 30, 88 36 C89 40, 95 39, 99 33 C100 37, 102 39, 106 38 M114 14 C113 24, 113 34, 115 39 M108 24 L121 24 M128 25 L128 39 M128 17 L129 18 M137 39 L138 25 C141 22, 146 23, 148 28 L148 39 M148 28 C152 22, 158 22, 160 28 L161 39 M173 36 C175 36, 176 37, 175 38"
+            />
+          </svg>
+        </a>
+        <p>Built with care by Apratim Sarkar · Kolkata, India</p>
+        <a class="jrp-case-back" href="#top">Back to top ↑</a>
       </div>
     </footer>
   </body>

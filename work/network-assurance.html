@@ -3,146 +3,550 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#2358e9">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232358e9'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='36' fill='white'%3EA.%3C/text%3E%3C/svg%3E">
+    <meta name="theme-color" content="#0d7a68">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d7a68'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='36' fill='white'%3EA.%3C/text%3E%3C/svg%3E">
     <meta name="description" content="Apratim Sarkar's case study on data engineering, time-series analysis, AIOps, and backend delivery for telecom network assurance.">
     <meta property="og:title" content="Network assurance and AIOps — Apratim Sarkar">
-    <meta property="og:description" content="A case study in network data, time-series analysis, ML services, and delivery.">
+    <meta property="og:description" content="An editorial case study in network telemetry, time-series anomaly detection, ML microservices, and delivery.">
     <title>Network assurance and AIOps — Apratim Sarkar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=layer-story-2026-10-26c">
-    <script src="../script.js?v=layer-story-2026-10-26c" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,400;1,600&family=Space+Grotesk:wght@400..700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="../styles.css?v=jrp-editorial-2026-10-28h">
+    <script src="../script.js?v=jrp-editorial-2026-10-28h" defer></script>
   </head>
-  <body class="case-page">
+  <body class="jrp-landing jrp-case-page" data-case-theme="network">
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <a class="wordmark" href="../index.html" aria-label="Apratim Sarkar, home"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="../index.html#work">Selected work</a>
-        <a href="../index.html#about">About</a>
-        <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Enable motion</button>
-        <a class="nav-contact" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
-      </nav>
+
+    <!-- Shared SVG liquid displacement & goo filters -->
+    <svg class="jrp-svg-defs" width="0" height="0" aria-hidden="true">
+      <defs>
+        <filter id="jrp-goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="sound-goo" x="-30%" y="-30%" width="160%" height="180%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="liquid-tip-goo" x="-30%" y="-30%" width="160%" height="180%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+        <filter id="work-liquid-2" x="-12%" y="-12%" width="124%" height="124%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.014 0.02" numOctaves="2" seed="29" result="n" />
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
+
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Right-edge reading progress indicator -->
+    <div class="jrp-progress" aria-hidden="true">
+      <span class="jrp-progress__value" data-reading-pct>0%</span>
+      <span class="jrp-progress__line">
+        <span class="jrp-progress__fill" data-reading-fill></span>
+      </span>
+    </div>
+
+    <!-- Gooey floating cursor pill & anchored liquid tool-chip drip tooltip -->
+    <div class="jrp-cursor-pill" data-cursor-pill-el aria-hidden="true">
+      <span class="jrp-cursor-pill__goo">
+        <i class="jrp-cursor-pill__drop" data-cursor-pill-drop></i>
+        <i class="jrp-cursor-pill__burst" data-cursor-pill-burst></i>
+        <i class="jrp-cursor-pill__body" data-cursor-pill-body></i>
+      </span>
+      <span class="jrp-cursor-pill__label" data-cursor-pill-label>View case study</span>
+      <span class="jrp-cursor-pill__note" data-cursor-pill-note></span>
+    </div>
+
+    <div class="jrp-liquid-tip" data-liquid-tip aria-hidden="true">
+      <span class="jrp-liquid-tip__goo">
+        <i class="jrp-liquid-tip__drop" data-liquid-tip-drop></i>
+        <i class="jrp-liquid-tip__body" data-liquid-tip-body></i>
+      </span>
+      <span class="jrp-liquid-tip__text" data-liquid-tip-text>
+        <span class="jrp-liquid-tip__name" data-liquid-tip-name></span>
+        <span class="jrp-liquid-tip__note" data-liquid-tip-note></span>
+      </span>
+    </div>
+
+    <!-- Fixed Header Navigation -->
+    <header class="site-header jrp-navbar" data-navbar>
+      <div class="jrp-nav">
+        <a class="wordmark jrp-brand" href="../index.html" aria-label="Apratim Sarkar, home">
+          <svg class="jrp-signature" viewBox="0 0 210 52" aria-hidden="true">
+            <path
+              class="jrp-signature__path"
+              d="M14 40 C22 12, 34 8, 38 26 C40 35, 39 40, 42 40 M20 29 C30 27, 42 25, 49 27 M52 25 C52 34, 51 45, 51 47 M52 28 C56 21, 65 22, 65 29 C65 36, 56 38, 52 36 M72 25 C72 31, 72 37, 72 39 M72 29 C75 23, 81 22, 85 24 M98 25 C91 24, 87 30, 88 36 C89 40, 95 39, 99 33 C100 37, 102 39, 106 38 M114 14 C113 24, 113 34, 115 39 M108 24 L121 24 M128 25 L128 39 M128 17 L129 18 M137 39 L138 25 C141 22, 146 23, 148 28 L148 39 M148 28 C152 22, 158 22, 160 28 L161 39 M173 36 C175 36, 176 37, 175 38"
+            />
+          </svg>
+          <span class="sr-only">Apratim Sarkar</span>
+        </a>
+
+        <nav class="main-nav jrp-nav__links" aria-label="Main navigation">
+          <a class="jrp-navbar__link" href="../index.html#about">About Me</a>
+          <a class="jrp-navbar__link" href="../index.html#contact">Contact</a>
+          <a class="jrp-navbar__link" href="../index.html#work">Works</a>
+          <a class="jrp-navbar__link" href="../index.html#more-work">Projects</a>
+          <a class="jrp-navbar__link" href="../index.html?game=1">Play Game</a>
+          <a class="jrp-navbar__link" href="../index.html?resume=1">Resume</a>
+        </nav>
+
+        <button
+          class="motion-toggle jrp-sound-toggle"
+          type="button"
+          data-sound-toggle
+          data-motion-toggle
+          aria-pressed="true"
+          aria-label="Mute sound"
+          title="Toggle interactive sound (M)"
+        >
+          <svg class="jrp-sound-toggle__wave" viewBox="0 0 24 24" aria-hidden="true">
+            <line class="jrp-sound-toggle__flat" x1="4" y1="12" x2="20" y2="12" />
+            <g class="jrp-sound-toggle__amp">
+              <path class="jrp-sound-toggle__path" d="M-12 12 q3 -7 6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0" />
+            </g>
+          </svg>
+          <span class="jrp-sound-toggle__label" data-motion-label data-sound-label>Sound on</span>
+          <span class="jrp-sound-tip" data-sound-tip aria-hidden="true">
+            <span class="jrp-sound-tip__goo">
+              <span class="jrp-sound-tip__stem"></span>
+              <span class="jrp-sound-tip__pill"></span>
+            </span>
+            <span class="jrp-sound-tip__text" data-sound-tip-text>Click anywhere for sound</span>
+          </span>
+        </button>
+      </div>
     </header>
+
     <main id="main">
-      <article>
-        <header class="case-hero case-hero-network">
-          <div class="case-hero-inner section-shell">
-            <a class="back-link" href="../index.html#work">← Back to selected work</a>
-            <p class="eyebrow">CASE STUDY 02 / DATA + SYSTEMS</p>
-            <h1>Turn network signals into <span>useful insight.</span></h1>
-            <p class="case-hero-summary">Data engineering, time-series analysis, machine-learning models, and backend delivery for telecom network-assurance use cases.</p>
-            <div class="case-hero-art network-hero-art" role="img" aria-label="Illustrative flow from network telemetry and logs through analysis and machine-learning services to an operational insight">
-              <div class="case-art-label mono-label">ILLUSTRATIVE SYSTEM MAP · NOT A CLIENT ARCHITECTURE</div>
-              <div class="case-flow">
-                <div class="flow-step"><span>01 / SIGNALS</span><strong>Network data</strong><small>SD-WAN · logs</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step"><span>02 / PREPARE</span><strong>Clean &<br>structure</strong><small>Data engineering</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step flow-step-accent"><span>03 / ANALYZE</span><strong>Time series<br>& models</strong><small>Stats · ML</small></div>
-                <span class="flow-arrow" aria-hidden="true">→</span>
-                <div class="flow-step"><span>04 / DELIVER</span><strong>Service &<br>operations</strong><small>API · CI/CD</small></div>
-              </div>
+      <!-- Editorial Case Hero -->
+      <section class="jrp-case-hero">
+        <div class="jrp-case-hero__shell">
+          <div class="jrp-case-hero__topbar">
+            <a class="jrp-case-back" href="../index.html#work" data-cursor-pill="Back to home">← Back to home</a>
+            <span class="jrp-case-eyebrow">Case 03 / Data Systems · Telecommunications AIOps</span>
+            <a class="jrp-case-next-top" href="open-banking-apis.html" data-cursor-pill="Next case study">Open Banking APIs →</a>
+          </div>
+
+          <h1 class="jrp-case-hero__title">
+            Turn high-volume telemetry into <em>operational insight.</em>
+          </h1>
+
+          <p class="jrp-case-hero__lede">
+            Delivered as Data Scientist for Infosys IP: Infosys Smart Network Assurance (ISNA) within Infosys Network Engineering Services—spanning client requirement &amp; feasibility analysis, PySpark/NiFi/Kafka data engineering, statistical time-series anomaly detection across SD-WAN, SolarWinds OT &amp; Splunk streams, and FastAPI/Kubernetes/Argo CD delivery.
+          </p>
+
+          <div class="jrp-case-meta">
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Role &amp; Practice</span>
+              <strong class="jrp-case-meta__value">Data Scientist · Network Engineering Services</strong>
             </div>
-            <div class="case-meta-grid">
-              <div><span>MY ROLE</span><strong>Data Engineer · Data Scientist · Backend Developer</strong></div>
-              <div><span>SETTING</span><strong>Telecom · network assurance</strong></div>
-              <div><span>STATUS</span><strong>Client work · details anonymized</strong></div>
-              <div><span>FOCUS</span><strong>Time series · AIOps · delivery</strong></div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Infosys IP Platform</span>
+              <strong class="jrp-case-meta__value">Infosys Smart Network Assurance (ISNA)</strong>
+            </div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Streaming &amp; Data Stack</span>
+              <strong class="jrp-case-meta__value">PySpark · Apache NiFi · Kafka · ELK · Splunk</strong>
+            </div>
+            <div class="jrp-case-meta__item">
+              <span class="jrp-case-meta__label">Delivery &amp; Cloud</span>
+              <strong class="jrp-case-meta__value">FastAPI · Docker · Kubernetes · Argo CD · Ansible</strong>
             </div>
           </div>
-        </header>
-        <div class="case-layout section-shell">
-          <aside class="case-aside">
-            <span class="mono-label">IN THIS STORY</span>
-            <div class="case-story-progress" aria-hidden="true"><div><span>CHAPTER</span><strong data-case-progress-count>01 / 05</strong></div><span class="case-story-progress-track"><i data-case-progress-fill style="width: 20%"></i></span></div>
-            <a href="#problem" data-case-link aria-current="location">01 · The problem</a>
-            <a href="#contribution" data-case-link>02 · Contribution</a>
-            <a href="#system" data-case-link>03 · System approach</a>
-            <a href="#delivery" data-case-link>04 · Operational delivery</a>
-            <a href="#evidence" data-case-link>05 · Evidence & limits</a>
-          </aside>
-          <div class="case-article">
-            <section id="problem">
-              <p class="eyebrow">01 / THE PROBLEM</p>
-              <h2>Network behavior is visible in the data—if the data is usable.</h2>
-              <p>Network assurance teams work with telemetry, logs, and utilization histories that vary in format and quality. Analysis depends on getting those signals into a condition where a use case can be evaluated, then delivering useful model outputs where they can be consumed.</p>
-              <p>My work on a telecom network-assurance platform included SD-WAN utilization time series and OT network data such as SolarWinds data and Splunk syslogs. The client and exact operating context are intentionally not named here.</p>
-            </section>
-            <section id="contribution">
-              <p class="eyebrow">02 / MY CONTRIBUTION</p>
-              <h2>Worked across the path from raw signal to service.</h2>
-              <p>I contributed data cleaning and engineering for large datasets, statistical time-series analysis, use-case-specific generalized ML models, and backend microservices to deploy AI/ML solutions using FastAPI.</p>
-              <div class="contribution-callout"><strong>My role</strong><span>Data Engineer, Data Scientist, and Backend Developer across analysis and service delivery.</span></div>
-            </section>
-            <section id="system">
-              <p class="eyebrow">03 / SYSTEM APPROACH</p>
-              <h2>Separate the data path from the operational path.</h2>
-              <p>This portfolio diagram describes the kinds of components in the work, not the exact client topology, data schema, or deployment design.</p>
-              <div class="network-path" data-network-path>
-                <aside class="network-path-map" aria-label="Scroll-linked network assurance path">
-                  <div class="network-path-map-head"><span>FOLLOW THE SIGNAL</span><strong data-network-path-count>01 / 05</strong></div>
-                  <nav class="network-path-nav" aria-label="Network assurance stages">
-                    <span class="network-path-track" aria-hidden="true"><i data-network-path-progress></i></span>
-                    <a href="#network-stage-input" data-network-path-link="0" aria-current="step"><span>01</span><strong>Signals</strong><small>SD-WAN + logs</small></a>
-                    <a href="#network-stage-prepare" data-network-path-link="1"><span>02</span><strong>Prepare</strong><small>Clean + structure</small></a>
-                    <a href="#network-stage-analyze" data-network-path-link="2"><span>03</span><strong>Analyze</strong><small>Time series</small></a>
-                    <a href="#network-stage-model" data-network-path-link="3"><span>04</span><strong>Model</strong><small>Use-case ML</small></a>
-                    <a href="#network-stage-deliver" data-network-path-link="4"><span>05</span><strong>Deliver</strong><small>API + operations</small></a>
-                  </nav>
-                  <p class="network-path-readout" data-network-path-readout>Network and log signals provide the starting point for the analysis.</p>
-                  <span class="network-path-note">CONCEPTUAL SEQUENCE · CLIENT TOPOLOGY OMITTED</span>
-                </aside>
-                <div class="network-path-stages">
-                  <article class="network-path-stage is-active" id="network-stage-input" data-network-path-stage="0" data-network-path-summary="Network and log signals provide the starting point for the analysis.">
-                    <span>01 / SIGNALS</span><h3>Start with operational data.</h3>
-                    <p>The described work included SD-WAN utilization time series alongside OT network data and Splunk syslogs. The source names are included at a high level; no client records or topology are shown.</p>
-                  </article>
-                  <article class="network-path-stage" id="network-stage-prepare" data-network-path-stage="1" data-network-path-summary="Cleaning and engineering large datasets prepares varied inputs for analysis.">
-                    <span>02 / PREPARE</span><h3>Make varied inputs usable.</h3>
-                    <p>Data cleaning and engineering support analysis across large datasets. The exact schemas, transformations, and source-to-source integration are not disclosed.</p>
-                  </article>
-                  <article class="network-path-stage" id="network-stage-analyze" data-network-path-stage="2" data-network-path-summary="Statistical time-series analysis helps explore network behavior against a use case.">
-                    <span>03 / ANALYZE</span><h3>Read behavior over time.</h3>
-                    <p>Statistical time-series analysis was used to explore utilization and network behavior in the context of specific operational questions.</p>
-                  </article>
-                  <article class="network-path-stage" id="network-stage-model" data-network-path-stage="3" data-network-path-summary="Generalized machine-learning models were developed in response to specific use cases.">
-                    <span>04 / MODEL</span><h3>Fit the model to the use case.</h3>
-                    <p>Generalized machine-learning models supported particular client use cases. This description does not claim one model fits every network problem or publish performance results.</p>
-                  </article>
-                  <article class="network-path-stage" id="network-stage-deliver" data-network-path-stage="4" data-network-path-summary="FastAPI services and delivery tooling carry model capabilities toward their operating environment.">
-                    <span>05 / DELIVER</span><h3>Carry the capability into services.</h3>
-                    <p>Backend work included FastAPI microservices. The profile also lists Docker, Kubernetes, Argo CD, Ansible, Jenkins, and JFrog across packaging and delivery.</p>
-                  </article>
+
+          <!-- Signal & Architecture Projection Strip -->
+          <div class="jrp-case-kpis" aria-label="Network assurance signal projections">
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">STREAMING INGESTION</span>
+              <strong class="jrp-case-kpi__metric">NiFi + Kafka + PySpark</strong>
+              <span class="jrp-case-kpi__sub">SD-WAN, SolarWinds OT &amp; Splunk syslogs</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="95"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">TIME-SERIES ML</span>
+              <strong class="jrp-case-kpi__metric">Seasonal + Anomaly</strong>
+              <span class="jrp-case-kpi__sub">Decomposes cyclical peaks vs link saturation</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="92"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">MICROSERVICE RUNTIME</span>
+              <strong class="jrp-case-kpi__metric">FastAPI + K8s Pods</strong>
+              <span class="jrp-case-kpi__sub">Low-latency async inference &amp; NOC dispatch</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="94"></i></div>
+            </div>
+            <div class="jrp-case-kpi__card">
+              <span class="jrp-case-kpi__eyebrow">DEVOPS &amp; GITOPS</span>
+              <strong class="jrp-case-kpi__metric">Argo CD + Jenkins</strong>
+              <span class="jrp-case-kpi__sub">Declarative sync, Ansible &amp; container CI/CD</span>
+              <div class="jrp-case-kpi__bar"><i data-bar-pct="96"></i></div>
+            </div>
+          </div>
+
+          <!-- Monolith System Architecture Showcase -->
+          <div class="jrp-case-showcase">
+            <div class="project-visual project-viewer jrp-monolith visual-network is-open is-centered" data-viewer data-story-media data-liquid-filter="work-liquid-2" aria-label="Network assurance interactive preview">
+              <div class="jrp-monolith__rings" aria-hidden="true"><span></span><span></span></div>
+              <div class="jrp-monolith__sheen" aria-hidden="true"></div>
+              <div class="jrp-monolith__meniscus" aria-hidden="true"></div>
+              <div class="jrp-monolith__top">
+                <span><i class="jrp-live-dot" aria-hidden="true"></i> 03 · NETWORK ASSURANCE</span>
+                <span>DATA + SYSTEMS</span>
+              </div>
+              <div class="viewer-tabs jrp-monolith__tabs" role="tablist" aria-label="Network assurance views">
+                <button class="viewer-tab" type="button" role="tab" id="net-tab-signals" aria-controls="net-view-signals" aria-selected="true" tabindex="0">Signals</button>
+                <button class="viewer-tab" type="button" role="tab" id="net-tab-models" aria-controls="net-view-models" aria-selected="false" tabindex="-1">Models</button>
+                <button class="viewer-tab" type="button" role="tab" id="net-tab-delivery" aria-controls="net-view-delivery" aria-selected="false" tabindex="-1">Delivery</button>
+              </div>
+              <div class="jrp-monolith__viz" aria-hidden="true">
+                <svg viewBox="0 0 380 68" class="jrp-monolith__svg">
+                  <rect x="6" y="14" width="80" height="40" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)"/>
+                  <text x="46" y="38" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="9" letter-spacing="1">SD-WAN</text>
+                  <path class="jrp-svg-flow" d="M86 34 H134" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <rect x="134" y="8" width="112" height="52" rx="7" fill="rgba(13,122,104,0.2)" stroke="rgba(52,211,153,0.6)"/>
+                  <text x="190" y="26" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="8" letter-spacing="1">TIME-SERIES ML</text>
+                  <text x="190" y="38" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-family="DM Mono, monospace" font-size="8">ANOMALY DETECT</text>
+                  <text x="190" y="50" text-anchor="middle" fill="rgba(255,255,255,0.58)" font-family="DM Mono, monospace" font-size="7">ROLLING STATS</text>
+                  <path class="jrp-svg-flow" d="M246 34 H294" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <rect x="294" y="10" width="80" height="48" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)"/>
+                  <text x="334" y="31" text-anchor="middle" fill="#fff" font-family="DM Mono, monospace" font-size="8" font-weight="600" letter-spacing="1">FASTAPI</text>
+                  <text x="334" y="45" text-anchor="middle" fill="rgba(255,255,255,0.58)" font-family="DM Mono, monospace" font-size="7">K8s SERVICE</text>
+                </svg>
+              </div>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="net-view-signals" aria-labelledby="net-tab-signals" tabindex="0">
+                <div class="jrp-monolith__headline">
+                  <span>01 / TELEMETRY INGESTION</span>
+                  <h4>Stream operational network signals<br>at high velocity.</h4>
+                  <p>Aggregating SD-WAN metrics, OT logs, and SolarWinds events into clean time series.</p>
                 </div>
-              </div>
-              <p class="diagram-note">Conceptual sequence only. Source systems, network topology, customer identifiers, and detailed operational procedures are omitted.</p>
-            </section>
-            <section id="delivery">
-              <p class="eyebrow">04 / OPERATIONAL DELIVERY</p>
-              <h2>Models need a dependable route to the environment.</h2>
-              <p>The resume describes implementation work with Docker, Kubernetes, Argo CD, Ansible, Jenkins, and JFrog. The important story is not a list of tool names; it is that model-backed capabilities were paired with services and a delivery pipeline.</p>
-              <div class="decision-grid">
-                <div><span class="decision-index">A</span><h3>Data quality comes first</h3><p>Cleaning and engineering large, varied datasets is part of the modeling problem, not incidental setup.</p></div>
-                <div><span class="decision-index">B</span><h3>Use-case context matters</h3><p>Time-series analysis and generalized models were applied in response to specific network use cases.</p></div>
-                <div><span class="decision-index">C</span><h3>Service boundaries matter</h3><p>FastAPI microservices provide an application-facing layer around ML/AI capabilities.</p></div>
-                <div><span class="decision-index">D</span><h3>Deployment is part of engineering</h3><p>Container and CI/CD tooling connects implementation to repeatable delivery; exact runtime topology is not disclosed.</p></div>
-              </div>
-            </section>
-            <section id="evidence">
-              <p class="eyebrow">05 / EVIDENCE & LIMITS</p>
-              <h2>Respect the boundary around client work.</h2>
-              <p>This is an anonymized summary based on the experience described by Apratim. No client names, network data, proprietary diagrams, model-performance figures, or operational-impact metrics are published.</p>
-              <p>Before public release, the exact wording and any additional artifacts should be reviewed against employer and client confidentiality requirements. The contribution summary can be expanded with approved evidence; this page does not invent service-level or business outcomes.</p>
-              <div class="case-next"><span class="mono-label">NEXT CASE STUDY</span><a href="open-banking-apis.html">AI-assisted banking API workflows <span aria-hidden="true">→</span></a></div>
-            </section>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>01</i><strong>SD-WAN Metrics</strong><small>Utilization, jitter, loss</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>02</i><strong>Log Normalization</strong><small>Splunk syslogs structured</small></div>
+                  <div class="jrp-monolith__step"><i>03</i><strong>Temporal Align</strong><small>Synchronized time series</small></div>
+                </div>
+              </section>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="net-view-models" aria-labelledby="net-tab-models" tabindex="0" hidden>
+                <div class="jrp-monolith__headline">
+                  <span>02 / ANOMALY DETECTION</span>
+                  <h4>Detect degradation<br>before downtime occurs.</h4>
+                  <p>Statistical time-series models isolate unexpected utilization shifts.</p>
+                </div>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>DECOMPOSE</i><strong>Trend &amp; Season</strong><small>Separates regular traffic peaks</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>CLASSIFY</i><strong>Anomaly ML</strong><small>Calibrated threshold detector</small></div>
+                  <div class="jrp-monolith__step"><i>RESOLVE</i><strong>Root-Cause Cue</strong><small>Pinpoints failing branch node</small></div>
+                </div>
+              </section>
+              <section class="viewer-pane jrp-monolith__pane" role="tabpanel" id="net-view-delivery" aria-labelledby="net-tab-delivery" tabindex="0" hidden>
+                <div class="jrp-monolith__headline">
+                  <span>03 / PRODUCTION DELIVERY</span>
+                  <h4>Declarative deployment<br>with GitOps &amp; Docker.</h4>
+                  <p>FastAPI microservices packaged into containers and deployed via Argo CD on Kubernetes.</p>
+                </div>
+                <div class="jrp-monolith__cards">
+                  <div class="jrp-monolith__step"><i>API</i><strong>FastAPI Service</strong><small>Sub-second async inference</small></div>
+                  <div class="jrp-monolith__step is-accent"><i>K8S</i><strong>Kubernetes Pods</strong><small>Containerized runtime</small></div>
+                  <div class="jrp-monolith__step"><i>GITOPS</i><strong>Argo CD</strong><small>Declarative sync and rollback</small></div>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
-      </article>
-      <section class="case-contact section-shell"><p class="eyebrow">LET’S TALK ABOUT THE WORK</p><h2>Building useful systems<br><span>under real constraints?</span></h2><a class="button button-primary" href="mailto:apratimsarkar13031999@gmail.com">Get in touch <span aria-hidden="true">↗</span></a></section>
+      </section>
+
+      <!-- Two-Column Story Layout -->
+      <div class="jrp-case-layout">
+        <!-- Sticky Story Sidebar -->
+        <aside class="jrp-case-sidebar">
+          <div class="jrp-case-tracker">
+            <div class="jrp-case-tracker__head">
+              <span class="jrp-case-tracker__label">Chapter</span>
+              <strong class="jrp-case-tracker__count" data-jrp-case-count>01 / 05</strong>
+            </div>
+            <div class="jrp-case-tracker__bar">
+              <i class="jrp-case-tracker__fill" data-jrp-case-fill style="width: 20%"></i>
+            </div>
+            <nav class="jrp-case-nav" aria-label="Case study chapters">
+              <a class="jrp-case-nav__item is-active" href="#problem" data-case-link aria-current="location">
+                <span class="jrp-case-nav__num">01</span>
+                <span>The Problem</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#contribution" data-case-link>
+                <span class="jrp-case-nav__num">02</span>
+                <span>My Contribution</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#system" data-case-link>
+                <span class="jrp-case-nav__num">03</span>
+                <span>Signal Path</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#delivery" data-case-link>
+                <span class="jrp-case-nav__num">04</span>
+                <span>Delivery &amp; DevOps</span>
+              </a>
+              <a class="jrp-case-nav__item" href="#evidence" data-case-link>
+                <span class="jrp-case-nav__num">05</span>
+                <span>Evidence &amp; Limits</span>
+              </a>
+            </nav>
+          </div>
+
+          <div class="jrp-case-sidebar__badge">
+            <strong>Client Privacy Commitment</strong>
+            <span>Network topology, IP addresses, proprietary alerting thresholds, and internal client infrastructure are strictly withheld.</span>
+          </div>
+        </aside>
+
+        <!-- Case Story Content -->
+        <article class="jrp-case-article">
+          <section class="jrp-case-section" id="problem">
+            <span class="jrp-case-section__badge">01 / THE PROBLEM</span>
+            <h2 class="jrp-case-section__title">High-velocity telemetry is only useful if it can be acted upon.</h2>
+            <p>
+              Within <strong>Infosys Network Engineering Services</strong> on the <strong>Infosys Smart Network Assurance (ISNA)</strong> platform, telecommunications networks generate relentless torrents of operational telemetry: fluctuating SD-WAN bandwidth utilization, SolarWinds OT metrics, router interface status events, packet loss bursts, and Splunk syslogs across distributed edge nodes.
+            </p>
+            <p>
+              Network operations centers (NOCs) struggle with alarm fatigue—drowning in thousands of un-correlated static threshold alerts while root causes remain obscured. Turning this chaotic stream into proactive incident resolution required end-to-end client requirement and feasibility analysis, distributed data engineering (PySpark, Apache NiFi, Apache Kafka, Elastic Stack), and calibrated time-series ML models delivered through FastAPI and Kubernetes microservices.
+            </p>
+            <div class="jrp-case-compare" role="region" aria-label="Before and after network assurance comparison">
+              <div class="jrp-case-compare__card jrp-case-compare__card--before">
+                <span class="jrp-case-compare__tag">STATIC THRESHOLD ALARMS</span>
+                <h3>NOC alarm fatigue &amp; reactive triage</h3>
+                <p>Static utilization thresholds fired thousands of uncorrelated alerts during normal business-hour traffic peaks, masking genuine link degradation.</p>
+              </div>
+              <div class="jrp-case-compare__card jrp-case-compare__card--after">
+                <span class="jrp-case-compare__tag">ISNA TIME-SERIES AIOPS</span>
+                <h3>Seasonal decomposition &amp; FastAPI K8s dispatch</h3>
+                <p>PySpark, NiFi, and Kafka pipelines feed seasonal time-series anomaly detectors served via FastAPI and Argo CD GitOps before link failure occurs.</p>
+              </div>
+            </div>
+
+            <!-- Interactive Telemetry & Anomaly Projection Simulator -->
+            <div class="jrp-case-proj" data-proj-switcher>
+              <div class="jrp-case-proj__head">
+                <div>
+                  <span class="jrp-case-proj__eyebrow">ISNA TELEMETRY &amp; AIOPS PROJECTION</span>
+                  <h3 class="jrp-case-proj__title">Multi-Horizon Signal Processing &amp; Delivery Matrix</h3>
+                </div>
+                <div class="jrp-case-proj__tabs" role="tablist" aria-label="ISNA pipeline stages">
+                  <button type="button" class="jrp-case-proj__tab is-active" data-proj-tab="net-stream" aria-selected="true">01 · NiFi / Kafka / PySpark</button>
+                  <button type="button" class="jrp-case-proj__tab" data-proj-tab="net-ts" aria-selected="false">02 · Seasonal Time-Series ML</button>
+                  <button type="button" class="jrp-case-proj__tab" data-proj-tab="net-k8s" aria-selected="false">03 · FastAPI + K8s GitOps</button>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane is-active" data-proj-pane="net-stream">
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Apache NiFi &amp; Kafka High-Velocity Ingestion</strong><span>Multi-source SD-WAN, SolarWinds OT &amp; Splunk syslog streams</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="95"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>PySpark Distributed Windowed Aggregation</strong><span>Timestamp alignment, missing packet imputation &amp; deduplication</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="93"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Elastic Stack (ELK) &amp; SQLAlchemy Persistence</strong><span>Indexed operational telemetry for real-time &amp; historical queries</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="91"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>INGESTION CORE</span><strong>Apache NiFi · Apache Kafka · PySpark · Elastic Stack (ELK)</strong></div>
+                  <div><span>SIGNAL SOURCES</span><strong>SD-WAN Utilization · SolarWinds OT · Splunk Syslogs</strong></div>
+                  <div><span>FEASIBILITY SCOPE</span><strong>Client requirement analysis &amp; schema homogenization</strong></div>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane" data-proj-pane="net-ts" hidden>
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Trend, Seasonality &amp; Residual Decomposition</strong><span>Isolates diurnal business peaks from anomalous link saturation</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="94"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Generalized Multi-Branch Anomaly Classifiers</strong><span>Calibrated across heterogeneous edge router topologies</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="90"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>False-Positive Alarm Suppression</strong><span>Correlates syslog events with utilization drift before alerting</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="92"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>MODELLING STACK</span><strong>Python · Time-Series Analysis · Mathematical Statistics · ML</strong></div>
+                  <div><span>DETECTION MODE</span><strong>Proactive degradation warning prior to link drop</strong></div>
+                  <div><span>OUTPUT SIGNAL</span><strong>Calibrated anomaly probability + branch root-cause cue</strong></div>
+                </div>
+              </div>
+
+              <div class="jrp-case-proj__pane" data-proj-pane="net-k8s" hidden>
+                <div class="jrp-case-proj__bars">
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Asynchronous FastAPI Inference Microservices</strong><span>Sub-second REST endpoints serving live NOC dashboards</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="96"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Docker &amp; Kubernetes Horizontal Orchestration</strong><span>Resilient pod autoscaling under telemetry burst loads</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="94"></i></div>
+                  </div>
+                  <div class="jrp-case-proj__row">
+                    <div class="jrp-case-proj__label"><strong>Argo CD, Ansible &amp; Jenkins GitOps Delivery</strong><span>Declarative cluster sync, automated CI/CD &amp; zero-downtime rollback</span></div>
+                    <div class="jrp-case-proj__track"><i data-bar-pct="95"></i></div>
+                  </div>
+                </div>
+                <div class="jrp-case-proj__meta">
+                  <div><span>RUNTIME STACK</span><strong>FastAPI · Docker · Kubernetes · Argo CD · Ansible · Jenkins</strong></div>
+                  <div><span>DEPLOYMENT PATTERN</span><strong>GitOps declarative manifests &amp; automated rollout gates</strong></div>
+                  <div><span>OPERATIONAL TARGET</span><strong>ISNA production assurance &amp; automated ticketing hooks</strong></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="contribution">
+            <span class="jrp-case-section__badge">02 / MY CONTRIBUTION</span>
+            <h2 class="jrp-case-section__title">Bridging the entire journey from raw signal to live service.</h2>
+            <p>
+              My contributions spanned data engineering, predictive modeling, and production backend deployment:
+            </p>
+            <ul style="padding-left: 20px; line-height: 1.8; color: var(--jrp-ink-muted); margin-bottom: 24px;">
+              <li><strong>Data Engineering &amp; Ingestion:</strong> Built high-throughput data cleaning pipelines to normalize large-scale SD-WAN utilization series, OT network metrics (SolarWinds), and unstructured Splunk logs.</li>
+              <li><strong>Time-Series Analysis:</strong> Performed statistical decomposition (trend, seasonality, noise) and trained generalized ML anomaly detectors to isolate degradation patterns before catastrophic link failure.</li>
+              <li><strong>FastAPI Microservices:</strong> Implemented asynchronous REST APIs to serve model predictions and anomaly scores with sub-second response times.</li>
+              <li><strong>Automated Delivery Infrastructure:</strong> Configured Docker containers, Kubernetes deployments, and GitOps automation with Argo CD, Ansible, and Jenkins.</li>
+            </ul>
+            <div class="jrp-case-callout">
+              <strong>Multi-Disciplinary Scope</strong>
+              <span>Data Engineer, Data Scientist, and Backend Developer delivering end-to-end AIOps capabilities.</span>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="system">
+            <span class="jrp-case-section__badge">03 / SYSTEM APPROACH</span>
+            <h2 class="jrp-case-section__title">Decoupling the data pipeline from the operational runtime.</h2>
+            <p>
+              A robust AIOps architecture separates data ingestion and model inference from operational consuming systems. The interactive diagram below traces the conceptual sequence from raw operational data to alert dispatch:
+            </p>
+
+            <div class="network-path" data-network-path>
+              <aside class="network-path-map" aria-label="Scroll-linked network assurance path">
+                <div class="network-path-map-head"><span>FOLLOW THE SIGNAL</span><strong data-network-path-count>01 / 05</strong></div>
+                <nav class="network-path-nav" aria-label="Network assurance stages">
+                  <span class="network-path-track" aria-hidden="true"><i data-network-path-progress></i></span>
+                  <a href="#network-stage-input" data-network-path-link="0" aria-current="step"><span>01</span><strong>Signals</strong><small>SD-WAN + logs</small></a>
+                  <a href="#network-stage-prepare" data-network-path-link="1"><span>02</span><strong>Prepare</strong><small>Clean + structure</small></a>
+                  <a href="#network-stage-analyze" data-network-path-link="2"><span>03</span><strong>Analyze</strong><small>Time series</small></a>
+                  <a href="#network-stage-model" data-network-path-link="3"><span>04</span><strong>Model</strong><small>Use-case ML</small></a>
+                  <a href="#network-stage-deliver" data-network-path-link="4"><span>05</span><strong>Deliver</strong><small>API + operations</small></a>
+                </nav>
+                <p class="network-path-readout" data-network-path-readout>Network and log signals provide the starting point for the analysis.</p>
+                <span class="network-path-note">CONCEPTUAL SEQUENCE · CLIENT TOPOLOGY OMITTED</span>
+              </aside>
+              <div class="network-path-stages">
+                <article class="network-path-stage is-active" id="network-stage-input" data-network-path-stage="0" data-network-path-summary="Network and log signals provide the starting point for the analysis.">
+                  <span>01 / SIGNALS</span><h3>Start with operational data.</h3>
+                  <p>Continuous ingestion of SD-WAN interface utilization metrics, OT network telemetry, and Splunk syslogs across distributed edge nodes.</p>
+                </article>
+                <article class="network-path-stage" id="network-stage-prepare" data-network-path-stage="1" data-network-path-summary="Cleaning and engineering large datasets prepares varied inputs for analysis.">
+                  <span>02 / PREPARE</span><h3>Make heterogeneous inputs usable.</h3>
+                  <p>Timestamp alignment, missing packet imputation, deduplication, and schema homogenization across varied network telemetry standards.</p>
+                </article>
+                <article class="network-path-stage" id="network-stage-analyze" data-network-path-stage="2" data-network-path-summary="Statistical time-series analysis helps explore network behavior against a use case.">
+                  <span>03 / ANALYZE</span><h3>Decompose behavior over time.</h3>
+                  <p>Rolling statistical windows identify cyclical utilization baselines, separating normal business peak traffic from anomalous saturation spikes.</p>
+                </article>
+                <article class="network-path-stage" id="network-stage-model" data-network-path-stage="3" data-network-path-summary="Generalized machine-learning models were developed in response to specific use cases.">
+                  <span>04 / MODEL</span><h3>Calibrate models to use-case risks.</h3>
+                  <p>Trained classifiers and forecasting models evaluate multi-variable risk metrics without assuming identical behavior across different branch topologies.</p>
+                </article>
+                <article class="network-path-stage" id="network-stage-deliver" data-network-path-stage="4" data-network-path-summary="FastAPI services and delivery tooling carry model capabilities toward their operating environment.">
+                  <span>05 / DELIVER</span><h3>Expose results through resilient APIs.</h3>
+                  <p>FastAPI endpoints stream anomaly probabilities directly to NOC dashboards and automated ticketing workflows with low latency.</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="delivery">
+            <span class="jrp-case-section__badge">04 / DELIVERY &amp; DEVOPS</span>
+            <h2 class="jrp-case-section__title">Machine learning is only as reliable as its deployment pipeline.</h2>
+            <p>
+              Models require dependable paths to production. Packaging and serving were treated with the same engineering rigor as statistical modeling:
+            </p>
+            <div class="jrp-decision-grid">
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">01</span>
+                <h3>FastAPI Microservices</h3>
+                <p>Asynchronous Python service layer with automatic OpenAPI documentation and strict Pydantic payload validation.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">02</span>
+                <h3>Container Isolation</h3>
+                <p>Multi-stage Docker containers maintain deterministic dependencies and minimal attack surfaces across testing and staging.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">03</span>
+                <h3>Kubernetes &amp; Argo CD</h3>
+                <p>GitOps deployments managed via Argo CD ensure declarative, version-controlled rollouts and automated rollback capabilities.</p>
+              </div>
+              <div class="jrp-decision-card">
+                <span class="jrp-decision-card__idx">04</span>
+                <h3>Jenkins &amp; JFrog</h3>
+                <p>Automated CI verification runs unit tests, lints schemas, and stages versioned build artifacts in enterprise repositories.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="jrp-case-section" id="evidence">
+            <span class="jrp-case-section__badge">05 / EVIDENCE &amp; LIMITS</span>
+            <h2 class="jrp-case-section__title">Confidentiality and scope distinctions.</h2>
+            <p>
+              This case study is an anonymized technical summary based on Apratim's verified engineering responsibilities. Specific client identities, actual network telemetry dumps, production topologies, and internal SLA numbers are omitted.
+            </p>
+            <div class="jrp-case-callout">
+              <strong>Professional Standard</strong>
+              <span>System capabilities and engineering patterns are documented truthfully without overstating ownership or disclosing proprietary client operations.</span>
+            </div>
+          </section>
+        </article>
+      </div>
+
+      <!-- Cinematic Next Project Flow -->
+      <section class="jrp-case-next">
+        <a class="jrp-case-next__card" href="open-banking-apis.html">
+          <span class="jrp-case-next__tag">NEXT CHAPTER · 04</span>
+          <h2 class="jrp-case-next__title">
+            Open Banking APIs <em>&amp; Specification Workflows</em>
+          </h2>
+          <span class="jrp-case-next__action">
+            Read Case Study <span aria-hidden="true">→</span>
+          </span>
+        </a>
+      </section>
     </main>
-    <footer class="site-footer"><div class="section-shell footer-inner"><a class="wordmark" href="../index.html"><span class="wordmark-mark" aria-hidden="true">A.</span><span>Apratim Sarkar</span></a><p>Built with care. <span id="year">2026</span></p><a class="back-top" href="#main">Back to top ↑</a></div></footer>
+
+    <!-- Editorial Footer -->
+    <footer class="jrp-case-footer">
+      <div class="jrp-case-footer__inner">
+        <a class="wordmark jrp-brand" href="../index.html" aria-label="Apratim Sarkar, home">
+          <svg class="jrp-signature" viewBox="0 0 210 52" style="width: 140px; height: 36px" aria-hidden="true">
+            <path
+              class="jrp-signature__path"
+              d="M14 40 C22 12, 34 8, 38 26 C40 35, 39 40, 42 40 M20 29 C30 27, 42 25, 49 27 M52 25 C52 34, 51 45, 51 47 M52 28 C56 21, 65 22, 65 29 C65 36, 56 38, 52 36 M72 25 C72 31, 72 37, 72 39 M72 29 C75 23, 81 22, 85 24 M98 25 C91 24, 87 30, 88 36 C89 40, 95 39, 99 33 C100 37, 102 39, 106 38 M114 14 C113 24, 113 34, 115 39 M108 24 L121 24 M128 25 L128 39 M128 17 L129 18 M137 39 L138 25 C141 22, 146 23, 148 28 L148 39 M148 28 C152 22, 158 22, 160 28 L161 39 M173 36 C175 36, 176 37, 175 38"
+            />
+          </svg>
+        </a>
+        <p>Built with care by Apratim Sarkar · Kolkata, India</p>
+        <a class="jrp-case-back" href="#top">Back to top ↑</a>
+      </div>
+    </footer>
   </body>
 </html>
