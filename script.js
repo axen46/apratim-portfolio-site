@@ -1466,97 +1466,99 @@ if (document.body.classList.contains("jrp-landing")) {
     marqueeObserver.observe(marqueeContainer);
   }
 
-  // Unified kinetic animation loop for Hero chars + Marquee
-  const tickKineticScene = (now) => {
-    const motionOn = isMotionAllowed();
+  // Unified kinetic animation loop for Hero chars + Marquee (only on homepage where elements exist)
+  if (charSpans.length > 0 || marqueeTrack) {
+    const tickKineticScene = (now) => {
+      const motionOn = isMotionAllowed();
 
-    // Decay scroll velocity smoothly
-    scrollVelocity *= 0.9;
-    if (Math.abs(scrollVelocity) < 0.02) {
-      scrollVelocity = 0;
-    }
+      // Decay scroll velocity smoothly
+      scrollVelocity *= 0.9;
+      if (Math.abs(scrollVelocity) < 0.02) {
+        scrollVelocity = 0;
+      }
 
-    if (motionOn && heroInView && charSpans.length > 0) {
-      const targetSkew = Math.max(-7, Math.min(7, scrollVelocity * -0.22));
-      smoothedSkew += (targetSkew - smoothedSkew) * 0.16;
-      const timeSec = now * 0.001;
-      let maxCharInfluence = 0;
+      if (motionOn && heroInView && charSpans.length > 0) {
+        const targetSkew = Math.max(-7, Math.min(7, scrollVelocity * -0.22));
+        smoothedSkew += (targetSkew - smoothedSkew) * 0.16;
+        const timeSec = now * 0.001;
+        let maxCharInfluence = 0;
 
-      charSpans.forEach((span, index) => {
-        const wave = Math.sin(timeSec * 2.1 - index * 0.38) * 2.2;
-        let lift = wave;
-        let scale = 1;
-        let scaleY = 1;
-        let charBlur = 0;
+        charSpans.forEach((span, index) => {
+          const wave = Math.sin(timeSec * 2.1 - index * 0.38) * 2.2;
+          let lift = wave;
+          let scale = 1;
+          let scaleY = 1;
+          let charBlur = 0;
 
-        if (heroPointerActive) {
-          const rect = span.getBoundingClientRect();
-          const cx = rect.left + rect.width * 0.5;
-          const cy = rect.top + rect.height * 0.5;
-          const dist = Math.hypot(heroPointerX - cx, heroPointerY - cy);
-          const radius = 225;
-          if (dist < radius) {
-            const influence = (1 - dist / radius) ** 2;
-            if (influence > maxCharInfluence) maxCharInfluence = influence;
-            lift += influence * 11 - Math.sin(influence * Math.PI) * 14;
-            scale += influence * 0.05;
-            scaleY += influence * 0.24;
-            charBlur = influence * 2.1;
+          if (heroPointerActive) {
+            const rect = span.getBoundingClientRect();
+            const cx = rect.left + rect.width * 0.5;
+            const cy = rect.top + rect.height * 0.5;
+            const dist = Math.hypot(heroPointerX - cx, heroPointerY - cy);
+            const radius = 225;
+            if (dist < radius) {
+              const influence = (1 - dist / radius) ** 2;
+              if (influence > maxCharInfluence) maxCharInfluence = influence;
+              lift += influence * 11 - Math.sin(influence * Math.PI) * 14;
+              scale += influence * 0.05;
+              scaleY += influence * 0.24;
+              charBlur = influence * 2.1;
+            }
+          }
+
+          span.style.setProperty("--char-lift", `${lift.toFixed(2)}px`);
+          span.style.setProperty("--char-scale", scale.toFixed(3));
+          span.style.setProperty("--char-scale-y", scaleY.toFixed(3));
+          span.style.setProperty("--char-blur", `${charBlur.toFixed(2)}px`);
+          span.style.setProperty("--char-skew", `${smoothedSkew.toFixed(2)}deg`);
+        });
+
+        // Drive SVG #liquid-melt displacement on pointer hover when near top of hero
+        const heroDisp = document.getElementById("liquid-melt-disp");
+        const heroTurb = document.getElementById("liquid-melt-turb");
+        if (pixelTitle && window.scrollY < 40) {
+          const hoverMelt = maxCharInfluence * 22;
+          pixelTitle.classList.toggle("is-melting", hoverMelt > 0.6);
+          if (heroDisp) {
+            heroDisp.setAttribute("scale", hoverMelt > 0.6 ? hoverMelt.toFixed(1) : "0");
+          }
+          if (heroTurb && hoverMelt > 0.6) {
+            const fx = (0.014 + Math.sin(timeSec * 2.8) * 0.004).toFixed(4);
+            const fy = (0.038 + maxCharInfluence * 0.025).toFixed(4);
+            heroTurb.setAttribute("baseFrequency", `${fx} ${fy}`);
           }
         }
-
-        span.style.setProperty("--char-lift", `${lift.toFixed(2)}px`);
-        span.style.setProperty("--char-scale", scale.toFixed(3));
-        span.style.setProperty("--char-scale-y", scaleY.toFixed(3));
-        span.style.setProperty("--char-blur", `${charBlur.toFixed(2)}px`);
-        span.style.setProperty("--char-skew", `${smoothedSkew.toFixed(2)}deg`);
-      });
-
-      // Drive SVG #liquid-melt displacement on pointer hover when near top of hero
-      const heroDisp = document.getElementById("liquid-melt-disp");
-      const heroTurb = document.getElementById("liquid-melt-turb");
-      if (pixelTitle && window.scrollY < 40) {
-        const hoverMelt = maxCharInfluence * 22;
-        pixelTitle.classList.toggle("is-melting", hoverMelt > 0.6);
-        if (heroDisp) {
-          heroDisp.setAttribute("scale", hoverMelt > 0.6 ? hoverMelt.toFixed(1) : "0");
-        }
-        if (heroTurb && hoverMelt > 0.6) {
-          const fx = (0.014 + Math.sin(timeSec * 2.8) * 0.004).toFixed(4);
-          const fy = (0.038 + maxCharInfluence * 0.025).toFixed(4);
-          heroTurb.setAttribute("baseFrequency", `${fx} ${fy}`);
-        }
+      } else if (!motionOn && charSpans.length > 0) {
+        charSpans.forEach((span) => {
+          span.style.setProperty("--char-lift", "0px");
+          span.style.setProperty("--char-scale", "1");
+          span.style.setProperty("--char-scale-y", "1");
+          span.style.setProperty("--char-blur", "0px");
+          span.style.setProperty("--char-skew", "0deg");
+        });
       }
-    } else if (!motionOn && charSpans.length > 0) {
-      charSpans.forEach((span) => {
-        span.style.setProperty("--char-lift", "0px");
-        span.style.setProperty("--char-scale", "1");
-        span.style.setProperty("--char-scale-y", "1");
-        span.style.setProperty("--char-blur", "0px");
-        span.style.setProperty("--char-skew", "0deg");
-      });
-    }
 
-    if (motionOn && marqueeTrack && marqueeBaseWidth > 0 && marqueeInView) {
-      const targetBoost = Math.abs(scrollVelocity) * 0.35;
-      marqueeSpeedBoost += (targetBoost - marqueeSpeedBoost) * 0.14;
-      const targetMarqueeSkew = Math.max(-6, Math.min(6, scrollVelocity * -0.18));
-      marqueeSkew += (targetMarqueeSkew - marqueeSkew) * 0.15;
+      if (motionOn && marqueeTrack && marqueeBaseWidth > 0 && marqueeInView) {
+        const targetBoost = Math.abs(scrollVelocity) * 0.35;
+        marqueeSpeedBoost += (targetBoost - marqueeSpeedBoost) * 0.14;
+        const targetMarqueeSkew = Math.max(-6, Math.min(6, scrollVelocity * -0.18));
+        marqueeSkew += (targetMarqueeSkew - marqueeSkew) * 0.15;
 
-      const step = (0.75 + marqueeSpeedBoost) * scrollDirection;
-      marqueeOffset -= step;
-      if (marqueeOffset <= -marqueeBaseWidth) {
-        marqueeOffset += marqueeBaseWidth;
-      } else if (marqueeOffset > 0) {
-        marqueeOffset -= marqueeBaseWidth;
+        const step = (0.75 + marqueeSpeedBoost) * scrollDirection;
+        marqueeOffset -= step;
+        if (marqueeOffset <= -marqueeBaseWidth) {
+          marqueeOffset += marqueeBaseWidth;
+        } else if (marqueeOffset > 0) {
+          marqueeOffset -= marqueeBaseWidth;
+        }
+        marqueeTrack.style.setProperty("--marquee-skew", `${marqueeSkew.toFixed(2)}deg`);
+        marqueeTrack.style.transform = `translate3d(${marqueeOffset.toFixed(2)}px, 0, 0) skewX(var(--marquee-skew, 0deg))`;
       }
-      marqueeTrack.style.setProperty("--marquee-skew", `${marqueeSkew.toFixed(2)}deg`);
-      marqueeTrack.style.transform = `translate3d(${marqueeOffset.toFixed(2)}px, 0, 0) skewX(var(--marquee-skew, 0deg))`;
-    }
 
+      window.requestAnimationFrame(tickKineticScene);
+    };
     window.requestAnimationFrame(tickKineticScene);
-  };
-  window.requestAnimationFrame(tickKineticScene);
+  }
 
   // 6. Scroll-entry reveals, hairline drawing & monolith scale
   const revealNodes = document.querySelectorAll(
@@ -1708,6 +1710,9 @@ if (document.body.classList.contains("jrp-landing")) {
         pillVisible = true;
         isCursorPillActive = true;
         cursorPillEl.classList.add("is-visible");
+        if (!pillRaf) {
+          pillRaf = window.requestAnimationFrame(tickCursorPill);
+        }
       } else if (pillVisible) {
         pillVisible = false;
         isCursorPillActive = false;
@@ -1726,6 +1731,7 @@ if (document.body.classList.contains("jrp-landing")) {
       { passive: true },
     );
 
+    let pillRaf = 0;
     const tickCursorPill = () => {
       if (pillVisible) {
         pillCurrentX += (pillTargetX - pillCurrentX) * 0.24;
@@ -1733,10 +1739,11 @@ if (document.body.classList.contains("jrp-landing")) {
         pillSkew *= 0.82;
         const flipOffset = lastPointerX + 210 > window.innerWidth ? "-100%" : "0%";
         cursorPillEl.style.transform = `translate3d(${pillCurrentX.toFixed(1)}px, ${pillCurrentY.toFixed(1)}px, 0) translateX(${flipOffset}) skewX(${pillSkew.toFixed(2)}deg)`;
+        pillRaf = window.requestAnimationFrame(tickCursorPill);
+      } else {
+        pillRaf = 0;
       }
-      window.requestAnimationFrame(tickCursorPill);
     };
-    window.requestAnimationFrame(tickCursorPill);
   }
 
   // 8. Horizontal Carousel Controls & Pointer Drag-to-Scroll
@@ -2003,18 +2010,32 @@ if (document.body.classList.contains("jrp-landing")) {
     let ambientTimer = 0;
     let chordIndex = 0;
     let unlocked = false;
+    let cachedImpulse = null;
+    let sharedNoiseBuf = null;
 
     const rand = (a, b) => a + Math.random() * (b - a);
 
-    const createImpulse = (audioCtx, seconds = 1.1, decay = 3.2) => {
-      const length = Math.floor(audioCtx.sampleRate * seconds);
-      const buffer = audioCtx.createBuffer(2, length, audioCtx.sampleRate);
-      for (let ch = 0; ch < 2; ch += 1) {
-        const data = buffer.getChannelData(ch);
-        for (let i = 0; i < length; i += 1) {
-          data[i] = (Math.random() * 2 - 1) * ((1 - i / length) ** decay);
+    const getNoiseBuffer = (audioCtx) => {
+      if (!sharedNoiseBuf) {
+        const nLen = Math.floor(audioCtx.sampleRate * 0.02);
+        sharedNoiseBuf = audioCtx.createBuffer(1, nLen, audioCtx.sampleRate);
+        const nd = sharedNoiseBuf.getChannelData(0);
+        for (let i = 0; i < nLen; i += 1) {
+          nd[i] = (Math.random() * 2 - 1) * (1 - i / nLen);
         }
       }
+      return sharedNoiseBuf;
+    };
+
+    const createImpulse = (audioCtx, seconds = 0.28, decay = 2.4) => {
+      if (cachedImpulse) return cachedImpulse;
+      const length = Math.floor(audioCtx.sampleRate * seconds);
+      const buffer = audioCtx.createBuffer(1, length, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < length; i += 1) {
+        data[i] = (Math.random() * 2 - 1) * ((1 - i / length) ** decay);
+      }
+      cachedImpulse = buffer;
       return buffer;
     };
 
@@ -2185,15 +2206,9 @@ if (document.body.classList.contains("jrp-landing")) {
       osc.start(t0);
       osc.stop(t0 + len + 0.02);
 
-      // Tiny filtered water splash transient
-      const nLen = Math.floor(ctx.sampleRate * 0.02);
-      const nBuf = ctx.createBuffer(1, nLen, ctx.sampleRate);
-      const nd = nBuf.getChannelData(0);
-      for (let i = 0; i < nLen; i += 1) {
-        nd[i] = (Math.random() * 2 - 1) * (1 - i / nLen);
-      }
+      // Tiny filtered water splash transient (cached shared noise buffer)
       const noise = ctx.createBufferSource();
-      noise.buffer = nBuf;
+      noise.buffer = getNoiseBuffer(ctx);
       const bp = ctx.createBiquadFilter();
       bp.type = "bandpass";
       bp.frequency.value = f0 * 4;
@@ -2713,9 +2728,7 @@ if (document.body.classList.contains("jrp-landing")) {
   }
 
   // 14. Scroll-Scrubbed Liquid Headings, Hero Exit Melt & Horizontal Track Jelly Skew
-  const displayHeadings = Array.from(
-    document.querySelectorAll(".jrp-display, .jrp-case-hero__title, .jrp-case-section__title"),
-  );
+  const displayHeadings = Array.from(document.querySelectorAll(".jrp-display"));
   const heroMeltDisp = document.getElementById("liquid-melt-disp");
 
   const updateScrollLiquidEffects = () => {
@@ -2745,7 +2758,7 @@ if (document.body.classList.contains("jrp-landing")) {
       }
     }
 
-    // Section display headings condense-in & melt-out
+    // Section display headings condense-in & melt-out (only on homepage .jrp-display)
     displayHeadings.forEach((heading) => {
       if (!heading.classList.contains("is-revealed")) return;
       const r = heading.getBoundingClientRect();
@@ -2784,7 +2797,19 @@ if (document.body.classList.contains("jrp-landing")) {
     });
   };
 
-  window.addEventListener("scroll", updateScrollLiquidEffects, { passive: true });
+  let scrollLiquidRaf = 0;
+  const scheduleScrollLiquidEffects = () => {
+    if (!scrollLiquidRaf) {
+      scrollLiquidRaf = window.requestAnimationFrame(() => {
+        scrollLiquidRaf = 0;
+        updateScrollLiquidEffects();
+      });
+    }
+  };
+
+  if (displayHeadings.length > 0 || pixelTitle) {
+    window.addEventListener("scroll", scheduleScrollLiquidEffects, { passive: true });
+  }
 
   // Horizontal Track Jelly Skew & Quotes Auto-Scroll
   draggableTracks.forEach((track) => {
@@ -2988,12 +3013,15 @@ if (document.body.classList.contains("jrp-landing")) {
     window.requestAnimationFrame(tickCursorTrail);
   }
 
-  // 16. Scroll-Velocity Spring Content Lean, Spherical Ball-Lens Drum & Oval Fluid Monolith Scroll
-  const leanTargets = Array.from(
-    document.querySelectorAll(
-      ".jrp-pillar, .jrp-work__intro, .jrp-work__col .jrp-fact, .jrp-step, .jrp-award, .jrp-journey__item, .jrp-case-meta__item, .jrp-case-kpi__card, .jrp-decision-card, .jrp-case-compare__card",
-    ),
-  );
+  // 16. Scroll-Velocity Spring Content Lean, Spherical Ball-Lens Drum & Oval Fluid Monolith Scroll (homepage only)
+  const isCasePage = document.body?.classList.contains("jrp-case-page");
+  const leanTargets = isCasePage
+    ? []
+    : Array.from(
+        document.querySelectorAll(
+          ".jrp-pillar, .jrp-work__intro, .jrp-work__col .jrp-fact, .jrp-step, .jrp-award, .jrp-journey__item",
+        ),
+      );
   let springLean = 0;
   let springLeanV = 0;
   let lastLeanShown = 0;
@@ -3008,7 +3036,7 @@ if (document.body.classList.contains("jrp-landing")) {
   let heroTiltTargetX = 0;
   let heroTiltTargetY = 0;
 
-  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  if (!isCasePage && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
     window.addEventListener(
       "pointermove",
       (event) => {
@@ -3020,7 +3048,7 @@ if (document.body.classList.contains("jrp-landing")) {
   }
 
   const tickSpringAndHeroDepth = () => {
-    if (isMotionAllowed()) {
+    if (!isCasePage && isMotionAllowed()) {
       const dt = 0.016;
       const vw = Math.max(1, window.innerWidth);
       const vh = Math.max(1, window.innerHeight);
@@ -3036,36 +3064,38 @@ if (document.body.classList.contains("jrp-landing")) {
         });
       }
 
-      // Spherical Ball-Lens Drum Warp (from reference setupBallLens)
+      // Spherical Ball-Lens Drum Warp (only during active scroll)
       const speedPxPerSec = Math.abs(scrollVelocity) * 60;
       const velNorm = Math.min(1, speedPxPerSec / 1400);
       const targetBall = 0.042 + 0.145 * velNorm;
       ballStrength += (targetBall - ballStrength) * 0.12;
       const L = ballStrength;
 
-      leanTargets.forEach((el) => {
-        if (!(el instanceof HTMLElement)) return;
-        const r = el.getBoundingClientRect();
-        if (r.bottom < -90 || r.top > vh + 90) {
-          if (el.style.translate) {
-            el.style.translate = "";
-            el.style.scale = "";
+      if (speedPxPerSec > 2 || Math.abs(springLean) > 0.05) {
+        leanTargets.forEach((el) => {
+          if (!(el instanceof HTMLElement)) return;
+          const r = el.getBoundingClientRect();
+          if (r.bottom < -90 || r.top > vh + 90) {
+            if (el.style.translate) {
+              el.style.translate = "";
+              el.style.scale = "";
+            }
+            return;
           }
-          return;
-        }
-        const cx = r.left + r.width * 0.5;
-        const cy = r.top + r.height * 0.5;
-        const ny = Math.max(-1.15, Math.min(1.15, 1 - (2 * cy) / vh));
-        const k = L * ny * ny;
-        const sx = 1 - 0.5 * k;
-        const sy = Math.max(0.85, 1 - 1.75 * k);
-        const dx = (cx - vw * 0.5) * -0.45 * k;
-        const dy = ((ny * k * vh) / 2) * 0.65;
-        el.style.translate = `${dx.toFixed(1)}px ${dy.toFixed(1)}px`;
-        el.style.scale = `${sx.toFixed(3)} ${sy.toFixed(3)}`;
-      });
+          const cx = r.left + r.width * 0.5;
+          const cy = r.top + r.height * 0.5;
+          const ny = Math.max(-1.15, Math.min(1.15, 1 - (2 * cy) / vh));
+          const k = L * ny * ny;
+          const sx = 1 - 0.5 * k;
+          const sy = Math.max(0.85, 1 - 1.75 * k);
+          const dx = (cx - vw * 0.5) * -0.45 * k;
+          const dy = ((ny * k * vh) / 2) * 0.65;
+          el.style.translate = `${dx.toFixed(1)}px ${dy.toFixed(1)}px`;
+          el.style.scale = `${sx.toFixed(3)} ${sy.toFixed(3)}`;
+        });
+      }
 
-      // Selected Works & Case Showcase Monolith 3D Water Buoyancy & Perspective Scroll Curve
+      // Selected Works Monolith 3D Water Buoyancy & Perspective Scroll Curve
       monolithCards.forEach((monolith) => {
         if (!(monolith instanceof HTMLElement)) return;
         const r = monolith.getBoundingClientRect();
@@ -3077,26 +3107,13 @@ if (document.body.classList.contains("jrp-landing")) {
         const cy = r.top + r.height * 0.5;
         const ny = Math.max(-1.25, Math.min(1.25, 1 - (2 * cy) / vh));
 
-        // On project case-study pages (.jrp-case-showcase), drive a 3D perspective unfold (never squish into an egg)
-        if (monolith.closest(".jrp-case-showcase")) {
-          const distFromCenter = Math.min(1, Math.abs(ny));
-          const caseScale = 1 - distFromCenter * 0.032;
-          const caseRx = Math.max(-8, Math.min(10, ny * -6.5 + scrollVelocity * 0.08));
-          const caseY = Math.max(-16, Math.min(16, -scrollVelocity * 0.35));
-          monolith.style.setProperty("--case-mono-scale", caseScale.toFixed(3));
-          monolith.style.setProperty("--case-mono-rx", `${caseRx.toFixed(2)}deg`);
-          monolith.style.setProperty("--case-mono-y", `${caseY.toFixed(1)}px`);
-          monolith.style.setProperty("--mono-oval-radius", "22px");
-          return;
-        }
-
         const midEl = monolith.closest(".jrp-work__mid");
         const nx = Math.max(-1.25, Math.min(1.25, 1 - (2 * cx) / vw));
         const primaryN = worksMode === "reel" ? nx : ny;
         const dist = Math.min(1, Math.abs(primaryN));
         const edgeCurve = Math.pow(dist, 1.2);
 
-        // Subtle architectural water-meniscus corner curve (18px -> 28px) that never clips internal text or CTAs
+        // Subtle architectural water-meniscus corner curve (18px -> 28px)
         const ovalAmount = Math.min(1, Math.max(0.04, edgeCurve * 0.72 + velNorm * 0.28));
         const cornerPx = 18 + ovalAmount * 12;
         const ovalRadius = `${cornerPx.toFixed(1)}px`;
@@ -3127,8 +3144,7 @@ if (document.body.classList.contains("jrp-landing")) {
           const isCentered = dist < 0.3;
           if (isCentered && !wasCentered) {
             midEl.classList.remove("is-pond-rippling");
-            void midEl.offsetWidth;
-            midEl.classList.add("is-pond-rippling");
+            window.requestAnimationFrame(() => midEl.classList.add("is-pond-rippling"));
           }
           monolithPondState.set(monolith, isCentered);
         }
@@ -3151,9 +3167,13 @@ if (document.body.classList.contains("jrp-landing")) {
         }
       }
     }
-    window.requestAnimationFrame(tickSpringAndHeroDepth);
+    if (!isCasePage) {
+      window.requestAnimationFrame(tickSpringAndHeroDepth);
+    }
   };
-  window.requestAnimationFrame(tickSpringAndHeroDepth);
+  if (!isCasePage) {
+    window.requestAnimationFrame(tickSpringAndHeroDepth);
+  }
 
   // 17. Selected Works Enhancements: Chapter Bar, Horizontal Reel Mode, Monolith Water Ripple, 3D Tilt & WebGL SDF Liquid Sheet Transition
   const worksSection = document.querySelector("[data-works-section]");
@@ -3936,180 +3956,20 @@ if (document.body.classList.contains("jrp-landing")) {
     } catch {}
     if (
       urlSearchParams.has("intro")
-      || (!seenIntro && !urlSearchParams.has("lite") && !urlSearchParams.has("game") && !urlSearchParams.has("resume") && window.innerWidth > 820 && isMotionAllowed())
+      || (!seenIntro && !urlSearchParams.has("lite") && !urlSearchParams.has("resume") && window.innerWidth > 820 && isMotionAllowed())
     ) {
       openIntroGate();
     }
   }
 
-  // 20. Interactive AI & Systems Architecture Memory Game (#modal-game) & Resume Print (#modal-resume)
-  const gameGrid = document.querySelector("[data-game-grid]");
-  const gameMovesEl = document.querySelector("[data-game-moves]");
-  const gamePairsEl = document.querySelector("[data-game-pairs]");
-  const gameTimeEl = document.querySelector("[data-game-time]");
-  const gameBestEl = document.querySelector("[data-game-best]");
-  const gameWinEl = document.querySelector("[data-game-win]");
-  const gameWinMsg = document.querySelector("[data-game-win-msg]");
-  const gameResetBtns = document.querySelectorAll("[data-game-reset], [data-game-play-again]");
-
-  if (gameGrid instanceof HTMLElement) {
-    const DECK_ITEMS = [
-      { id: "risk", label: "Credit Risk", icon: "#icon-risk", color: "#d94826" },
-      { id: "rag", label: "Visual RAG", icon: "#icon-rag", color: "#2945c4" },
-      { id: "data", label: "Time Series", icon: "#icon-data", color: "#0d7a68" },
-      { id: "api", label: "FastAPI", icon: "#icon-api", color: "#6d28d9" },
-      { id: "cloud", label: "Kubernetes", icon: "#icon-cloud", color: "#0d7a68" },
-      { id: "ai", label: "Open LLMs", icon: "#icon-ai", color: "#d94826" },
-      { id: "vision", label: "Vision OCR", icon: "#icon-vision", color: "#2945c4" },
-      { id: "python", label: "Python ML", icon: "#icon-python", color: "#6d28d9" },
-    ];
-
-    const BEST_KEY = "jrp:memory-best-moves";
-    let moves = 0;
-    let matchedPairs = 0;
-    let firstCard = null;
-    let lockBoard = false;
-    let startTime = 0;
-    let timerId = 0;
-
-    const loadBest = () => {
-      try {
-        const b = window.localStorage.getItem(BEST_KEY);
-        if (gameBestEl) gameBestEl.textContent = b ? `${b} moves` : "—";
-      } catch {}
-    };
-
-    const formatTime = (sec) => {
-      const m = Math.floor(sec / 60);
-      const s = sec % 60;
-      return `${m}:${String(s).padStart(2, "0")}`;
-    };
-
-    const stopGameTimer = () => {
-      if (timerId) {
-        window.clearInterval(timerId);
-        timerId = 0;
-      }
-    };
-
-    const startGameTimer = () => {
-      if (timerId) return;
-      startTime = Date.now();
-      timerId = window.setInterval(() => {
-        const elapsed = Math.floor((Date.now() - startTime) / 1000);
-        if (gameTimeEl) gameTimeEl.textContent = formatTime(elapsed);
-      }, 500);
-    };
-
-    const initMemoryGame = () => {
-      stopGameTimer();
-      moves = 0;
-      matchedPairs = 0;
-      firstCard = null;
-      lockBoard = false;
-      if (gameMovesEl) gameMovesEl.textContent = "0";
-      if (gamePairsEl) gamePairsEl.textContent = "0 / 8";
-      if (gameTimeEl) gameTimeEl.textContent = "0:00";
-      if (gameWinEl instanceof HTMLElement) gameWinEl.hidden = true;
-      loadBest();
-
-      const deck = [...DECK_ITEMS, ...DECK_ITEMS];
-      for (let i = deck.length - 1; i > 0; i -= 1) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [deck[i], deck[j]] = [deck[j], deck[i]];
-      }
-
-      gameGrid.replaceChildren();
-      deck.forEach((item, idx) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "jrp-game__card";
-        btn.dataset.cardId = item.id;
-        btn.style.setProperty("--card-accent", item.color);
-        btn.setAttribute("aria-label", `Architecture tile ${idx + 1}`);
-        btn.innerHTML = `
-          <span class="jrp-game__face jrp-game__face--front" aria-hidden="true">AS</span>
-          <span class="jrp-game__face jrp-game__face--back">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="${item.icon}"/></svg>
-            <strong>${item.label}</strong>
-          </span>
-        `;
-
-        btn.addEventListener("click", () => {
-          if (lockBoard || btn === firstCard || btn.classList.contains("is-matched")) return;
-          if (moves === 0 && !firstCard) startGameTimer();
-          btn.classList.add("is-flipped");
-          soundApi.tick();
-
-          if (!firstCard) {
-            firstCard = btn;
-            return;
-          }
-
-          moves += 1;
-          if (gameMovesEl) gameMovesEl.textContent = String(moves);
-
-          if (firstCard.dataset.cardId === btn.dataset.cardId) {
-            firstCard.classList.add("is-matched");
-            btn.classList.add("is-matched");
-            firstCard = null;
-            matchedPairs += 1;
-            if (gamePairsEl) gamePairsEl.textContent = `${matchedPairs} / 8`;
-            soundApi.bubble();
-
-            if (matchedPairs === DECK_ITEMS.length) {
-              stopGameTimer();
-              soundApi.pop();
-              const elapsed = Math.max(1, Math.floor((Date.now() - startTime) / 1000));
-              if (gameWinMsg) {
-                gameWinMsg.textContent = `Stack deployed in ${moves} moves (${formatTime(elapsed)})!`;
-              }
-              if (gameWinEl instanceof HTMLElement) gameWinEl.hidden = false;
-              try {
-                const prevBest = Number(window.localStorage.getItem(BEST_KEY)) || 999;
-                if (moves < prevBest) {
-                  window.localStorage.setItem(BEST_KEY, String(moves));
-                  loadBest();
-                }
-              } catch {}
-            }
-          } else {
-            lockBoard = true;
-            const prev = firstCard;
-            firstCard = null;
-            window.setTimeout(() => {
-              prev.classList.remove("is-flipped");
-              btn.classList.remove("is-flipped");
-              lockBoard = false;
-            }, 680);
-          }
-        });
-
-        gameGrid.appendChild(btn);
-      });
-    };
-
-    gameResetBtns.forEach((b) =>
-      b.addEventListener("click", () => {
-        soundApi.bubble();
-        initMemoryGame();
-      }),
-    );
-
-    initMemoryGame();
-  }
-
-  // Print / Save PDF handler inside #modal-resume
+  // 20. Resume Print Handler (#modal-resume)
   const resumePrintBtn = document.querySelector("[data-resume-print]");
   resumePrintBtn?.addEventListener("click", () => {
     window.print();
   });
 
-  // Support ?game=1 or ?resume=1 deep-links from case study pages
-  if (urlSearchParams.has("game")) {
-    const gModal = document.getElementById("modal-game");
-    if (gModal instanceof HTMLDialogElement && !gModal.open) gModal.showModal();
-  } else if (urlSearchParams.has("resume")) {
+  // Support ?resume=1 deep-link from case study pages
+  if (urlSearchParams.has("resume")) {
     const rModal = document.getElementById("modal-resume");
     if (rModal instanceof HTMLDialogElement && !rModal.open) rModal.showModal();
   }
@@ -4124,21 +3984,26 @@ if (document.body.classList.contains("jrp-landing")) {
       tabs.forEach((tab) => {
         const active = tab.getAttribute("data-proj-tab") === targetKey;
         tab.setAttribute("aria-selected", String(active));
+        tab.classList.toggle("is-active", active);
       });
       panes.forEach((pane) => {
         const active = pane.getAttribute("data-proj-pane") === targetKey;
         pane.hidden = !active;
+        pane.classList.toggle("is-active", active);
         if (active) {
-          pane.querySelectorAll("[data-bar-pct]").forEach((bar) => {
-            if (bar instanceof HTMLElement) {
-              bar.style.setProperty("--bar-pct", "0%");
-              void bar.offsetWidth;
-              bar.style.setProperty("--bar-pct", `${bar.getAttribute("data-bar-pct")}%`);
-            }
+          window.requestAnimationFrame(() => {
+            pane.querySelectorAll("[data-bar-pct]").forEach((bar) => {
+              if (bar instanceof HTMLElement) {
+                const pct = bar.getAttribute("data-bar-pct") ?? "100";
+                bar.style.setProperty("--bar-pct", `${pct}%`);
+              }
+            });
           });
         }
       });
-      if (withSound) soundApi.drop();
+      if (withSound) {
+        window.setTimeout(() => soundApi.drop(), 0);
+      }
     };
 
     tabs.forEach((tab) => {
