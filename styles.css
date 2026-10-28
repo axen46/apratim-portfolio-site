@@ -11069,6 +11069,12 @@ html:not(.motion-enabled) body.jrp-landing .grain {
   pointer-events: none;
 }
 
+@media (max-width: 1240px) {
+  .jrp-progress {
+    display: none;
+  }
+}
+
 .jrp-progress__value {
   font-family: "DM Mono", monospace;
   font-size: 11px;
@@ -13197,30 +13203,67 @@ body.jrp-landing .viewer-pane.jrp-monolith__pane[hidden] {
 }
 
 /* ---------- Quotes / Recognition Horizontal Track ---------- */
+.jrp-quotes .jrp-section-head {
+  padding-block: clamp(48px, 6vw, 84px);
+  text-align: center;
+}
+
+.jrp-quotes .jrp-section-head h2 {
+  max-width: 980px;
+  margin-inline: auto;
+  font-size: clamp(32px, 3.8vw, 48px);
+  line-height: 1.22;
+}
+
 .jrp-quotes__band {
   padding-block: 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .jrp-track--quotes {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   gap: 160px;
-  padding-block: var(--jrp-band);
+  padding-block: clamp(52px, 6vw, 92px);
+  padding-inline: var(--jrp-pad-x);
+  scroll-padding-inline: var(--jrp-pad-x);
   align-items: stretch;
+  cursor: grab;
+}
+
+.jrp-track--quotes::-webkit-scrollbar {
+  display: none;
+}
+
+.jrp-track--quotes.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.jrp-track--quotes.is-dragging a {
+  pointer-events: none;
 }
 
 .jrp-quote {
-  flex: 0 0 420px;
+  flex: 0 0 clamp(380px, 33vw, 440px);
+  width: clamp(380px, 33vw, 440px);
   display: flex;
   flex-direction: column;
-  gap: 44px;
+  gap: 36px;
   position: relative;
+  text-align: left;
 }
 
 .jrp-quote + .jrp-quote::before {
   content: "";
   position: absolute;
   left: -80px;
-  top: calc(-1 * var(--jrp-band));
-  bottom: calc(-1 * var(--jrp-band));
+  top: calc(-1 * clamp(52px, 6vw, 92px));
+  bottom: calc(-1 * clamp(52px, 6vw, 92px));
   width: 1px;
   background: var(--jrp-line);
   transform-origin: top;
@@ -13228,9 +13271,12 @@ body.jrp-landing .viewer-pane.jrp-monolith__pane[hidden] {
 }
 
 .jrp-quote blockquote {
-  font-size: 19px;
+  font-family: var(--jrp-sans, "Manrope", system-ui, sans-serif);
+  font-size: 18px;
   line-height: 1.65;
   color: var(--jrp-ink);
+  margin: 0;
+  font-weight: 400;
 }
 
 .jrp-quote figcaption {
@@ -13238,7 +13284,7 @@ body.jrp-landing .viewer-pane.jrp-monolith__pane[hidden] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
 }
 
 .jrp-quote figcaption span:first-child {
@@ -13250,25 +13296,82 @@ body.jrp-landing .viewer-pane.jrp-monolith__pane[hidden] {
 .jrp-quote strong {
   font-weight: 500;
   font-size: 18px;
-  line-height: 1.15;
+  line-height: 1.2;
+}
+
+.jrp-quote strong a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.jrp-quote strong a:hover {
+  color: var(--jrp-vermilion);
 }
 
 .jrp-quote small {
   font-size: 14px;
+  line-height: 1.35;
   color: var(--jrp-muted-2);
 }
 
-.jrp-quote__mark {
-  width: 48px;
-  height: 48px;
+.jrp-quote__avatar {
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  border: 1px solid var(--jrp-line);
   display: grid;
   place-items: center;
-  font-family: "DM Mono", monospace;
-  font-size: 12px;
-  color: var(--jrp-muted);
+  font-family: var(--jrp-mono, "DM Mono", monospace);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   flex: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s var(--jrp-ease-liquid);
+}
+
+.jrp-quote:hover .jrp-quote__avatar {
+  transform: scale(1.08);
+}
+
+.jrp-quote__avatar--coral {
+  background: rgba(217, 72, 38, 0.12);
+  color: #c23816;
+}
+
+.jrp-quote__avatar--cobalt {
+  background: rgba(41, 69, 196, 0.12);
+  color: #2441c2;
+}
+
+.jrp-quote__avatar--emerald {
+  background: rgba(30, 138, 92, 0.12);
+  color: #176f4b;
+}
+
+.jrp-quote__avatar--amber {
+  background: rgba(217, 131, 36, 0.14);
+  color: #b36310;
+}
+
+.jrp-quote__avatar--indigo {
+  background: rgba(94, 63, 196, 0.12);
+  color: #5132bd;
+}
+
+.jrp-quote__avatar--violet {
+  background: rgba(142, 45, 196, 0.12);
+  color: #7d23b0;
+}
+
+.jrp-quote__avatar--teal {
+  background: rgba(18, 148, 153, 0.12);
+  color: #0f7a7f;
+}
+
+.jrp-quote__avatar--rose {
+  background: rgba(219, 48, 105, 0.12);
+  color: #b51f55;
 }
 
 /* ---------- Contact (Joined 3-Cell Liquid Fill Grid) ---------- */
@@ -15525,15 +15628,20 @@ body.jrp-case-page[data-case-theme="api"] {
 body.jrp-landing .main-nav.jrp-nav__links .jrp-navbar__action {
   background: transparent;
   border: 0;
-  padding: 0;
+  padding: 5px 10px;
   font: inherit;
-  color: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--jrp-muted);
   cursor: pointer;
   position: relative;
+  border-radius: 999px;
+  transition: color 0.3s var(--jrp-ease-liquid), background-color 0.3s var(--jrp-ease-liquid);
 }
 
 body.jrp-landing .main-nav.jrp-nav__links .jrp-navbar__action:hover {
   color: var(--jrp-vermilion);
+  background: var(--jrp-vermilion-soft);
 }
 
 .mobile-nav-btn {
@@ -15541,7 +15649,7 @@ body.jrp-landing .main-nav.jrp-nav__links .jrp-navbar__action:hover {
   border: 0;
   padding: 8px 0;
   font: inherit;
-  color: inherit;
+  color: var(--jrp-ink);
   text-align: left;
   cursor: pointer;
 }
@@ -15606,16 +15714,10 @@ body.jrp-landing .main-nav.jrp-nav__links .jrp-navbar__action:hover {
   border-color: var(--jrp-ink);
 }
 
-/* 7. Seamless Infinite Quotes Marquee */
+/* 7. Seamless Infinite Quotes Track & Drag Interactions */
 .jrp-quotes__band {
   overflow: hidden;
-}
-
-.jrp-track--quotes.is-infinite-ready {
-  overflow: visible;
-  width: max-content;
-  padding-inline: 0;
-  will-change: transform;
+  position: relative;
 }
 
 /* 8. Modal Diagrams, Capability Tags & Resume Dossier */

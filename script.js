@@ -2850,74 +2850,139 @@ if (document.body.classList.contains("jrp-landing")) {
     );
   });
 
-  // Seamless Infinite Loop on the Recognition & Impact horizontal strip (matching jithinrp.com)
+  // Seamless Infinite Auto-Scroll & Smooth Drag on Testimonials (matching jithinrp.com)
   const quotesTrack = document.querySelector(".jrp-track--quotes");
   if (quotesTrack) {
-    const origFigures = Array.from(quotesTrack.querySelectorAll(".jrp-quote"));
-    let quotesBaseWidth = 0;
-    let quotesOffset = 0;
-    let quotesInView = false;
-    let quotesPaused = false;
+    const SPEED = 38; // px per second
+    const originals = Array.from(quotesTrack.children);
 
-    if (origFigures.length > 0) {
-      for (let c = 0; c < 2; c += 1) {
-        origFigures.forEach((fig) => {
-          const clone = fig.cloneNode(true);
+    if (originals.length > 0) {
+      for (let k = 0; k < 2; k += 1) {
+        originals.forEach((card) => {
+          const clone = card.cloneNode(true);
           clone.setAttribute("aria-hidden", "true");
           quotesTrack.appendChild(clone);
         });
       }
-      quotesTrack.classList.add("is-infinite-ready");
-
-      const measureQuotesWidth = () => {
-        const first = origFigures[0];
-        const last = origFigures[origFigures.length - 1];
-        if (first && last) {
-          const r1 = first.getBoundingClientRect();
-          const r2 = last.getBoundingClientRect();
-          quotesBaseWidth = r2.right - r1.left;
-        }
-      };
-      measureQuotesWidth();
-      window.addEventListener("resize", measureQuotesWidth);
     }
 
+    let loopWidth = 0;
+    const measureQuotes = () => {
+      if (quotesTrack.children.length > originals.length) {
+        const first = quotesTrack.children[0];
+        const loopTarget = quotesTrack.children[originals.length];
+        if (first && loopTarget) {
+          loopWidth = loopTarget.offsetLeft - first.offsetLeft;
+        }
+      }
+    };
+    measureQuotes();
+    window.addEventListener("resize", measureQuotes, { passive: true });
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(measureQuotes);
+    }
+
+    let hover = false;
+    let visible = false;
+    let pos = quotesTrack.scrollLeft;
+    let speed = SPEED;
+
     quotesTrack.addEventListener("pointerenter", () => {
-      quotesPaused = true;
+      hover = true;
     });
     quotesTrack.addEventListener("pointerleave", () => {
-      quotesPaused = false;
+      hover = false;
     });
     quotesTrack.addEventListener("focusin", () => {
-      quotesPaused = true;
+      hover = true;
     });
     quotesTrack.addEventListener("focusout", () => {
-      quotesPaused = false;
+      hover = false;
     });
 
     if ("IntersectionObserver" in window) {
       const qObs = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            quotesInView = entry.isIntersecting;
-          });
+        ([entry]) => {
+          visible = entry.isIntersecting;
         },
-        { threshold: 0.15 },
+        { threshold: 0.05 },
       );
       qObs.observe(quotesTrack.parentElement ?? quotesTrack);
     }
 
-    const tickQuotesScroll = () => {
-      if (isMotionAllowed() && quotesInView && !quotesPaused && !document.hidden && quotesBaseWidth > 0) {
-        quotesOffset -= 0.55 + Math.min(1.6, Math.abs(scrollVelocity) * 0.08);
-        if (quotesOffset <= -quotesBaseWidth) {
-          quotesOffset += quotesBaseWidth;
-        }
-        quotesTrack.style.transform = `translate3d(${quotesOffset.toFixed(2)}px, 0, 0)`;
+    // Drag-scroll handling with inertia
+    let down = false;
+    let moved = false;
+    let startX = 0;
+    let startScroll = 0;
+    let lastX = 0;
+    let lastT = 0;
+
+    quotesTrack.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      down = true;
+      moved = false;
+      startX = lastX = e.clientX;
+      startScroll = quotesTrack.scrollLeft;
+      lastT = performance.now();
+    });
+
+    window.addEventListener("pointermove", (e) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) > 4) {
+        moved = true;
+        quotesTrack.classList.add("is-dragging");
       }
-      window.requestAnimationFrame(tickQuotesScroll);
+      if (!moved) return;
+      quotesTrack.scrollLeft = startScroll - dx;
+      lastX = e.clientX;
+      lastT = performance.now();
+    });
+
+    window.addEventListener("pointerup", () => {
+      if (!down) return;
+      down = false;
+      if (!moved) return;
+      window.requestAnimationFrame(() => quotesTrack.classList.remove("is-dragging"));
+      pos = quotesTrack.scrollLeft;
+    });
+
+    quotesTrack.addEventListener(
+      "click",
+      (e) => {
+        if (moved) {
+          e.preventDefault();
+          moved = false;
+        }
+      },
+      true,
+    );
+
+    // Auto-scroll loop with viscous glide
+    let lastFrame = performance.now();
+    const tickQuotesAutoScroll = (time) => {
+      const dt = Math.min(time - lastFrame, 50) / 1000;
+      lastFrame = time;
+
+      if (isMotionAllowed() && visible && loopWidth > 0) {
+        const isDragging = quotesTrack.classList.contains("is-dragging");
+        if (isDragging) {
+          pos = quotesTrack.scrollLeft;
+          speed = 0;
+        } else {
+          const target = hover ? 0 : SPEED;
+          speed += (target - speed) * (1 - Math.exp(-dt * 3.2));
+          pos = quotesTrack.scrollLeft + speed * dt;
+          if (pos >= loopWidth) {
+            pos -= loopWidth;
+          }
+          quotesTrack.scrollLeft = pos;
+        }
+      }
+      window.requestAnimationFrame(tickQuotesAutoScroll);
     };
-    window.requestAnimationFrame(tickQuotesScroll);
+    window.requestAnimationFrame(tickQuotesAutoScroll);
   }
 
   // 15. Tapered Difference-Blend Cursor Trail Canvas (jithinrp.com setupCursorTrail)
