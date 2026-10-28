@@ -13555,6 +13555,45 @@ dialog.jrp-modal {
   color: #555555;
 }
 
+.jrp-modal__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding-top: 24px;
+  margin-top: 20px;
+  border-top: 1px solid var(--jrp-line);
+}
+
+.jrp-modal__repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--jrp-ink);
+  color: #ffffff !important;
+  font-family: var(--jrp-mono, "DM Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.22s ease, transform 0.2s ease;
+}
+
+.jrp-modal__repo-link:hover {
+  background: var(--case-accent, var(--jrp-vermilion));
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.jrp-modal__repo-link svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
 /* ---------- Responsive Layout ---------- */
 @media (max-width: 1100px) {
   body.jrp-landing {
@@ -14144,6 +14183,16 @@ body.jrp-landing .jrp-monolith__tabs .viewer-tab[aria-selected="true"] {
   box-shadow: 0 24px 50px -12px rgba(13, 122, 104, 0.3), inset 0 1px 0 rgba(167, 243, 208, 0.25);
 }
 
+.jrp-poster--synapse {
+  background: linear-gradient(150deg var(--in-oklab), #181145 0%, #3730a3 52%, #0a0624 100%);
+  box-shadow: 0 24px 50px -12px rgba(79, 70, 229, 0.35), inset 0 1px 0 rgba(199, 210, 254, 0.3);
+}
+
+.jrp-poster--ucprn {
+  background: linear-gradient(150deg var(--in-oklab), #1e293b 0%, #047857 52%, #064e3b 100%);
+  box-shadow: 0 24px 50px -12px rgba(4, 120, 87, 0.35), inset 0 1px 0 rgba(167, 243, 208, 0.3);
+}
+
 .jrp-poster--modernize {
   background: linear-gradient(150deg var(--in-oklab), #17275c 0%, #2f4fd1 52%, #0c1433 100%);
   box-shadow: 0 24px 50px -12px rgba(41, 69, 196, 0.3), inset 0 1px 0 rgba(191, 219, 254, 0.25);
@@ -14159,6 +14208,11 @@ body.jrp-landing .jrp-monolith__tabs .viewer-tab[aria-selected="true"] {
   box-shadow: 0 24px 50px -12px rgba(109, 40, 217, 0.3), inset 0 1px 0 rgba(233, 213, 255, 0.25);
 }
 
+.jrp-poster--pydantic {
+  background: linear-gradient(150deg var(--in-oklab), #0f172a 0%, #0369a1 52%, #082f49 100%);
+  box-shadow: 0 24px 50px -12px rgba(3, 105, 161, 0.35), inset 0 1px 0 rgba(186, 230, 253, 0.3);
+}
+
 .jrp-poster--care {
   background: linear-gradient(150deg var(--in-oklab), #0c3b54 0%, #0284c7 52%, #082030 100%);
   box-shadow: 0 24px 50px -12px rgba(2, 132, 199, 0.3), inset 0 1px 0 rgba(186, 230, 253, 0.25);
@@ -14167,6 +14221,11 @@ body.jrp-landing .jrp-monolith__tabs .viewer-tab[aria-selected="true"] {
 .jrp-poster--outbreak {
   background: linear-gradient(150deg var(--in-oklab), #54142c 0%, #be185d 52%, #290915 100%);
   box-shadow: 0 24px 50px -12px rgba(190, 24, 93, 0.3), inset 0 1px 0 rgba(251, 207, 232, 0.25);
+}
+
+.jrp-poster--primes {
+  background: linear-gradient(150deg var(--in-oklab), #2d0b13 0%, #991b1b 52%, #180508 100%);
+  box-shadow: 0 24px 50px -12px rgba(153, 27, 27, 0.35), inset 0 1px 0 rgba(254, 202, 202, 0.3);
 }
 
 .jrp-poster--handset {
